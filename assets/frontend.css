@@ -1,0 +1,32 @@
+/* Estilos frontales para los mensajes dinámicos del limitador. */
+.cf7-option-limiter-message { /* Contenedor base del aviso mostrado junto a cada campo limitado. */
+    display: inline-flex; /* Mantiene el mensaje en línea y permite centrar verticalmente su contenido. */
+    align-items: center; /* Centra el texto dentro de la pastilla para mejorar la legibilidad. */
+    gap: 0.35rem; /* Añade un espacio interno por si el texto incluye iconos o saltos manuales. */
+    margin-top: 0.75rem; /* Separa el aviso del campo correspondiente sin romper el flujo del formulario. */
+    padding: 0.65rem 1rem; /* Define un relleno cómodo alrededor del texto para crear una pastilla visible. */
+    border-radius: 999px; /* Redondea completamente los bordes para simular una píldora. */
+    background-color: rgba(220, 38, 38, 0.08); /* Aplica un fondo rojo muy suave que llama la atención sin saturar. */
+    border: 1px solid rgba(220, 38, 38, 0.25); /* Refuerza el contorno con un rojo translucido para diferenciar el aviso. */
+    color: #8a1c1c; /* Utiliza un tono rojo oscuro que mantiene un contraste suficiente sobre el fondo pastel. */
+    font-weight: 600; /* Incrementa el peso de la tipografía para que el mensaje destaque en la interfaz. */
+    line-height: 1.3; /* Ajusta la altura de línea para evitar que el texto se comprima en varias líneas. */
+    transition: opacity 0.2s ease, transform 0.2s ease; /* Suaviza la aparición y desplazamiento del mensaje dinámico. */
+}
+.cf7-option-limiter-message.is-depleted:not(.is-visible) { /* Estado temporal mientras se prepara la animación de entrada. */
+    opacity: 0; /* Oculta momentáneamente el aviso hasta que la clase is-visible active la transición. */
+    transform: translateY(-6px); /* Desplaza el mensaje ligeramente hacia arriba para reforzar la animación. */
+}
+.cf7-option-limiter-message.is-visible { /* Estado final aplicado tras la animación de entrada. */
+    opacity: 1; /* Muestra por completo el aviso cuando la opción se marca como agotada. */
+    transform: translateY(0); /* Restaura la posición original para completar la transición. */
+}
+.cf7-option-limiter-message.is-depleted { /* Garantiza que los avisos gestionados dinámicamente sigan ocupando espacio. */
+    display: inline-flex; /* Mantiene la pastilla visible incluso cuando el mensaje se gestiona vía JavaScript. */
+}
+.cf7-option-limiter-depleted { /* Estilo auxiliar para contenedores que permanecen visibles pero deshabilitados. */
+    opacity: 0.6; /* Reduce ligeramente la opacidad para indicar que la opción ya no está disponible. */
+}
+.cf7-option-limiter-hidden { /* Estilo auxiliar que oculta contenedores o inputs cuando la opción se retira. */
+    display: none !important; /* Fuerza la ocultación independientemente de otros estilos heredados. */
+}

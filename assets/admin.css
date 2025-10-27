@@ -1,0 +1,242 @@
+/* Estilos generales para la envoltura del administrador del plugin. */
+.cf7-option-limiter-admin {
+    /* Define un ancho máximo para mantener la legibilidad. */
+    max-width: 100%;
+}
+
+/* Aplica un estilo a los paneles que contienen formularios y tablas. */
+.cf7-option-limiter-panels {
+    /* Utiliza un layout flexible para ubicar los paneles lado a lado. */
+    display: flex;
+    /* Añade espacio entre los paneles. */
+    gap: 24px;
+    /* Permite que el diseño se adapte en pantallas más pequeñas. */
+    flex-wrap: wrap;
+}
+
+/* Define la apariencia individual de cada panel. */
+.cf7-option-limiter-panel {
+    /* Establece un fondo blanco consistente con el admin. */
+    background: #fff;
+    /* Añade borde sutil alrededor del panel. */
+    border: 1px solid #e2e4e7;
+    /* Redondea ligeramente las esquinas. */
+    border-radius: 6px;
+    /* Añade relleno interno para separar el contenido de los bordes. */
+    padding: 20px;
+    /* Flex basis para que cada panel ocupe aproximadamente la mitad del ancho. */
+    flex: 1 1 48%;
+    /* Proyecta una sombra leve para destacarlo. */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* Ajustes específicos para el formulario de creación. */
+.cf7-option-limiter-panel-form {
+    /* Asegura que el formulario ocupe el ancho disponible. */
+    min-width: 320px;
+}
+
+/* Ajustes específicos para el panel de tabla. */
+.cf7-option-limiter-panel-table {
+    /* Permite el scroll horizontal cuando la tabla es muy ancha. */
+    overflow-x: auto;
+}
+
+/* Asegura que el panel de depuración se muestre a lo ancho bajo la tabla principal. */
+.cf7-option-limiter-debug {
+    /* Obliga al panel a ocupar toda la fila disponible dentro del contenedor flexible. */
+    flex: 1 1 100%;
+    /* Añade un margen superior para separarlo visualmente de la tabla. */
+    margin-top: 16px;
+}
+
+/* Ajusta la disposición vertical del formulario del modo depuración. */
+.cf7-option-limiter-debug-form {
+    /* Utiliza layout en columna para ordenar los elementos. */
+    display: flex;
+    /* Apila los elementos uno debajo de otro. */
+    flex-direction: column;
+    /* Añade espacio homogéneo entre elementos del formulario. */
+    gap: 12px;
+}
+
+/* Contenedor que envuelve al visor del log para mantener espaciado y orden. */
+.cf7-option-limiter-log-viewer {
+    /* Separa el visor del formulario anterior. */
+    margin-top: 20px;
+    /* Utiliza layout en columna para alinear texto y textarea. */
+    display: flex;
+    /* Mantiene los elementos apilados verticalmente. */
+    flex-direction: column;
+    /* Establece un espacio uniforme entre cada elemento interno. */
+    gap: 10px;
+}
+
+/* Apariencia del área de texto que muestra el log en formato plano. */
+.cf7-option-limiter-log-output {
+    /* Ocupa todo el ancho disponible del panel. */
+    width: 100%;
+    /* Define una altura mínima suficiente para revisar varias entradas. */
+    min-height: 220px;
+    /* Emplea una tipografía monoespaciada para facilitar la lectura del log. */
+    font-family: Consolas, 'Courier New', monospace;
+    /* Utiliza un fondo oscuro suave para imitar una consola. */
+    background: #ffffff;
+    /* Ajusta el color de texto para mantener contraste sobre el fondo claro solicitado. */
+    color: #000000;
+    /* Añade relleno interno para que el texto no quede pegado a los bordes. */
+    padding: 12px;
+    /* Define un borde sutil coherente con el estilo del administrador. */
+    border: 1px solid #2c3338;
+    /* Redondea ligeramente las esquinas. */
+    border-radius: 4px;
+    /* Permite que la persona usuaria ajuste la altura si necesita más espacio. */
+    resize: vertical;
+}
+
+/* Contenedor de acciones que acompaña a los títulos principales. */
+.cf7-option-limiter-heading-actions {
+    /* Alinea el contenido hacia la derecha para integrarlo con el título. */
+    display: flex;
+    /* Mantiene el contenedor alineado a la derecha. */
+    justify-content: flex-end;
+    /* Centra verticalmente iconos y enlaces. */
+    align-items: center;
+    /* Separa el bloque respecto al contenido siguiente. */
+    margin-bottom: 12px;
+    /* Añade separación interna entre posibles elementos adicionales. */
+    gap: 8px;
+}
+
+/* Estilo del enlace de información que abre la documentación. */
+.cf7-option-limiter-info-link {
+    /* Muestra el enlace como un botón redondeado compacto. */
+    display: inline-flex;
+    /* Centra el icono dentro del contenedor circular. */
+    align-items: center;
+    justify-content: center;
+    /* Define el tamaño del botón. */
+    width: 32px;
+    height: 32px;
+    /* Aplica forma circular al botón. */
+    border-radius: 50%;
+    /* Define un fondo suave por defecto. */
+    background: #f0f0f1;
+    /* Ajusta el color del icono para integrarse con el estilo de WordPress. */
+    color: #2271b1;
+    /* Elimina subrayados propios de los enlaces. */
+    text-decoration: none;
+}
+
+/* Ajuste visual al interactuar con el icono. */
+.cf7-option-limiter-info-link:hover,
+.cf7-option-limiter-info-link:focus {
+    /* Cambia el fondo para destacar el estado activo. */
+    background: #2271b1;
+    /* Invierte el color del icono para mantener contraste. */
+    color: #fff;
+}
+
+/* Estilo aplicado a cada grupo de campos del formulario. */
+.cf7-option-limiter-field {
+    /* Añade separación vertical entre grupos. */
+    margin-bottom: 16px;
+}
+
+/* Estilo para las etiquetas del formulario. */
+.cf7-option-limiter-field label {
+    /* Muestra la etiqueta como bloque completo. */
+    display: block;
+    /* Aplica una tipografía consistente con WordPress. */
+    font-weight: 600;
+    /* Añade margen inferior para separar del campo. */
+    margin-bottom: 6px;
+}
+
+/* Estilo compartido para inputs y selects dentro del formulario. */
+.cf7-option-limiter-field input,
+.cf7-option-limiter-field select {
+    /* Ocupa el 100% del ancho disponible. */
+    width: 100%;
+    /* Añade relleno interno para mejorar la usabilidad. */
+    padding: 8px 10px;
+    /* Aplica borde suave alrededor del campo. */
+    border: 1px solid #ccd0d4;
+    /* Redondea sutilmente las esquinas. */
+    border-radius: 4px;
+}
+
+/* Ajusta la etiqueta del checkbox para que el control y el texto queden alineados en línea. */
+.cf7-option-limiter-field-checkbox label {
+    /* Cambia el modelo de caja a flex para alinear el contenido horizontalmente. */
+    display: inline-flex;
+    /* Alinea verticalmente el texto y la casilla. */
+    align-items: center;
+    /* Añade separación entre la casilla y el texto descriptivo. */
+    gap: 8px;
+    /* Elimina el margen inferior heredado al usar display flex. */
+    margin-bottom: 0;
+}
+
+/* Limita el ancho del checkbox para evitar que ocupe toda la fila. */
+.cf7-option-limiter-field-checkbox input[type="checkbox"] {
+    /* Permite que la casilla conserve su tamaño nativo. */
+    width: 5px;
+    /* Evita que la casilla se estire en altura al usar flex. */
+    height: 17px;
+    /* Elimina márgenes extra que puedan desalinear el contenido. */
+    margin: 0;
+}
+
+/* Limita el ancho del input numerico para evitar que ocupe toda la fila. */
+input#cf7-ol-max-count {
+    /* Establecemos un tamaño auto para que sea más pequeño */
+    width: auto;
+}
+
+/* Permite ajustar el enlace de la fila del plugin cuando se añade el enlace adicional. */
+.cf7-option-limiter-row-docs {
+    /* Mantiene el enlace en línea con el resto de metadatos del plugin. */
+    display: inline-block;
+}
+
+/* Define el estilo de los mensajes de ayuda situados bajo cada campo. */
+.cf7-option-limiter-field-note {
+    /* Añade separación respecto al campo anterior. */
+    margin-top: 6px;
+    /* Reduce el tamaño de fuente para diferenciarlo del contenido principal. */
+    font-size: 12px;
+    /* Utiliza un tono gris suave consistente con la administración de WordPress. */
+    color: #555d66;
+}
+
+/* Estilo del contenedor de acciones del formulario. */
+.cf7-option-limiter-actions {
+    /* Alinea los botones a la derecha para un aspecto ordenado. */
+    text-align: right;
+    /* Añade margen superior para separarlo del último campo. */
+    margin-top: 12px;
+}
+
+/* Ajusta el formulario en línea de las acciones de tabla. */
+.cf7-option-limiter-inline-form {
+    /* Evita saltos de línea indeseados en las acciones. */
+    display: inline-block;
+    /* Añade separación horizontal entre acciones múltiples. */
+    margin-right: 6px;
+}
+
+/* Estilos para los mensajes flotantes de éxito o error. */
+.cf7-option-limiter-admin .notice {
+    /* Añade margen superior para separarlos del título. */
+    margin-top: 16px;
+}
+
+/* Estilos responsivos para pantallas pequeñas. */
+@media (max-width: 782px) {
+    /* Hace que los paneles ocupen todo el ancho disponible. */
+    .cf7-option-limiter-panel {
+        /* Ajusta el flex basis para ocupar el 100%. */
+        flex: 1 1 100%;
+    }
+}
