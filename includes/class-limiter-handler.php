@@ -16,15 +16,23 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     // Almacena la acción utilizada para validar el nonce del guardado de excepciones desde el editor.
 
     /**
-     * Inicializa los hooks necesarios para operar sobre Contact Form 7.
-     *
-     * @return void
-     */
+    * Inicializa los hooks necesarios para operar sobre Contact Form 7.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Inicializa los hooks necesarios para operar sobre Contact Form 7.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function init() { // Método público que conecta los hooks.
         add_filter( 'wpcf7_form_tag', array( __CLASS__, 'filter_form_tag' ), 20, 2 ); // Filtra las etiquetas del formulario antes de renderizar.
         add_filter( 'wpcf7_form_elements', array( __CLASS__, 'inject_messages' ), 20, 2 ); // Inserta mensajes después de generar el HTML del formulario.
         add_action( 'wpcf7_mail_sent', array( __CLASS__, 'after_submit' ), 10, 1 ); // Ejecuta la lógica tras el envío exitoso del formulario.
-        add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_front_assets' ) ); // Encola los recursos frontales para mostrar mensajes.
+        add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_front_assets' ) ); // Encola los recursos frontales para mostrar mensajes en cualquier página pública.
+        add_action( 'wpcf7_enqueue_scripts', array( __CLASS__, 'enqueue_front_assets' ) ); // Sincroniza la carga de assets con Contact Form 7 cuando decide incluir sus propios estilos y scripts.
+        add_action( 'init', array( __CLASS__, 'autoload_front_assets' ), 20 ); // Fuerza el encolado frontal incluso cuando otros hooks no se ejecutan, cargando siempre el CSS indispensable.
         add_filter( 'wpcf7_validate_select*', array( __CLASS__, 'validate_choice' ), 20, 2 ); // Valida selects obligatorios antes de procesar el envío.
         add_filter( 'wpcf7_validate_select', array( __CLASS__, 'validate_choice' ), 20, 2 ); // Valida selects opcionales asegurando la disponibilidad.
         add_filter( 'wpcf7_validate_checkbox', array( __CLASS__, 'validate_choice' ), 20, 2 ); // Valida checkbox manteniendo los límites establecidos.
@@ -34,13 +42,19 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Filtra los campos del formulario para ocultar opciones agotadas antes de renderizar.
-     *
-     * @param WPCF7_FormTag $tag      Etiqueta de Contact Form 7 que se está procesando.
-     * @param array         $instance Información adicional del formulario.
-     *
-     * @return WPCF7_FormTag
-     */
+    * Filtra los campos del formulario para ocultar opciones agotadas antes de renderizar.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Filtra los campos del formulario para ocultar opciones agotadas antes de renderizar.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param WPCF7_FormTag $tag      Etiqueta de Contact Form 7 que se está procesando.
+    * @param array         $instance Información adicional del formulario.
+    *
+    * @return WPCF7_FormTag
+    */
     public static function filter_form_tag( $tag, $instance = null ) { // Método que manipula la etiqueta del formulario aceptando un segundo parámetro opcional para compatibilidad con versiones antiguas de Contact Form 7.
         if ( ! is_object( $tag ) || empty( $tag->name ) ) { // Comprueba que la etiqueta sea válida y tenga nombre.
             return $tag; // Devuelve la etiqueta sin cambios si no cumple los requisitos.
@@ -118,14 +132,20 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Registra mensajes para mostrarlos en el frontend agrupados por formulario y campo.
-     *
-     * @param int    $form_id Identificador del formulario.
-     * @param string $field   Nombre del campo.
-     * @param string $message Mensaje que se quiere mostrar.
-     *
-     * @return void
-     */
+    * Registra mensajes para mostrarlos en el frontend agrupados por formulario y campo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Registra mensajes para mostrarlos en el frontend agrupados por formulario y campo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int    $form_id Identificador del formulario.
+    * @param string $field   Nombre del campo.
+    * @param string $message Mensaje que se quiere mostrar.
+    *
+    * @return void
+    */
     protected static function register_message( $form_id, $field, $message ) { // Método auxiliar para almacenar mensajes.
         if ( ! isset( self::$depleted_messages[ $form_id ] ) ) { // Comprueba si ya existe un arreglo para el formulario actual.
             self::$depleted_messages[ $form_id ] = array(); // Inicializa el arreglo para el formulario indicado.
@@ -137,13 +157,19 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Inserta en el HTML final los contenedores de mensajes para su posterior posicionamiento vía JavaScript.
-     *
-     * @param string           $elements    HTML completo del formulario.
-     * @param WPCF7_ContactForm $contact_form Objeto del formulario actual.
-     *
-     * @return string
-     */
+    * Inserta en el HTML final los contenedores de mensajes para su posterior posicionamiento vía JavaScript.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Inserta en el HTML final los contenedores de mensajes para su posterior posicionamiento vía JavaScript.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string           $elements    HTML completo del formulario.
+    * @param WPCF7_ContactForm $contact_form Objeto del formulario actual.
+    *
+    * @return string
+    */
     public static function inject_messages( $elements, $contact_form = null ) { // Método que agrega el HTML de mensajes al formulario aceptando el objeto de formulario como argumento opcional para evitar errores cuando el filtro solo entrega un parámetro.
         $form_id = is_object( $contact_form ) && method_exists( $contact_form, 'id' ) ? (int) $contact_form->id() : 0; // Obtiene el ID del formulario actual.
         if ( empty( self::$depleted_messages[ $form_id ] ) ) { // Verifica si hay mensajes registrados para el formulario.
@@ -164,12 +190,18 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Incrementa contadores y registra eventos tras el envío del formulario.
-     *
-     * @param WPCF7_ContactForm $contact_form Formulario enviado correctamente.
-     *
-     * @return void
-     */
+    * Incrementa contadores y registra eventos tras el envío del formulario.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Incrementa contadores y registra eventos tras el envío del formulario.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param WPCF7_ContactForm $contact_form Formulario enviado correctamente.
+    *
+    * @return void
+    */
     public static function after_submit( $contact_form ) { // Método que procesa los datos después del envío.
         $submission = WPCF7_Submission::get_instance(); // Obtiene la instancia actual de envío de Contact Form 7.
         if ( ! $submission ) { // Comprueba que exista una instancia válida de envío.
@@ -204,14 +236,20 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Procesa una selección incrementando el contador y registrando logs pertinentes.
-     *
-     * @param int    $form_id Identificador del formulario.
-     * @param string $field   Nombre del campo.
-     * @param string $value   Valor seleccionado.
-     * @param int    $post_id Identificador del post asociado al envío.
-     * @return void
-     */
+    * Procesa una selección incrementando el contador y registrando logs pertinentes.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Procesa una selección incrementando el contador y registrando logs pertinentes.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int    $form_id Identificador del formulario.
+    * @param string $field   Nombre del campo.
+    * @param string $value   Valor seleccionado.
+    * @param int    $post_id Identificador del post asociado al envío.
+    * @return void
+    */
     protected static function process_choice( $form_id, $field, $value, $post_id ) { // Método auxiliar que opera sobre cada selección.
         $value = sanitize_text_field( (string) $value ); // Sanitiza el valor recibido para prevenir entradas maliciosas.
         $limit = CF7_OptionLimiter_DB::get_effective_limit( $form_id, $field, $value, $post_id ); // Recupera la regla efectiva priorizando excepciones específicas cuando existan.
@@ -252,23 +290,29 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Encola los recursos necesarios para mostrar mensajes en el frontend.
-     *
-     * @return void
-     */
+    * Encola los recursos necesarios para mostrar mensajes en el frontend.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Encola los recursos necesarios para mostrar mensajes en el frontend.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function enqueue_front_assets() { // Método encargado de encolar estilos y scripts frontales.
         wp_register_style( // Registra la hoja de estilos pública que da formato a los mensajes dinámicos.
             'cf7-option-limiter-frontend', // Identificador único del estilo cargado en el frontend.
             CF7_OPTION_LIMITER_URL . 'assets/frontend.css', // Ruta al archivo CSS que define la apariencia de los avisos.
             array(), // No se declaran dependencias adicionales para la hoja de estilos.
-            '1.0.0', // Versión del estilo utilizada para controlar el almacenamiento en caché del navegador.
+            CF7_OPTION_LIMITER_VERSION, // Versión sincronizada con el plugin para invalidar caché tras cada despliegue.
             'all' // Indica que los estilos se aplican en todos los medios soportados.
         );
         wp_register_script( // Registra el script encargado de comprobar la disponibilidad en tiempo real.
             'cf7-option-limiter-frontend', // Identificador único del script público.
             CF7_OPTION_LIMITER_URL . 'assets/frontend-check.js', // Ruta al archivo JavaScript que gestiona las comprobaciones AJAX.
             array( 'jquery' ), // Declara jQuery como dependencia principal.
-            '1.1.0', // Versión actualizada del script para forzar la recarga con la validación previa al envío.
+            CF7_OPTION_LIMITER_VERSION, // Versiona el script con la constante global para mantener sincronizada la caché.
             true // Carga el script al final del documento para optimizar el renderizado.
         );
         wp_localize_script( // Expone parámetros dinámicos al script público.
@@ -294,13 +338,36 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Valida los campos limitados durante el proceso de envío para evitar sobrepasar los máximos.
-     *
-     * @param mixed $result Resultado de validación proporcionado por Contact Form 7.
-     * @param mixed $tag    Etiqueta del campo que se está validando.
-     *
-     * @return mixed
-     */
+    * Encola de manera proactiva los assets frontales cuando WordPress inicializa la petición.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Encola de manera proactiva los assets frontales cuando WordPress inicializa la petición.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return void
+    */
+    public static function autoload_front_assets() { // Método auxiliar que garantiza la carga del CSS aunque otros hooks se omitan.
+        if ( is_admin() ) { // Comprueba si la petición pertenece al área administrativa.
+            return; // Evita cargar recursos públicos dentro del administrador para no contaminar sus estilos.
+        }
+        self::enqueue_front_assets(); // Encola los recursos esenciales asegurando que el CSS de avisos esté disponible en cualquier vista pública.
+    }
+
+    /**
+    * Valida los campos limitados durante el proceso de envío para evitar sobrepasar los máximos.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Valida los campos limitados durante el proceso de envío para evitar sobrepasar los máximos.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param mixed $result Resultado de validación proporcionado por Contact Form 7.
+    * @param mixed $tag    Etiqueta del campo que se está validando.
+    *
+    * @return mixed
+    */
     public static function validate_choice( $result, $tag ) { // Método que intercepta la validación de campos limitados.
         $field_name = self::extract_field_name( $tag ); // Obtiene el nombre del campo desde la etiqueta recibida.
         if ( '' === $field_name ) { // Comprueba que se haya podido determinar el nombre del campo.
@@ -346,10 +413,16 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Atiende las peticiones AJAX que verifican la disponibilidad de opciones en tiempo real.
-     *
-     * @return void
-     */
+    * Atiende las peticiones AJAX que verifican la disponibilidad de opciones en tiempo real.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Atiende las peticiones AJAX que verifican la disponibilidad de opciones en tiempo real.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function ajax_check_availability() { // Método que responde a las peticiones AJAX del frontend.
         check_ajax_referer( self::$public_nonce_action, 'nonce' ); // Valida el nonce recibido para proteger la petición.
         $form_id = isset( $_POST['form_id'] ) ? (int) $_POST['form_id'] : 0; // Recupera el identificador del formulario desde la petición.
@@ -391,12 +464,18 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Obtiene el nombre del campo desde la etiqueta entregada por Contact Form 7.
-     *
-     * @param mixed $tag Etiqueta del formulario proporcionada en filtros de validación.
-     *
-     * @return string
-     */
+    * Obtiene el nombre del campo desde la etiqueta entregada por Contact Form 7.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Obtiene el nombre del campo desde la etiqueta entregada por Contact Form 7.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param mixed $tag Etiqueta del formulario proporcionada en filtros de validación.
+    *
+    * @return string
+    */
     protected static function extract_field_name( $tag ) { // Método auxiliar que obtiene el nombre del campo de la etiqueta.
         if ( is_object( $tag ) && isset( $tag->name ) ) { // Comprueba si la etiqueta es un objeto con propiedad name.
             return (string) $tag->name; // Devuelve el nombre directamente desde la propiedad del objeto.
@@ -408,10 +487,16 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Determina el identificador del post activo durante el renderizado para priorizar excepciones.
-     *
-     * @return int
-     */
+    * Determina el identificador del post activo durante el renderizado para priorizar excepciones.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Determina el identificador del post activo durante el renderizado para priorizar excepciones.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return int
+    */
     protected static function resolve_render_post_id() { // Método auxiliar que obtiene el ID del post actual en renderizado.
         if ( function_exists( 'get_queried_object_id' ) ) { // Comprueba si la función está disponible en el contexto actual.
             $queried = (int) get_queried_object_id(); // Recupera el identificador del objeto consultado.
@@ -433,12 +518,18 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Determina el identificador del formulario asociado a la sumisión actual.
-     *
-     * @param WPCF7_Submission $submission Instancia de sumisión actual.
-     *
-     * @return int
-     */
+    * Determina el identificador del formulario asociado a la sumisión actual.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Determina el identificador del formulario asociado a la sumisión actual.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param WPCF7_Submission $submission Instancia de sumisión actual.
+    *
+    * @return int
+    */
     protected static function resolve_submission_form_id( $submission ) { // Método auxiliar que obtiene el ID del formulario desde la sumisión.
         if ( ! $submission || ! method_exists( $submission, 'get_contact_form' ) ) { // Comprueba que la sumisión provea el formulario asociado.
             $form = function_exists( 'wpcf7_get_current_contact_form' ) ? wpcf7_get_current_contact_form() : null; // Intenta obtener el formulario actual como alternativa.
@@ -452,12 +543,18 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     }
 
     /**
-     * Determina el identificador del post asociado a la sumisión actual para aplicar excepciones.
-     *
-     * @param WPCF7_Submission $submission Instancia de sumisión actual.
-     *
-     * @return int
-     */
+    * Determina el identificador del post asociado a la sumisión actual para aplicar excepciones.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Determina el identificador del post asociado a la sumisión actual para aplicar excepciones.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param WPCF7_Submission $submission Instancia de sumisión actual.
+    *
+    * @return int
+    */
     protected static function resolve_submission_post_id( $submission ) { // Método auxiliar que detecta el post asociado a la sumisión.
         if ( $submission && method_exists( $submission, 'get_posted_data' ) ) { // Comprueba si se pueden obtener los datos enviados.
             $posted = $submission->get_posted_data(); // Recupera el arreglo de datos enviados.

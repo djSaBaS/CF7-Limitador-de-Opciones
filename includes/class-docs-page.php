@@ -11,19 +11,31 @@ class CF7_OptionLimiter_Docs { // Declara la clase que agrupa toda la lógica re
     const PAGE_SLUG = 'cf7-option-limiter-docs'; // Constante que centraliza el slug evitando inconsistencias.
 
     /**
-     * Inicializa los hooks necesarios para exponer la documentación en el administrador.
-     *
-     * @return void
-     */
+    * Inicializa los hooks necesarios para exponer la documentación en el administrador.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Inicializa los hooks necesarios para exponer la documentación en el administrador.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function init() { // Método principal que registra los enganches necesarios.
         add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) ); // Añade la página como submenú dentro del área de plugins.
     }
 
     /**
-     * Registra la página oculta dentro del menú de Plugins para acceder a la documentación.
-     *
-     * @return void
-     */
+    * Registra la página oculta dentro del menú de Plugins para acceder a la documentación.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Registra la página oculta dentro del menú de Plugins para acceder a la documentación.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function register_menu() { // Método que crea la página dedicada a la documentación.
         add_submenu_page( // Llama a la API de menús del administrador.
             'plugins.php', // Sitúa la nueva página bajo el menú de Plugins para que encaje con el flujo solicitado.
@@ -36,10 +48,16 @@ class CF7_OptionLimiter_Docs { // Declara la clase que agrupa toda la lógica re
     }
 
     /**
-     * Renderiza la página con el contenido transformado desde el manual en Markdown.
-     *
-     * @return void
-     */
+    * Renderiza la página con el contenido transformado desde el manual en Markdown.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Renderiza la página con el contenido transformado desde el manual en Markdown.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function render_page() { // Método que imprime la documentación dentro del administrador.
         if ( ! current_user_can( 'manage_options' ) ) { // Comprueba que el usuario tenga permisos suficientes.
             wp_die( esc_html__( 'No tienes permisos suficientes para acceder a esta documentación.', 'cf7-option-limiter' ) ); // Interrumpe la ejecución con un mensaje legible.
@@ -58,10 +76,16 @@ class CF7_OptionLimiter_Docs { // Declara la clase que agrupa toda la lógica re
     }
 
     /**
-     * Devuelve la URL completa hacia la página de documentación dentro del administrador.
-     *
-     * @return string
-     */
+    * Devuelve la URL completa hacia la página de documentación dentro del administrador.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve la URL completa hacia la página de documentación dentro del administrador.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return string
+    */
     public static function get_page_url() { // Método auxiliar que construye la URL hacia la página de documentación.
         return add_query_arg( // Utiliza add_query_arg para asegurar la construcción correcta de la URL.
             array( 'page' => self::PAGE_SLUG ), // Parámetro necesario para acceder a la página registrada.
@@ -70,10 +94,16 @@ class CF7_OptionLimiter_Docs { // Declara la clase que agrupa toda la lógica re
     }
 
     /**
-     * Obtiene el contenido del manual en formato Markdown y lo transforma a HTML seguro.
-     *
-     * @return string
-     */
+    * Obtiene el contenido del manual en formato Markdown y lo transforma a HTML seguro.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Obtiene el contenido del manual en formato Markdown y lo transforma a HTML seguro.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return string
+    */
     protected static function get_manual_html() { // Método protegido que carga y procesa el manual.
         $manual_path = CF7_OPTION_LIMITER_DIR . 'manual_usuario.md'; // Calcula la ruta absoluta del manual.
         if ( ! file_exists( $manual_path ) ) { // Comprueba que el archivo exista antes de intentar leerlo.
@@ -87,12 +117,18 @@ class CF7_OptionLimiter_Docs { // Declara la clase que agrupa toda la lógica re
     }
 
     /**
-     * Convierte un texto en Markdown básico a HTML aplicando escapes y etiquetas semánticas sencillas.
-     *
-     * @param string $markdown Texto original en formato Markdown.
-     *
-     * @return string
-     */
+    * Convierte un texto en Markdown básico a HTML aplicando escapes y etiquetas semánticas sencillas.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Convierte un texto en Markdown básico a HTML aplicando escapes y etiquetas semánticas sencillas.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string $markdown Texto original en formato Markdown.
+    *
+    * @return string
+    */
     protected static function convert_markdown_to_html( $markdown ) { // Método protegido que realiza la conversión manual.
         $normalized = str_replace( array( "\r\n", "\r" ), "\n", (string) $markdown ); // Unifica saltos de línea para simplificar el procesamiento.
         $lines      = explode( "\n", $normalized ); // Divide el contenido en líneas individuales.
@@ -174,12 +210,18 @@ class CF7_OptionLimiter_Docs { // Declara la clase que agrupa toda la lógica re
     }
 
     /**
-     * Procesa enlaces y fragmentos de código en línea garantizando un HTML seguro.
-     *
-     * @param string $text Texto plano que puede contener enlaces y fragmentos de código en sintaxis Markdown.
-     *
-     * @return string
-     */
+    * Procesa enlaces y fragmentos de código en línea garantizando un HTML seguro.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Procesa enlaces y fragmentos de código en línea garantizando un HTML seguro.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string $text Texto plano que puede contener enlaces y fragmentos de código en sintaxis Markdown.
+    *
+    * @return string
+    */
     protected static function render_inline_markup( $text ) { // Método que transforma elementos en línea conservando la seguridad.
         $replacements = array(); // Inicializa el arreglo donde se almacenarán los marcadores temporales.
         $counter      = 0; // Inicializa el contador para generar identificadores únicos.

@@ -24,6 +24,15 @@
 .cf7-option-limiter-message.is-depleted { /* Garantiza que los avisos gestionados dinámicamente sigan ocupando espacio. */
     display: inline-flex; /* Mantiene la pastilla visible incluso cuando el mensaje se gestiona vía JavaScript. */
 }
+.cf7-option-limiter-message-container[hidden] { /* Evita que los contenedores dinámicos vacíos ocupen espacio en el formulario. */
+    display: none !important; /* Fuerza la ocultación absoluta incluso si algún estilo externo anula el atributo hidden. */
+}
+.cf7-option-limiter-message-container:not(.cf7-option-limiter-message) { /* Estabiliza el estado intermedio cuando el contenedor está listo pero sin mensaje que mostrar. */
+    margin: 0; /* Elimina los márgenes para que no quede hueco alrededor del contenedor inactivo. */
+    padding: 0; /* Retira el relleno de la pastilla cuando no hay contenido visible. */
+    border: 0; /* Evita que se dibuje el contorno característico mientras permanece oculto. */
+    background: none; /* Asegura que no se muestre el fondo rojizo durante el estado inactivo. */
+}
 .cf7-option-limiter-depleted { /* Estilo auxiliar para contenedores que permanecen visibles pero deshabilitados. */
     opacity: 0.6; /* Reduce ligeramente la opacidad para indicar que la opción ya no está disponible. */
 }

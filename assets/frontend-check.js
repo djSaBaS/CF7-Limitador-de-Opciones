@@ -69,15 +69,17 @@
     function ensureMessageContainer( $field ) { // Garantiza la existencia del contenedor de mensajes dinámicos para el campo.
         var fieldName = normalizeFieldName( $field.attr( 'name' ) ); // Normaliza el nombre del campo actual.
         var $form = $field.closest( 'form' ); // Obtiene el formulario al que pertenece el campo.
-        var selector = '.cf7-option-limiter-message[data-field="' + fieldName + '"][data-dynamic="1"]'; // Construye el selector del contenedor dinámico.
-        var $container = $form.find( selector ).first(); // Busca el contenedor si ya existe.
+        var selector = '[data-field="' + fieldName + '"][data-dynamic="1"]'; // Construye el selector del contenedor dinámico empleando sólo data attributes para localizarlo aunque varíen las clases.
+        var $container = $form.find( selector ).filter( '.cf7-option-limiter-message, .cf7-option-limiter-message-container' ).first(); // Busca el contenedor reutilizable ya sea que conserve la clase visible o únicamente la clase de marcador inactivo.
         if ( $container.length ) { // Comprueba si se encontró un contenedor previamente creado.
+            $container.addClass( 'cf7-option-limiter-message-container' ); // Garantiza que el contenedor reaprovechado conserve la clase identificadora incluso si perdió la clase estilizada.
             return $container; // Devuelve el contenedor existente.
         }
         $container = $( '<div></div>' ) // Crea un nuevo elemento div para alojar el mensaje.
-            .addClass( 'cf7-option-limiter-message' ) // Añade la clase base compartida con los mensajes del plugin.
+            .addClass( 'cf7-option-limiter-message-container' ) // Añade una clase persistente que identifica contenedores dinámicos sin aplicar estilos de alerta.
             .attr( 'data-field', fieldName ) // Asocia el nombre del campo mediante data attribute.
-            .attr( 'data-dynamic', '1' ); // Marca el contenedor como dinámico para distinguirlo de los generados en PHP.
+            .attr( 'data-dynamic', '1' ) // Marca el contenedor como dinámico para distinguirlo de los generados en PHP.
+            .attr( 'hidden', 'hidden' ); // Inicialmente oculta el contenedor para evitar parpadeos visuales cuando está vacío.
         var $wrapper = $field.last().closest( 'p, span, label, div' ); // Intenta localizar un contenedor cercano adecuado.
         if ( $wrapper.length ) { // Comprueba si se encontró un contenedor envolvente.
             $container.insertAfter( $wrapper ); // Inserta el mensaje después del contenedor principal.
@@ -91,11 +93,16 @@
         var $container = ensureMessageContainer( $field ); // Asegura que existe un contenedor disponible.
         if ( messages.length === 0 ) { // Comprueba si no hay mensajes que mostrar.
             $container.text( '' ) // Limpia el texto existente.
-                .removeClass( 'is-depleted is-visible' ); // Elimina las clases visuales cuando no hay mensajes.
+                .addClass( 'cf7-option-limiter-message-container' ) // Asegura que el contenedor mantenga la clase identificadora para reutilizarlo posteriormente.
+                .removeClass( 'cf7-option-limiter-message is-depleted is-visible' ) // Retira la clase estilizada y los modificadores visuales cuando el mensaje queda vacío.
+                .attr( 'hidden', 'hidden' ); // Mantiene oculto el contenedor vacío para evitar indicadores de error sin contenido.
             return; // Finaliza la ejecución al no haber mensajes.
         }
         var text = messages.join( ' ' ); // Concatena los mensajes en una sola cadena.
         $container.text( text ) // Inserta el texto en el contenedor.
+            .addClass( 'cf7-option-limiter-message-container' ) // Mantiene la clase identificadora incluso cuando se muestran mensajes para facilitar futuras búsquedas.
+            .removeAttr( 'hidden' ) // Garantiza que el contenedor se muestre cuando existe contenido que comunicar.
+            .addClass( 'cf7-option-limiter-message' ) // Añade la clase estilizada que aplica el fondo de alerta únicamente cuando hay texto.
             .addClass( 'is-depleted' ); // Aplica el estilo de advertencia.
         setTimeout( function() { // Utiliza un pequeño retraso para activar la animación de aparición.
             $container.addClass( 'is-visible' ); // Añade la clase que hace visible el mensaje mediante CSS.

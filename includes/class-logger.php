@@ -60,10 +60,16 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     protected static $last_error = ''; // Propiedad que almacena información diagnóstica para el panel administrativo.
 
     /**
-     * Prepara el archivo de log creando el fichero y asegurando la rotación.
-     *
-     * @return void
-     */
+    * Prepara el archivo de log creando el fichero y asegurando la rotación.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Prepara el archivo de log creando el fichero y asegurando la rotación.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function init() { // Método público que prepara el entorno de logging.
         if ( self::$initialized ) { // Comprueba si el logger ya fue inicializado en la petición actual.
             return; // Finaliza anticipadamente para evitar trabajo redundante.
@@ -97,22 +103,34 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Devuelve si el modo de depuración persistente está activo.
-     *
-     * @return bool
-     */
+    * Devuelve si el modo de depuración persistente está activo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve si el modo de depuración persistente está activo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return bool
+    */
     public static function is_debug_enabled() { // Método público que indica si se debe registrar información extendida.
         $value = get_option( self::DEBUG_OPTION ); // Recupera el valor almacenado en la opción correspondiente.
         return (bool) $value; // Convierte el valor recuperado a booleano para simplificar la comprobación.
     }
 
     /**
-     * Activa o desactiva el modo de depuración y registra el cambio de estado.
-     *
-     * @param bool $enabled Indica si el modo debe quedar activo.
-     *
-     * @return void
-     */
+    * Activa o desactiva el modo de depuración y registra el cambio de estado.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Activa o desactiva el modo de depuración y registra el cambio de estado.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param bool $enabled Indica si el modo debe quedar activo.
+    *
+    * @return void
+    */
     public static function set_debug_mode( $enabled ) { // Método público que permite alternar el modo depuración.
         $flag = $enabled ? 1 : 0; // Normaliza el estado recibido a un entero compatible con la tabla de opciones.
         update_option( self::DEBUG_OPTION, $flag ); // Guarda de forma persistente el estado del modo depuración.
@@ -121,14 +139,20 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Registra un evento en el archivo de log respetando el modo de depuración.
-     *
-     * @param string               $event   Nombre simbólico del evento que se registrará.
-     * @param array<string, mixed> $context Datos adicionales que describen el evento.
-     * @param bool                 $force   Indica si debe registrarse aunque el modo depuración esté desactivado.
-     *
-     * @return void
-     */
+    * Registra un evento en el archivo de log respetando el modo de depuración.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Registra un evento en el archivo de log respetando el modo de depuración.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string               $event   Nombre simbólico del evento que se registrará.
+    * @param array<string, mixed> $context Datos adicionales que describen el evento.
+    * @param bool                 $force   Indica si debe registrarse aunque el modo depuración esté desactivado.
+    *
+    * @return void
+    */
     public static function log( $event, array $context = array(), $force = false ) { // Método público que añade una entrada al log.
         self::init(); // Garantiza que el archivo de log esté disponible antes de continuar.
         $debug_enabled = self::is_debug_enabled(); // Determina si el modo depuración detallado está activo actualmente.
@@ -144,10 +168,16 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Registra en el log la instalación inicial o una actualización del plugin.
-     *
-     * @return void
-     */
+    * Registra en el log la instalación inicial o una actualización del plugin.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Registra en el log la instalación inicial o una actualización del plugin.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function maybe_log_version_change() { // Método público que detecta cambios de versión del plugin.
         if ( ! defined( 'CF7_OPTION_LIMITER_VERSION' ) ) { // Comprueba que la constante de versión esté disponible.
             return; // Finaliza si no se puede determinar la versión actual.
@@ -166,13 +196,19 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Construye la estructura base de una entrada del log incluyendo contexto común.
-     *
-     * @param string               $event   Nombre simbólico del evento que se registrará.
-     * @param array<string, mixed> $context Datos adicionales proporcionados por el llamador.
-     *
-     * @return array<string, mixed>
-     */
+    * Construye la estructura base de una entrada del log incluyendo contexto común.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Construye la estructura base de una entrada del log incluyendo contexto común.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string               $event   Nombre simbólico del evento que se registrará.
+    * @param array<string, mixed> $context Datos adicionales proporcionados por el llamador.
+    *
+    * @return array<string, mixed>
+    */
     protected static function build_entry( $event, array $context ) { // Método protegido que crea la entrada del log.
         $entry = self::get_default_context(); // Obtiene el contexto base con la marca temporal, la versión y el usuario.
         $event_key = sanitize_key( $event ); // Normaliza el nombre del evento a un formato estable y sin espacios.
@@ -183,10 +219,16 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Proporciona los datos comunes que acompañan a cada línea del log.
-     *
-     * @return array<string, mixed>
-     */
+    * Proporciona los datos comunes que acompañan a cada línea del log.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Proporciona los datos comunes que acompañan a cada línea del log.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return array<string, mixed>
+    */
     protected static function get_default_context() { // Método protegido que devuelve información común a cada entrada.
         $timestamp = function_exists( 'current_time' ) ? current_time( 'mysql' ) : gmdate( 'Y-m-d H:i:s' ); // Obtiene la fecha en formato MySQL utilizando WordPress cuando está disponible.
         return array( // Devuelve el contexto base preconfigurado.
@@ -197,10 +239,16 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Obtiene información resumida del usuario actual para el log.
-     *
-     * @return array<string, mixed>
-     */
+    * Obtiene información resumida del usuario actual para el log.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Obtiene información resumida del usuario actual para el log.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return array<string, mixed>
+    */
     protected static function get_user_context() { // Método protegido que recopila datos del usuario actual.
         $user_data = array( 'id' => 0, 'login' => 'desconocido' ); // Establece valores por defecto cuando no hay sesión.
         if ( function_exists( 'wp_get_current_user' ) ) { // Comprueba si WordPress expone la función para recuperar al usuario.
@@ -221,12 +269,18 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Escribe una entrada en el archivo de log aplicando formato de texto plano y bloqueo exclusivo.
-     *
-     * @param array<string, mixed> $entry Datos completos de la entrada a escribir.
-     *
-     * @return void
-     */
+    * Escribe una entrada en el archivo de log aplicando formato de texto plano y bloqueo exclusivo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Escribe una entrada en el archivo de log aplicando formato de texto plano y bloqueo exclusivo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $entry Datos completos de la entrada a escribir.
+    *
+    * @return void
+    */
     protected static function write_entry( array $entry ) { // Método protegido que gestiona la escritura en disco.
         if ( empty( self::$log_file ) ) { // Comprueba nuevamente que exista una ruta válida antes de escribir.
             return; // Evita intentar escribir cuando el archivo no está disponible.
@@ -237,13 +291,19 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Filtra el contexto registrado en función del modo de depuración activo.
-     *
-     * @param array<string, mixed> $context Datos adicionales proporcionados por el evento.
-     * @param bool                 $debug   Indica si el modo depuración detallado está activo.
-     *
-     * @return array<string, mixed>
-     */
+    * Filtra el contexto registrado en función del modo de depuración activo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Filtra el contexto registrado en función del modo de depuración activo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $context Datos adicionales proporcionados por el evento.
+    * @param bool                 $debug   Indica si el modo depuración detallado está activo.
+    *
+    * @return array<string, mixed>
+    */
     protected static function normalize_context( array $context, $debug ) { // Método protegido que ajusta el contexto según el modo activo.
         if ( $debug ) { // Comprueba si debe conservarse toda la información disponible.
             return $context; // Devuelve el contexto sin modificaciones para el modo depuración completo.
@@ -259,12 +319,18 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Convierte el contexto en una cadena formateada `clave=valor` separada por punto y coma.
-     *
-     * @param array<string, mixed> $context Datos adicionales ya filtrados.
-     *
-     * @return string
-     */
+    * Convierte el contexto en una cadena formateada `clave=valor` separada por punto y coma.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Convierte el contexto en una cadena formateada `clave=valor` separada por punto y coma.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $context Datos adicionales ya filtrados.
+    *
+    * @return string
+    */
     protected static function stringify_context( array $context ) { // Método protegido que convierte el contexto en texto plano.
         if ( empty( $context ) ) { // Comprueba si no se recibieron datos adicionales.
             return __( 'Sin detalles adicionales', 'cf7-option-limiter' ); // Devuelve un mensaje genérico indicando ausencia de detalles.
@@ -279,12 +345,18 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Convierte un valor arbitrario en texto limpio apto para el log.
-     *
-     * @param mixed $value Valor original que debe representarse en texto.
-     *
-     * @return string
-     */
+    * Convierte un valor arbitrario en texto limpio apto para el log.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Convierte un valor arbitrario en texto limpio apto para el log.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param mixed $value Valor original que debe representarse en texto.
+    *
+    * @return string
+    */
     protected static function stringify_value( $value ) { // Método protegido que garantiza que cada valor sea legible y seguro.
         if ( is_bool( $value ) ) { // Comprueba si el valor es booleano.
             $value = $value ? 'true' : 'false'; // Convierte booleanos en sus representaciones textuales.
@@ -303,12 +375,18 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Devuelve una etiqueta descriptiva para cada tipo de evento registrado.
-     *
-     * @param string $event Clave del evento registrado.
-     *
-     * @return string
-     */
+    * Devuelve una etiqueta descriptiva para cada tipo de evento registrado.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve una etiqueta descriptiva para cada tipo de evento registrado.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string $event Clave del evento registrado.
+    *
+    * @return string
+    */
     protected static function describe_event( $event ) { // Método protegido que traduce la clave del evento a un texto legible.
         switch ( $event ) { // Evalúa el nombre del evento.
             case 'limit_saved': // Cuando se guarda o actualiza una regla.
@@ -345,12 +423,18 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Compone la línea final que se escribirá en el log de texto plano.
-     *
-     * @param array<string, mixed> $entry Datos estructurados del evento.
-     *
-     * @return string
-     */
+    * Compone la línea final que se escribirá en el log de texto plano.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Compone la línea final que se escribirá en el log de texto plano.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $entry Datos estructurados del evento.
+    *
+    * @return string
+    */
     protected static function format_line( array $entry ) { // Método protegido que construye la línea final del log.
         $timestamp = isset( $entry['timestamp'] ) ? $entry['timestamp'] : gmdate( 'Y-m-d H:i:s' ); // Obtiene la marca temporal registrada.
         $version   = isset( $entry['plugin_version'] ) ? $entry['plugin_version'] : 'unknown'; // Obtiene la versión del plugin asociada al evento.
@@ -375,12 +459,18 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Devuelve las últimas líneas registradas en el log en formato de arreglo.
-     *
-     * @param int $limit Número máximo de líneas a recuperar.
-     *
-     * @return array<int, string>
-     */
+    * Devuelve las últimas líneas registradas en el log en formato de arreglo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve las últimas líneas registradas en el log en formato de arreglo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int $limit Número máximo de líneas a recuperar.
+    *
+    * @return array<int, string>
+    */
     public static function get_recent_lines( $limit = 120 ) { // Método público que expone las últimas entradas del log.
         self::init(); // Asegura que la ruta del archivo de log esté inicializada.
         if ( empty( self::$log_file ) || ! file_exists( self::$log_file ) ) { // Comprueba si el archivo de log está disponible.
@@ -398,10 +488,16 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Gestiona la rotación del archivo cuando supera 1 MB conservando un histórico inmediato.
-     *
-     * @return void
-     */
+    * Gestiona la rotación del archivo cuando supera 1 MB conservando un histórico inmediato.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Gestiona la rotación del archivo cuando supera 1 MB conservando un histórico inmediato.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     protected static function maybe_rotate() { // Método protegido que controla el tamaño del archivo de log.
         if ( empty( self::$log_file ) ) { // Comprueba que la ruta del log esté inicializada antes de continuar.
             return; // Finaliza sin hacer nada cuando el logger aún no estableció la ruta del archivo.
@@ -415,29 +511,47 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Devuelve información básica sobre el último error detectado durante la inicialización del logger.
-     *
-     * @return string
-     */
+    * Devuelve información básica sobre el último error detectado durante la inicialización del logger.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve información básica sobre el último error detectado durante la inicialización del logger.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return string
+    */
     public static function get_last_error() { // Método público que permite conocer problemas al preparar el archivo de log.
         return self::$last_error; // Devuelve el mensaje descriptivo almacenado, vacío cuando no hubo errores.
     }
 
     /**
-     * Proporciona la ruta absoluta del archivo de log activo para mostrarla en la interfaz.
-     *
-     * @return string
-     */
+    * Proporciona la ruta absoluta del archivo de log activo para mostrarla en la interfaz.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Proporciona la ruta absoluta del archivo de log activo para mostrarla en la interfaz.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return string
+    */
     public static function get_log_file_path() { // Método público que expone la ubicación física del log.
         self::init(); // Asegura que la ruta esté disponible antes de devolverla.
         return self::$log_file; // Devuelve la ruta completa o cadena vacía cuando no se pudo preparar.
     }
 
     /**
-     * Elimina tanto el archivo de log activo como las rotaciones conservadas.
-     *
-     * @return void
-     */
+    * Elimina tanto el archivo de log activo como las rotaciones conservadas.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Elimina tanto el archivo de log activo como las rotaciones conservadas.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function delete_logs() { // Método público que limpia los archivos de log creados por el plugin.
         self::init(); // Garantiza que se conozca el directorio configurado.
         $paths = array(); // Inicializa el listado de rutas que se intentarán eliminar.
@@ -459,10 +573,16 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Determina el directorio y la ruta de archivo más adecuados según los permisos disponibles.
-     *
-     * @return array{directory:string,file:string}
-     */
+    * Determina el directorio y la ruta de archivo más adecuados según los permisos disponibles.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Determina el directorio y la ruta de archivo más adecuados según los permisos disponibles.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return array{directory:string,file:string}
+    */
     protected static function resolve_log_location() { // Método protegido que calcula la mejor ubicación para el archivo de log.
         $locations = array(); // Inicializa el listado de ubicaciones candidatas.
         if ( function_exists( 'wp_upload_dir' ) ) { // Comprueba si está disponible la función que informa del directorio de subidas.
@@ -490,12 +610,18 @@ class CF7_OptionLimiter_Logger { // Declara la clase principal de logging del pl
     }
 
     /**
-     * Garantiza que un directorio exista y sea escribible.
-     *
-     * @param string $directory Ruta del directorio que se desea preparar.
-     *
-     * @return string
-     */
+    * Garantiza que un directorio exista y sea escribible.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Garantiza que un directorio exista y sea escribible.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string $directory Ruta del directorio que se desea preparar.
+    *
+    * @return string
+    */
     protected static function prepare_directory( $directory ) { // Método protegido que intenta crear y validar un directorio de trabajo.
         if ( empty( $directory ) ) { // Comprueba si la ruta proporcionada está vacía.
             return ''; // Devuelve cadena vacía para indicar que el directorio no es válido.

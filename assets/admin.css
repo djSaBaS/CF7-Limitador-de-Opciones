@@ -226,6 +226,38 @@ input#cf7-ol-max-count {
     margin-right: 6px;
 }
 
+/* Establece un estilo común para los botones icónicos de la tabla. */
+.cf7-option-limiter-action-button {
+    /* Presenta el botón como elemento en línea con dimensiones cuadradas para centrar el icono. */
+    display: inline-flex;
+    /* Centra el icono tanto horizontal como verticalmente. */
+    align-items: center;
+    justify-content: center;
+    /* Define una altura mínima que iguala el alto de los botones clásicos de WordPress. */
+    min-height: 32px;
+    /* Aplica un ancho mínimo idéntico para asegurar botones proporcionados sin texto. */
+    min-width: 32px;
+    /* Elimina el relleno lateral excesivo heredado que generaría desalineación. */
+    padding: 0;
+    /* Añade un pequeño margen entre iconos consecutivos para evitar que se toquen. */
+    margin-right: 6px;
+}
+
+/* Reduce la opacidad cuando la acción icónica está deshabilitada. */
+.cf7-option-limiter-action-button--disabled {
+    /* Aplica un aspecto visual atenuado manteniendo la accesibilidad. */
+    opacity: 0.5;
+    /* Cambia el cursor para reflejar que la acción no está disponible. */
+    cursor: not-allowed;
+}
+
+/* Asegura que el último botón de cada conjunto no deje margen extra a la derecha. */
+.cf7-option-limiter-inline-form:last-child .cf7-option-limiter-action-button,
+.cf7-option-limiter-action-button:last-child {
+    /* Elimina el margen derecho redundante en el borde del conjunto de acciones. */
+    margin-right: 0;
+}
+
 /* Estilos para los mensajes flotantes de éxito o error. */
 .cf7-option-limiter-admin .notice {
     /* Añade margen superior para separarlos del título. */

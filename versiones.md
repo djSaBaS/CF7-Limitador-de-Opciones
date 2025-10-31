@@ -1,5 +1,81 @@
 # Control de Versiones
 
+# v1.0.43
+– `admin/class-cf7-editor-panel.php` sustituye el formulario incrustado de liberación por un botón con atributos de datos y añade un formulario oculto dedicado en el pie para evitar que el formulario principal de Contact Form 7 se cierre prematuramente.
+– `assets/admin.js` sincroniza el nuevo formulario oculto de liberación, recrea su estructura con el nonce localizado y envía la petición manual sin perder las salvaguardas del editor.
+– `admin/class-admin-page.php` expone el nonce `cf7_option_limiter_release` en la localización JavaScript para que el script pueda recrear formularios seguros incluso cuando no se imprimen desde PHP.
+– `tests/run-tests.php` verifica que el botón de liberar ya no imprime `<form>` anidados, comprueba la recreación del formulario oculto y exige la presencia del nuevo nonce localizado junto a los campos adicionales.
+– `README.md` documenta que la liberación manual delega en el formulario oculto global, garantizando que el botón de guardar del formulario principal vuelva a funcionar tras devolver plazas.
+
+# v1.0.42
+– `includes/hooks.php` registra los nuevos scripts `assets/index.js` y `assets/survey.js`, y los encola automáticamente en las pantallas del editor de Contact Form 7 para que los toggles y la pestaña de encuestas funcionen sin errores de consola.
+– `assets/index.js` encapsula helpers `qs/qsa`, normaliza `data-toggle` evitando prefijos `#` incorrectos sobre clases, admite listas separadas por comas y aplica el estado inicial de los campos para prevenir parpadeos.
+– `assets/survey.js` espera al evento `DOMContentLoaded`, expone `window.configureSurveyTabListener` y sólo registra listeners cuando existe `#survey-tab`, evitando errores al cargar formularios sin la pestaña de encuestas.
+– `tests/run-tests.php` valida el registro y encolado de los nuevos scripts, inspecciona su contenido para impedir regresiones y mantiene el control de versiones con `CF7_OPTION_LIMITER_VERSION`.
+– `README.md` y `assets/README.md` documentan los nuevos assets y recomiendan sustituir IDs duplicados por clases o sufijos únicos para respetar el estándar HTML.
+
+# v1.0.41
+– `admin/class-cf7-editor-panel.php` delega la impresión de los formularios ocultos en `admin_footer`, evitando interferir con el formulario principal del editor de Contact Form 7 y manteniendo la marca interna que decide cuándo deben mostrarse.
+– `admin/class-admin-page.php` expone en la localización JavaScript la URL de `admin-post.php` y los nonces de guardado y borrado para permitir que el script recree los formularios ocultos con credenciales válidas.
+– `assets/admin.js` garantiza la existencia de los formularios ocultos localizándolos en su nueva posición o construyéndolos dinámicamente con los nonces localizados, actualizando las referencias antes de cada sincronización y manteniendo los flujos de guardado y borrado.
+– `tests/run-tests.php` cubre la nueva lógica verificando que `print_hidden_forms` sólo active la bandera, que `render_hidden_forms` imprima el marcado completo, y que la localización incluya la URL tradicional junto a los nonces requeridos.
+– `README.md` documenta la reubicación de los formularios ocultos y el soporte dinámico del script para mantener operativo el flujo de guardado en el editor.
+
+# v1.0.40
+– `assets/admin.js` sustituye la eliminación directa de manejadores `beforeunload` por un listener en captura que bloquea la alerta sólo durante la operación y se restaura automáticamente cuando la navegación no continúa, permitiendo guardar de nuevo los cambios generales del formulario.
+– `assets/admin.js` restablece la alerta del editor cuando la validación del formulario oculto falla o el envío queda bloqueado, evitando que la protección quede deshabilitada en sesiones posteriores.
+– `README.md` amplía la nota sobre la confirmación de borrado para dejar claro que el aviso se reactiva si la página permanece en el editor, garantizando que el equipo pueda seguir guardando Contact Form 7 sin interrupciones.
+
+# v1.0.39
+– `assets/admin.js` incorpora el helper `suppressEditorBeforeUnloadWarning()` para silenciar temporalmente la alerta genérica del editor, lo reutiliza antes de los envíos programáticos y restablece los manejadores cuando no se completa la operación.
+– `admin/class-admin-page.php` amplía el mensaje `deleteConfirm` recordando que tras eliminar una regla es necesario guardar el formulario principal.
+– `admin/class-cf7-editor-panel.php` reutiliza la cadena ampliada en `data-confirm` para que el botón de borrado incrustado muestre la advertencia actualizada.
+– `README.md` documenta que el aviso del editor deja de mostrarse al borrar reglas desde la pestaña de Contact Form 7 y que sigue siendo necesario guardar el formulario principal.
+
+# v1.0.38
+– `includes/class-db-manager.php` calcula los reinicios diarios y semanales con `DateTimeImmutable` y `wp_timezone()`, eliminando dependencias del desfase manual `gmt_offset`.
+– `tests/run-tests.php` incorpora pruebas que fuerzan desfases positivos y negativos para comprobar que `should_reset` detecta cambios de día y semana con la zona horaria del sitio.
+– `README.md` aclara que los reinicios automáticos respetan la zona horaria configurada en WordPress, garantizando resultados coherentes con horarios de verano.
+
+# v1.0.37
+– `includes/class-limiter-handler.php` fuerza el encolado de `frontend.css` y su script compañero durante `init`, utiliza la versión global del plugin para cache busting y mantiene la carga habitual mediante los hooks de `wp_enqueue_scripts` y `wpcf7_enqueue_scripts`.
+– `admin/class-cf7-editor-panel.php` adopta la iconografía accesible para editar, liberar y eliminar, incorpora el formulario en línea que libera un uso cuando el contador es mayor que cero y sincroniza los tooltips con el panel principal.
+– `tests/run-tests.php` comprueba el nuevo hook de `init`, simula la carga frontal para validar `autoload_front_assets`, verifica las versiones basadas en `CF7_OPTION_LIMITER_VERSION` y exige la presencia de los iconos en el panel incrustado.
+– `README.md` documenta la carga proactiva de `frontend.css` y la disponibilidad de las acciones icónicas dentro del editor.
+
+# v1.0.36
+– `includes/class-limiter-handler.php` registra `enqueue_front_assets` tanto en `wp_enqueue_scripts` como en `wpcf7_enqueue_scripts`, garantizando que `frontend.css` y su script compañero se impriman incluso cuando Contact Form 7 sólo carga recursos en páginas con formularios.
+– `tests/run-tests.php` comprueba la presencia de ambos hooks para evitar regresiones que dejen de inyectar estilos en el frontal.
+– `README.md` documenta la doble suscripción de los assets públicos para que el equipo tenga claro cómo se asegura la carga de estilos.
+
+# v1.0.35
+– `assets/frontend-check.js` añade la clase persistente `cf7-option-limiter-message-container`, controla el atributo `hidden` y elimina el estilo de alerta cuando el mensaje queda vacío para evitar contenedores rojos sin contenido.
+– `assets/frontend.css` incorpora reglas que ocultan los contenedores dinámicos mientras están vacíos y neutraliza márgenes, bordes y fondo cuando sólo actúan como marcadores invisibles.
+– `tests/run-tests.php` verifica la presencia de la nueva clase JavaScript y de la regla CSS que explota `[hidden]`, impidiendo regresiones que vuelvan a mostrar avisos vacíos.
+– `README.md` documenta que los contenedores sin texto permanecen ocultos y que sólo se pinta la pastilla cuando existe un mensaje real para el usuario.
+
+# v1.0.34
+– `admin/class-admin-page.php` sustituye los botones textuales por iconos accesibles con `dashicons`, añade tooltips traducibles y sólo habilita la liberación manual cuando el contador es superior a cero.
+– `assets/admin.css` define estilos específicos para los botones icónicos, normaliza su tamaño y atenúa el estado deshabilitado para mejorar la jerarquía visual.
+– `tests/run-tests.php` ajusta las aserciones para vigilar la presencia del icono de liberación, los atributos accesibles y la nueva clase que identifica el estado inactivo.
+– `README.md` documenta la interfaz iconográfica y la disponibilidad condicionada del control de liberación manual.
+
+# v1.0.33
+– `admin/class-admin-page.php` centraliza el renderizado del botón **Liberar un uso** para que siempre se imprima junto a cada regla, reutiliza un helper dedicado y mantiene el atributo `disabled` únicamente cuando el contador está en cero.
+– `tests/run-tests.php` incorpora stubs enriquecidos para `wp_nonce_field` y `disabled`, además de nuevas pruebas que verifican el marcado generado por el formulario de liberación en estados activo y agotado.
+– `README.md` documenta que la acción aparece de forma consistente y que el botón se deshabilita automáticamente cuando no quedan usos por devolver.
+
+# v1.0.32
+– Documentación homogénea de todas las funciones con un bloque **Explicación** que aclara la responsabilidad, el flujo interno y el uso de parámetros, facilitando la lectura de cualquier componente.
+– `README.md` detalla la nueva estandarización de comentarios para que el equipo conozca la guía de mantenimiento.
+– `tests/run-tests.php` mantiene la cobertura actual asegurando que el refuerzo documental no altera los flujos críticos.
+
+# v1.0.31
+– `admin/class-admin-page.php` conserva los filtros activos y la paginación al volver desde las acciones de liberar y eliminar, y expone un método auxiliar probado para construir la URL de retorno.
+– `assets/admin.js` permite editar reglas cuyos campos u opciones ya no existen mostrando etiquetas temporales, avisos accesibles y manteniendo habilitado el guardado.
+– `tests/run-tests.php` verifica que la URL de retorno preserve parámetros personalizados y mantiene la cobertura de la liberación manual.
+– `README.md` documenta la persistencia del contexto en la tabla y el nuevo flujo de edición para reglas con valores faltantes.
+
 # v1.0.30
 – `admin/class-admin-page.php` añade el botón **Liberar un uso**, valida permisos y nonces en el nuevo manejador `handle_release` y registra avisos específicos cuando se ajusta manualmente un contador.
 – `includes/class-db-manager.php` incorpora `decrement_counter_by_id()` para restar una unidad garantizando que el contador nunca sea negativo y documenta la operación en el log.

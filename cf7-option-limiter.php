@@ -1,16 +1,24 @@
 <?php
 /**
- * Plugin Name: CF7 Option Limiter
- * Plugin URI: https://humanitaseducacion.com/
- * Description: Amplía Contact Form 7 permitiendo limitar el número de selecciones por opción y mostrando mensajes personalizados cuando se agotan.
- * Version: 1.0.30
- * Author: Juan Antonio Sánchez Plaza - Sistemas HCE
- * Author URI: https://www.linkedin.com/in/juanantoniosanchezplaza/
- * Text Domain: cf7-option-limiter
- * Domain Path: /languages
- * License: GPLv2 or later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- */
+* Plugin Name: CF7 Option Limiter
+* Plugin URI: https://humanitaseducacion.com/
+* Description: Amplía Contact Form 7 permitiendo limitar el número de selecciones por opción y mostrando mensajes personalizados cuando se agotan.
+* Version: 1.0.43
+* Author: Juan Antonio Sánchez Plaza - Sistemas HCE
+* Author URI: https://www.linkedin.com/in/juanantoniosanchezplaza/
+* Text Domain: cf7-option-limiter
+* Domain Path: /languages
+* License: GPLv2 or later
+* License URI: https://www.gnu.org/licenses/gpl-2.0.html
+* Requires PHP: 5.3
+* Requires at least: 4.7
+*
+* Explicación:
+* - Resume la tarea principal: Plugin Name: CF7 Option Limiter.
+* - Describe brevemente los pasos clave ejecutados internamente.
+* - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+*
+*/
 
 // Evita ejecuciones directas fuera del contexto de WordPress.
 if ( ! defined( 'ABSPATH' ) ) { // Comprueba si la constante base de WordPress está definida.
@@ -21,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) { // Comprueba si la constante base de WordPress e
 define( 'CF7_OPTION_LIMITER_DIR', plugin_dir_path( __FILE__ ) ); // Constante con el directorio físico del plugin.
 
 // Declara la versión actual del plugin para reutilizarla en recursos y pantallas.
-define( 'CF7_OPTION_LIMITER_VERSION', '1.0.30' ); // Constante que sincroniza la versión mostrada y utilizada en caché con la nueva publicación.
+define( 'CF7_OPTION_LIMITER_VERSION', '1.0.37' ); // Constante que sincroniza la versión mostrada y utilizada en caché con la nueva publicación.
 
 // Guarda el basename del plugin para reutilizarlo en filtros y enlaces personalizados.
 define( 'CF7_OPTION_LIMITER_BASENAME', plugin_basename( __FILE__ ) ); // Constante con el identificador único del plugin.
@@ -67,10 +75,15 @@ add_action( 'plugins_loaded', 'cf7_option_limiter_bootstrap', 5 ); // Asocia la 
 
 if ( ! function_exists( 'cf7_option_limiter_bootstrap' ) ) { // Evita redeclaraciones en caso de múltiples inclusiones.
     /**
-     * Inicializa cada subsistema del plugin asegurando el orden correcto.
-     *
-     * @return void
-     */
+    * Inicializa cada subsistema del plugin asegurando el orden correcto.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Inicializa cada subsistema del plugin asegurando el orden correcto.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return void
+    */
     function cf7_option_limiter_bootstrap() { // Define la función principal de arranque.
         CF7_OptionLimiter_Logger::init(); // Inicializa el logger creando el archivo y preparando la rotación.
         CF7_OptionLimiter_Logger::maybe_log_version_change(); // Registra instalación o actualización antes de continuar con el arranque.

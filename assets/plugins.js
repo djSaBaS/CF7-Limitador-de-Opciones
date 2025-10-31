@@ -22,12 +22,18 @@
         attachPrompt( deleteLink ); // Adjunta la confirmación al enlace de borrado si ya está disponible.
 
         /**
-         * Adjunta el diálogo de confirmación al enlace recibido.
-         *
-         * @param {HTMLAnchorElement|null} link Elemento de enlace al que se añadirá la confirmación.
-         *
-         * @return void
-         */
+        * Adjunta el diálogo de confirmación al enlace recibido.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Adjunta el diálogo de confirmación al enlace recibido.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        *
+        * @param {HTMLAnchorElement|null} link Elemento de enlace al que se añadirá la confirmación.
+        *
+        * @return void
+        */
         function attachPrompt( link ) { // Declara la función auxiliar que añade la confirmación.
             if ( ! link ) { // Comprueba que el enlace exista en el DOM.
                 return; // Finaliza cuando no hay enlace que procesar.

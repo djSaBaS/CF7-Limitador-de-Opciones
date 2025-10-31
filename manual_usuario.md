@@ -18,6 +18,11 @@ CF7 Option Limiter permite limitar cuántas veces puede elegirse una opción con
 7. Opcionalmente escribe un **Mensaje personalizado al agotarse** que se mostrará a la persona usuaria.
 8. Guarda los cambios con **Guardar límite**. El botón **Cancelar edición** restablece el formulario sin aplicar cambios. Antes de lanzar la petición el plugin copia automáticamente todos los valores introducidos a un formulario oculto, de modo que los datos llegan completos aunque el navegador ignore el atributo `form` del marcado principal.
 
+## Liberar manualmente un uso
+- Desde el listado general de **Contact Form 7 → Option Limiter** utiliza el icono de candado abierto situado en cada fila para liberar al instante un uso cuando una persona usuaria cancela su reserva. El formulario auxiliar mantiene los filtros y la paginación activos tras completar la operación para que continúes revisando el mismo conjunto de reglas.
+- En la pestaña **Limitador de opciones** del editor verás el mismo icono junto a cada regla del listado lateral. Al pulsarlo, el plugin recrea automáticamente un formulario oculto seguro en el pie del administrador y envía la petición sin cerrar el formulario principal de Contact Form 7, de modo que el botón **Guardar** del formulario vuelve a estar disponible inmediatamente después de devolver la plaza.
+- Si no quedan usos disponibles el icono aparece atenuado y deshabilitado para evitar acciones involuntarias. En cuanto liberes una plaza se actualizará el contador y el botón volverá a quedar activo si procede.
+
 ## Cómo interpretar el listado principal
 - **Formulario, Campo y Opción** identifican dónde se aplica cada regla.
 - **Ocultar agotadas** indica si la opción desaparece al alcanzar el límite o si permanece visible con un aviso.

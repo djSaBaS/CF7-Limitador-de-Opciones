@@ -23,10 +23,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     const SCHEMA_SIGNATURE_OPTION = 'cf7_option_limiter_schema_signature'; // Constante que ayuda a sincronizar automáticamente la estructura de la tabla.
 
     /**
-     * Inicializa la clase calculando el nombre real de la tabla.
-     *
-     * @return void
-     */
+    * Inicializa la clase calculando el nombre real de la tabla.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Inicializa la clase calculando el nombre real de la tabla.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function init() { // Método de arranque para preparar propiedades estáticas y aplicar migraciones pendientes.
         self::resolve_table_names(); // Calcula y almacena los nombres completos de las tablas personalizadas.
         self::ensure_schema_alignment(); // Verifica que la tabla exista y que coincida con la definición distribuida con el plugin.
@@ -34,10 +40,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Crea la tabla personalizada durante la activación del plugin.
-     *
-     * @return void
-     */
+    * Crea la tabla personalizada durante la activación del plugin.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Crea la tabla personalizada durante la activación del plugin.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function activate() { // Método ejecutado al activar el plugin.
         self::resolve_table_names(); // Calcula inmediatamente los nombres completos de las tablas antes de trabajar con ellas.
         global $wpdb; // Obtiene el objeto global de base de datos.
@@ -58,10 +70,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Calcula los nombres completos de las tablas personalizadas respetando el prefijo de WordPress.
-     *
-     * @return void
-     */
+    * Calcula los nombres completos de las tablas personalizadas respetando el prefijo de WordPress.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Calcula los nombres completos de las tablas personalizadas respetando el prefijo de WordPress.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     protected static function resolve_table_names() { // Método protegido que establece los nombres de las tablas personalizadas.
         global $wpdb; // Accede al objeto global de base de datos para conocer el prefijo activo.
         self::$table_name           = $wpdb->prefix . 'cf7_option_limits'; // Calcula el nombre de la tabla principal utilizando el prefijo dinámico.
@@ -69,10 +87,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Comprueba si existe una actualización pendiente del esquema y, en caso afirmativo, ejecuta las migraciones correspondientes.
-     *
-     * @return void
-     */
+    * Comprueba si existe una actualización pendiente del esquema y, en caso afirmativo, ejecuta las migraciones correspondientes.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Comprueba si existe una actualización pendiente del esquema y, en caso afirmativo, ejecuta las migraciones correspondientes.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     protected static function maybe_run_pending_migrations() { // Método protegido que controla la ejecución condicional de migraciones.
         if ( ! defined( 'CF7_OPTION_LIMITER_VERSION' ) ) { // Comprueba que la constante de versión del plugin esté disponible antes de continuar.
             return; // Finaliza sin hacer nada cuando la constante todavía no ha sido definida.
@@ -88,10 +112,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Actualiza la opción persistente que almacena la versión del esquema aplicada.
-     *
-     * @return void
-     */
+    * Actualiza la opción persistente que almacena la versión del esquema aplicada.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Actualiza la opción persistente que almacena la versión del esquema aplicada.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     protected static function mark_schema_version() { // Método protegido que almacena la versión del esquema en la base de datos de opciones.
         if ( ! defined( 'CF7_OPTION_LIMITER_VERSION' ) ) { // Comprueba que la constante de versión del plugin esté disponible.
             return; // Finaliza silenciosamente cuando la constante aún no existe (por ejemplo, durante pruebas parciales).
@@ -101,10 +131,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Realiza acciones de limpieza al desactivar el plugin.
-     *
-     * @return void
-     */
+    * Realiza acciones de limpieza al desactivar el plugin.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Realiza acciones de limpieza al desactivar el plugin.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function deactivate() { // Método llamado al desactivar el plugin.
         $preference = get_option( self::CLEANUP_OPTION ); // Recupera la preferencia almacenada antes de la desactivación.
         if ( 'remove' === $preference ) { // Comprueba si se solicitó eliminar los datos.
@@ -115,10 +151,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Ejecuta la limpieza cuando el plugin se desinstala desde el listado de plugins.
-     *
-     * @return void
-     */
+    * Ejecuta la limpieza cuando el plugin se desinstala desde el listado de plugins.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Ejecuta la limpieza cuando el plugin se desinstala desde el listado de plugins.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function uninstall() { // Método que se ejecuta al eliminar el plugin desde WordPress.
         $preference = get_option( self::CLEANUP_OPTION ); // Recupera la preferencia almacenada.
         if ( 'remove' === $preference ) { // Comprueba si se debe realizar la limpieza final.
@@ -130,10 +172,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Obtiene el esquema SQL desde el archivo de definición.
-     *
-     * @return string
-     */
+    * Obtiene el esquema SQL desde el archivo de definición.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Obtiene el esquema SQL desde el archivo de definición.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return string
+    */
     protected static function get_schema() { // Método protegido que devuelve el SQL de creación.
         $schema_path = CF7_OPTION_LIMITER_DIR . 'sql/create_table.sql'; // Calcula la ruta absoluta del archivo SQL.
         $schema_sql  = file_get_contents( $schema_path ); // Lee el contenido del archivo con la definición de la tabla.
@@ -141,23 +189,35 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Calcula una firma hash del esquema recibido para detectar cambios estructurales.
-     *
-     * @param string $schema_sql Contenido SQL con la definición completa de la tabla.
-     *
-     * @return string
-     */
+    * Calcula una firma hash del esquema recibido para detectar cambios estructurales.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Calcula una firma hash del esquema recibido para detectar cambios estructurales.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string $schema_sql Contenido SQL con la definición completa de la tabla.
+    *
+    * @return string
+    */
     protected static function get_schema_signature( $schema_sql ) { // Método protegido que resume el esquema en un hash estable.
         return md5( (string) $schema_sql ); // Devuelve un hash MD5 del SQL recibido para comparar versiones del esquema.
     }
 
     /**
-     * Almacena de forma persistente la firma del esquema actualmente aplicado.
-     *
-     * @param string $signature Hash del esquema que se desea almacenar.
-     *
-     * @return void
-     */
+    * Almacena de forma persistente la firma del esquema actualmente aplicado.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Almacena de forma persistente la firma del esquema actualmente aplicado.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string $signature Hash del esquema que se desea almacenar.
+    *
+    * @return void
+    */
     protected static function store_schema_signature( $signature ) { // Método protegido que persiste la firma del esquema vigente.
         if ( empty( $signature ) ) { // Comprueba si la firma calculada es válida.
             return; // Finaliza sin realizar cambios cuando no existe firma que almacenar.
@@ -166,10 +226,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Garantiza que la tabla personalizada exista y coincida con la definición distribuida con el plugin.
-     *
-     * @return void
-     */
+    * Garantiza que la tabla personalizada exista y coincida con la definición distribuida con el plugin.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Garantiza que la tabla personalizada exista y coincida con la definición distribuida con el plugin.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     protected static function ensure_schema_alignment() { // Método protegido que sincroniza la estructura de la tabla cuando sea necesario.
         $schema_sql = self::get_schema(); // Obtiene la definición actual del esquema desde el archivo SQL.
         if ( empty( $schema_sql ) ) { // Comprueba si no se pudo recuperar el SQL de referencia.
@@ -198,10 +264,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Elimina todos los registros almacenados en las tablas personalizadas del plugin.
-     *
-     * @return array<string, int>
-     */
+    * Elimina todos los registros almacenados en las tablas personalizadas del plugin.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Elimina todos los registros almacenados en las tablas personalizadas del plugin.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return array<string, int>
+    */
     public static function purge_limits() { // Método público que vacía las tablas personalizadas del plugin.
         global $wpdb; // Accede al objeto global de base de datos de WordPress.
         self::init(); // Asegura que los nombres completos de las tablas estén inicializados.
@@ -217,20 +289,32 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Devuelve el prefijo actual de la base de datos respetando instalaciones multisitio.
-     *
-     * @return string
-     */
+    * Devuelve el prefijo actual de la base de datos respetando instalaciones multisitio.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve el prefijo actual de la base de datos respetando instalaciones multisitio.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return string
+    */
     protected static function get_table_prefix() { // Método protegido para obtener el prefijo actual.
         global $wpdb; // Accede al objeto global de base de datos.
         return $wpdb->prefix; // Devuelve el prefijo estándar correspondiente al sitio actual.
     }
 
     /**
-     * Recupera todas las reglas almacenadas para mostrarlas en la administración.
-     *
-     * @return array<int, array<string, mixed>>
-     */
+    * Recupera todas las reglas almacenadas para mostrarlas en la administración.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Recupera todas las reglas almacenadas para mostrarlas en la administración.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return array<int, array<string, mixed>>
+    */
     public static function get_all_limits() { // Método público para obtener todas las reglas configuradas.
         global $wpdb; // Utiliza el objeto global de base de datos.
         self::init(); // Asegura que el nombre de la tabla esté disponible.
@@ -239,14 +323,20 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Recupera un subconjunto paginado de reglas filtrado opcionalmente por formulario.
-     *
-     * @param int $form_id   Identificador del formulario a filtrar, cero para todos.
-     * @param int $per_page  Número de resultados por página.
-     * @param int $offset    Desplazamiento inicial calculado a partir de la página solicitada.
-     *
-     * @return array<int, array<string, mixed>>
-     */
+    * Recupera un subconjunto paginado de reglas filtrado opcionalmente por formulario.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Recupera un subconjunto paginado de reglas filtrado opcionalmente por formulario.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int $form_id   Identificador del formulario a filtrar, cero para todos.
+    * @param int $per_page  Número de resultados por página.
+    * @param int $offset    Desplazamiento inicial calculado a partir de la página solicitada.
+    *
+    * @return array<int, array<string, mixed>>
+    */
     public static function get_limits_filtered( $form_id, $per_page, $offset ) { // Devuelve una porción de reglas según filtros y paginación.
         global $wpdb; // Utiliza el objeto global de base de datos proporcionado por WordPress.
         self::init(); // Asegura que el nombre de la tabla esté listo antes de construir la consulta.
@@ -265,12 +355,18 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Calcula el número total de reglas disponibles respetando el filtro opcional por formulario.
-     *
-     * @param int $form_id Identificador del formulario a filtrar, cero para todos.
-     *
-     * @return int
-     */
+    * Calcula el número total de reglas disponibles respetando el filtro opcional por formulario.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Calcula el número total de reglas disponibles respetando el filtro opcional por formulario.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int $form_id Identificador del formulario a filtrar, cero para todos.
+    *
+    * @return int
+    */
     public static function count_limits( $form_id ) { // Devuelve el total de reglas considerando el filtro seleccionado.
         global $wpdb; // Utiliza el objeto global de base de datos para ejecutar la consulta.
         self::init(); // Asegura que el nombre de la tabla esté configurado.
@@ -284,13 +380,19 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Obtiene todas las reglas asociadas a un formulario y campo específicos.
-     *
-     * @param int    $form_id    Identificador del formulario.
-     * @param string $field_name Nombre del campo dentro del formulario.
-     *
-     * @return array<int, array<string, mixed>>
-     */
+    * Obtiene todas las reglas asociadas a un formulario y campo específicos.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Obtiene todas las reglas asociadas a un formulario y campo específicos.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int    $form_id    Identificador del formulario.
+    * @param string $field_name Nombre del campo dentro del formulario.
+    *
+    * @return array<int, array<string, mixed>>
+    */
     public static function get_limits_for_field( $form_id, $field_name ) { // Método para recuperar reglas por campo.
         global $wpdb; // Accede al objeto de base de datos.
         self::init(); // Prepara el nombre de la tabla.
@@ -303,14 +405,20 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Obtiene una única regla asociada a formulario, campo y valor específicos.
-     *
-     * @param int    $form_id    Identificador del formulario.
-     * @param string $field_name Nombre del campo.
-     * @param string $option     Valor concreto de la opción.
-     *
-     * @return array<string, mixed>|null
-     */
+    * Obtiene una única regla asociada a formulario, campo y valor específicos.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Obtiene una única regla asociada a formulario, campo y valor específicos.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int    $form_id    Identificador del formulario.
+    * @param string $field_name Nombre del campo.
+    * @param string $option     Valor concreto de la opción.
+    *
+    * @return array<string, mixed>|null
+    */
     public static function get_limit( $form_id, $field_name, $option ) { // Método para recuperar una regla concreta.
         global $wpdb; // Objeto de base de datos de WordPress.
         self::init(); // Configura la tabla si es necesario.
@@ -324,12 +432,18 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Recupera una regla concreta utilizando su identificador interno.
-     *
-     * @param int $rule_id Identificador autoincremental de la regla.
-     *
-     * @return array<string, mixed>|null
-     */
+    * Recupera una regla concreta utilizando su identificador interno.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Recupera una regla concreta utilizando su identificador interno.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int $rule_id Identificador autoincremental de la regla.
+    *
+    * @return array<string, mixed>|null
+    */
     public static function get_limit_by_id( $rule_id ) { // Obtiene una regla mediante su ID.
         global $wpdb; // Objeto global de base de datos.
         self::init(); // Asegura que el nombre de la tabla esté disponible antes de consultar.
@@ -344,12 +458,18 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Recupera todas las reglas asociadas a un formulario concreto.
-     *
-     * @param int $form_id Identificador del formulario de Contact Form 7.
-     *
-     * @return array<int, array<string, mixed>>
-     */
+    * Recupera todas las reglas asociadas a un formulario concreto.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Recupera todas las reglas asociadas a un formulario concreto.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int $form_id Identificador del formulario de Contact Form 7.
+    *
+    * @return array<int, array<string, mixed>>
+    */
     public static function get_limits_by_form( $form_id ) { // Obtiene todas las reglas vinculadas a un formulario específico.
         global $wpdb; // Objeto global de base de datos.
         self::init(); // Inicializa el nombre de la tabla si todavía no se había hecho.
@@ -365,12 +485,18 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Inserta o actualiza una regla en la tabla personalizada.
-     *
-     * @param array<string, mixed> $data Datos validados y sanitizados de la regla.
-     *
-     * @return bool
-     */
+    * Inserta o actualiza una regla en la tabla personalizada.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Inserta o actualiza una regla en la tabla personalizada.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $data Datos validados y sanitizados de la regla.
+    *
+    * @return bool
+    */
     public static function upsert_limit( $data ) { // Método para crear o actualizar reglas.
         global $wpdb; // Objeto global de base de datos.
         self::init(); // Asegura que el nombre de la tabla esté disponible.
@@ -537,12 +663,18 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Elimina una regla concreta identificada por su ID.
-     *
-     * @param int $rule_id Identificador de la regla a eliminar.
-     *
-     * @return bool
-     */
+    * Elimina una regla concreta identificada por su ID.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Elimina una regla concreta identificada por su ID.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int $rule_id Identificador de la regla a eliminar.
+    *
+    * @return bool
+    */
     public static function delete_limit( $rule_id ) { // Método para borrar reglas existentes.
         global $wpdb; // Objeto global de base de datos.
         self::init(); // Asegura que la tabla esté disponible.
@@ -565,14 +697,20 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Incrementa el contador de uso de una regla tras un envío del formulario.
-     *
-     * @param int    $form_id    Identificador del formulario.
-     * @param string $field_name Nombre del campo del formulario.
-     * @param string $option     Valor seleccionado.
-     *
-     * @return bool
-     */
+    * Incrementa el contador de uso de una regla tras un envío del formulario.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Incrementa el contador de uso de una regla tras un envío del formulario.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int    $form_id    Identificador del formulario.
+    * @param string $field_name Nombre del campo del formulario.
+    * @param string $option     Valor seleccionado.
+    *
+    * @return bool
+    */
     public static function increment_counter( $form_id, $field_name, $option ) { // Método para sumar al contador de uso.
         global $wpdb; // Objeto de base de datos global.
         self::init(); // Asegura el nombre de la tabla.
@@ -601,12 +739,18 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Resta unidades del contador actual asegurando que nunca sea negativo.
-     *
-     * @param int $rule_id Identificador de la regla cuyo contador se desea ajustar.
-     *
-     * @return bool
-     */
+    * Resta unidades del contador actual asegurando que nunca sea negativo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Resta unidades del contador actual asegurando que nunca sea negativo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int $rule_id Identificador de la regla cuyo contador se desea ajustar.
+    *
+    * @return bool
+    */
     public static function decrement_counter_by_id( $rule_id ) { // Método que libera un uso consumido de una regla concreta.
         global $wpdb; // Accede al objeto global de base de datos proporcionado por WordPress.
         self::init(); // Garantiza que los nombres de tabla estén calculados antes de ejecutar consultas.
@@ -636,14 +780,20 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Recupera en bloque las reglas asociadas a una lista de valores concretos.
-     *
-     * @param int                  $form_id    Identificador del formulario.
-     * @param string               $field_name Nombre del campo dentro del formulario.
-     * @param array<int, string>   $options    Lista de valores a comprobar.
-     *
-     * @return array<string, array<string, mixed>>
-     */
+    * Recupera en bloque las reglas asociadas a una lista de valores concretos.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Recupera en bloque las reglas asociadas a una lista de valores concretos.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int                  $form_id    Identificador del formulario.
+    * @param string               $field_name Nombre del campo dentro del formulario.
+    * @param array<int, string>   $options    Lista de valores a comprobar.
+    *
+    * @return array<string, array<string, mixed>>
+    */
     public static function get_limits_for_options( $form_id, $field_name, array $options ) { // Método para obtener varias reglas globales en una sola consulta.
         global $wpdb; // Objeto global de base de datos.
         self::init(); // Asegura que el nombre de la tabla esté configurado.
@@ -675,89 +825,131 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Recupera todas las excepciones guardadas para su visualización en administración.
-     *
-     * @return array<int, array<string, mixed>>
-     */
+    * Recupera todas las excepciones guardadas para su visualización en administración.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Recupera todas las excepciones guardadas para su visualización en administración.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return array<int, array<string, mixed>>
+    */
     public static function get_all_overrides() { // Método público que devuelve todas las excepciones registradas.
         return array(); // Las excepciones por página han sido retiradas, de modo que la colección siempre está vacía.
     }
 
     /**
-     * Obtiene una excepción concreta por formulario, campo, opción y página.
-     *
-     * @param int    $form_id    Identificador del formulario.
-     * @param string $field_name Nombre del campo dentro del formulario.
-     * @param string $option     Valor específico de la opción.
-     * @param int    $post_id    Identificador del post asociado.
-     *
-     * @return array<string, mixed>|null
-     */
+    * Obtiene una excepción concreta por formulario, campo, opción y página.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Obtiene una excepción concreta por formulario, campo, opción y página.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int    $form_id    Identificador del formulario.
+    * @param string $field_name Nombre del campo dentro del formulario.
+    * @param string $option     Valor específico de la opción.
+    * @param int    $post_id    Identificador del post asociado.
+    *
+    * @return array<string, mixed>|null
+    */
     public static function get_override( $form_id, $field_name, $option, $post_id ) { // Método que recupera una excepción específica.
         return null; // La funcionalidad de excepciones se eliminó, por lo que nunca se devuelve una coincidencia.
     }
 
     /**
-     * Devuelve todas las excepciones registradas para un formulario y campo específicos.
-     *
-     * @param int    $form_id    Identificador del formulario.
-     * @param string $field_name Nombre del campo dentro del formulario.
-     *
-     * @return array<int, array<string, mixed>>
-     */
+    * Devuelve todas las excepciones registradas para un formulario y campo específicos.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve todas las excepciones registradas para un formulario y campo específicos.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int    $form_id    Identificador del formulario.
+    * @param string $field_name Nombre del campo dentro del formulario.
+    *
+    * @return array<int, array<string, mixed>>
+    */
     public static function get_overrides_for_field( $form_id, $field_name ) { // Método que recupera excepciones por campo.
         return array(); // Sin excepciones activas, siempre se devuelve un listado vacío.
     }
 
     /**
-     * Obtiene en bloque las excepciones asociadas a una lista de valores concretos para una página.
-     *
-     * @param int                  $form_id    Identificador del formulario.
-     * @param string               $field_name Nombre del campo dentro del formulario.
-     * @param array<int, string>   $options    Lista de valores a comprobar.
-     * @param int                  $post_id    Identificador del post asociado.
-     *
-     * @return array<string, array<string, mixed>>
-     */
+    * Obtiene en bloque las excepciones asociadas a una lista de valores concretos para una página.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Obtiene en bloque las excepciones asociadas a una lista de valores concretos para una página.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int                  $form_id    Identificador del formulario.
+    * @param string               $field_name Nombre del campo dentro del formulario.
+    * @param array<int, string>   $options    Lista de valores a comprobar.
+    * @param int                  $post_id    Identificador del post asociado.
+    *
+    * @return array<string, array<string, mixed>>
+    */
     public static function get_overrides_for_options( $form_id, $field_name, array $options, $post_id ) { // Método para recuperar varias excepciones simultáneamente.
         return array(); // La característica ha sido retirada, por lo que no existen coincidencias que devolver.
     }
 
     /**
-     * Inserta o actualiza una excepción en la tabla dedicada.
-     *
-     * @param array<string, mixed> $data Datos validados y sanitizados de la excepción.
-     *
-     * @return bool
-     */
+    * Inserta o actualiza una excepción en la tabla dedicada.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Inserta o actualiza una excepción en la tabla dedicada.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $data Datos validados y sanitizados de la excepción.
+    *
+    * @return bool
+    */
     public static function upsert_override( $data ) { // Método público que guarda excepciones específicas.
         return false; // La escritura de excepciones ya no está disponible, por lo que se devuelve falso.
     }
 
     /**
-     * Incrementa el contador de una excepción concreta garantizando que no supere el máximo configurado.
-     *
-     * @param int    $form_id    Identificador del formulario.
-     * @param string $field_name Nombre del campo.
-     * @param string $option     Valor específico de la opción.
-     * @param int    $post_id    Identificador del post asociado a la excepción.
-     *
-     * @return bool
-     */
+    * Incrementa el contador de una excepción concreta garantizando que no supere el máximo configurado.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Incrementa el contador de una excepción concreta garantizando que no supere el máximo configurado.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int    $form_id    Identificador del formulario.
+    * @param string $field_name Nombre del campo.
+    * @param string $option     Valor específico de la opción.
+    * @param int    $post_id    Identificador del post asociado a la excepción.
+    *
+    * @return bool
+    */
     public static function increment_override_counter( $form_id, $field_name, $option, $post_id ) { // Método que incrementa contadores en la tabla de excepciones.
         return false; // No se realizan incrementos porque las excepciones por página han sido eliminadas.
     }
 
     /**
-     * Devuelve la regla efectiva combinando excepciones y reglas globales priorizando la coincidencia por post.
-     *
-     * @param int    $form_id    Identificador del formulario.
-     * @param string $field_name Nombre del campo dentro del formulario.
-     * @param string $option     Valor específico de la opción.
-     * @param int    $post_id    Identificador del post donde se evalúa la regla.
-     *
-     * @return array<string, mixed>|null
-     */
+    * Devuelve la regla efectiva combinando excepciones y reglas globales priorizando la coincidencia por post.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve la regla efectiva combinando excepciones y reglas globales priorizando la coincidencia por post.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int    $form_id    Identificador del formulario.
+    * @param string $field_name Nombre del campo dentro del formulario.
+    * @param string $option     Valor específico de la opción.
+    * @param int    $post_id    Identificador del post donde se evalúa la regla.
+    *
+    * @return array<string, mixed>|null
+    */
     public static function get_effective_limit( $form_id, $field_name, $option, $post_id ) { // Método que resuelve la prioridad entre excepciones y reglas globales.
         $limit = self::get_limit( $form_id, $field_name, $option ); // Recupera la regla global asociada al campo y opción indicados.
         if ( ! empty( $limit ) ) { // Comprueba si existe una regla global.
@@ -767,15 +959,21 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Devuelve las reglas efectivas para una lista de opciones combinando excepciones y reglas globales.
-     *
-     * @param int                  $form_id    Identificador del formulario.
-     * @param string               $field_name Nombre del campo dentro del formulario.
-     * @param array<int, string>   $options    Lista de valores a comprobar.
-     * @param int                  $post_id    Identificador del post donde se evalúa la prioridad.
-     *
-     * @return array<string, array<string, mixed>>
-     */
+    * Devuelve las reglas efectivas para una lista de opciones combinando excepciones y reglas globales.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve las reglas efectivas para una lista de opciones combinando excepciones y reglas globales.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int                  $form_id    Identificador del formulario.
+    * @param string               $field_name Nombre del campo dentro del formulario.
+    * @param array<int, string>   $options    Lista de valores a comprobar.
+    * @param int                  $post_id    Identificador del post donde se evalúa la prioridad.
+    *
+    * @return array<string, array<string, mixed>>
+    */
     public static function get_effective_limits_for_options( $form_id, $field_name, array $options, $post_id ) { // Método que fusiona reglas globales y excepciones.
         $effective = array(); // Inicializa el arreglo que almacenará las reglas finales.
         if ( empty( $options ) ) { // Comprueba si la lista de opciones está vacía.
@@ -790,37 +988,55 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Incrementa el contador adecuado priorizando excepciones cuando existan.
-     *
-     * @param int    $form_id    Identificador del formulario.
-     * @param string $field_name Nombre del campo dentro del formulario.
-     * @param string $option     Valor específico de la opción.
-     * @param int    $post_id    Identificador del post asociado.
-     *
-     * @return bool
-     */
+    * Incrementa el contador adecuado priorizando excepciones cuando existan.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Incrementa el contador adecuado priorizando excepciones cuando existan.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int    $form_id    Identificador del formulario.
+    * @param string $field_name Nombre del campo dentro del formulario.
+    * @param string $option     Valor específico de la opción.
+    * @param int    $post_id    Identificador del post asociado.
+    *
+    * @return bool
+    */
     public static function increment_counter_for_context( $form_id, $field_name, $option, $post_id ) { // Método que decide qué contador incrementar según el contexto.
         return self::increment_counter( $form_id, $field_name, $option ); // Sin excepciones específicas, siempre se incrementa el contador global estándar.
     }
 
     /**
-     * Reinicia los contadores de las opciones según el periodo configurado en tablas globales y de excepciones.
-     *
-     * @return void
-     */
+    * Reinicia los contadores de las opciones según el periodo configurado en tablas globales y de excepciones.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Reinicia los contadores de las opciones según el periodo configurado en tablas globales y de excepciones.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function reset_periods() { // Método encargado de evaluar y resetear los contadores por periodo en todas las tablas.
         self::init(); // Asegura que los nombres de tabla estén preparados.
         self::reset_periods_for_table( self::$table_name, false ); // Procesa los reseteos únicamente en la tabla principal, ya que las excepciones han sido retiradas.
     }
 
     /**
-     * Aplica el reinicio periódico a una tabla concreta.
-     *
-     * @param string $table_name  Nombre de la tabla sobre la que se ejecutará el reinicio.
-     * @param bool   $is_override Indica si se está procesando la tabla de excepciones para registrar el origen adecuado en el log.
-     *
-     * @return void
-     */
+    * Aplica el reinicio periódico a una tabla concreta.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Aplica el reinicio periódico a una tabla concreta.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string $table_name  Nombre de la tabla sobre la que se ejecutará el reinicio.
+    * @param bool   $is_override Indica si se está procesando la tabla de excepciones para registrar el origen adecuado en el log.
+    *
+    * @return void
+    */
     protected static function reset_periods_for_table( $table_name, $is_override ) { // Método auxiliar que procesa reseteos para la tabla indicada.
         global $wpdb; // Objeto global de base de datos.
         $query = "SELECT id, form_id, field_name, option_value, limit_period, limit_reset, post_id FROM " . $table_name . " WHERE limit_period != 'none'"; // Consulta que recupera las reglas con periodo activo.
@@ -866,41 +1082,57 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Determina si una regla requiere reinicio según su periodo y fecha de último reseteo.
-     *
-     * @param array<string, mixed> $rule Datos de la regla almacenada.
-     * @param int                  $current_timestamp Marca temporal actual.
-     *
-     * @return bool
-     */
+    * Determina si una regla requiere reinicio según su periodo y fecha de último reseteo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Determina si una regla requiere reinicio según su periodo y fecha de último reseteo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $rule Datos de la regla almacenada.
+    * @param int                  $current_timestamp Marca temporal actual.
+    *
+    * @return bool
+    */
     protected static function should_reset( $rule, $current_timestamp ) { // Método auxiliar que decide si se debe reiniciar.
         $period = $rule['limit_period']; // Recupera el periodo configurado para la regla.
-        $last_reset = empty( $rule['limit_reset'] ) ? 0 : strtotime( $rule['limit_reset'] ); // Convierte la fecha de último reseteo a timestamp.
-        if ( $last_reset === false ) { // Comprueba si la conversión de fecha falló.
-            $last_reset = 0; // Establece un valor predeterminado para forzar el reseteo.
+        $timezone = wp_timezone(); // Obtiene la zona horaria configurada en WordPress respetando desfases y horario de verano.
+        $last_reset_string = isset( $rule['limit_reset'] ) ? (string) $rule['limit_reset'] : ''; // Captura la fecha almacenada como cadena para procesarla con la zona horaria del sitio.
+        if ( '' === $last_reset_string ) { // Comprueba si no existe una fecha previa registrada.
+            return true; // Se debe reiniciar inmediatamente porque no hay un punto de partida conocido.
         }
-        if ( $last_reset === 0 ) { // Si nunca se ha reseteado la regla.
-            return true; // Se debe reiniciar inmediatamente para inicializar la ventana temporal.
+        $last_reset_datetime = DateTimeImmutable::createFromFormat( 'Y-m-d H:i:s', $last_reset_string, $timezone ); // Convierte la fecha almacenada en un objeto inmutable respetando la zona horaria local.
+        if ( false === $last_reset_datetime ) { // Comprueba si la conversión falló por un formato inesperado.
+            return true; // Se opta por reiniciar para evitar inconsistencias cuando la marca previa no es válida.
         }
+        $last_reset_timestamp = $last_reset_datetime->getTimestamp(); // Obtiene la marca temporal absoluta asociada a la fecha registrada.
+        $current_datetime = ( new DateTimeImmutable( '@' . $current_timestamp ) )->setTimezone( $timezone ); // Crea la fecha actual en zona UTC y la ajusta a la configuración del sitio para comparaciones locales.
         switch ( $period ) { // Evalúa según el tipo de periodo configurado.
             case 'hour': // Cuando el periodo es por hora.
-                return ( $current_timestamp - $last_reset ) >= HOUR_IN_SECONDS; // Comprueba si ha pasado al menos una hora natural.
+                return ( $current_timestamp - $last_reset_timestamp ) >= HOUR_IN_SECONDS; // Comprueba si ha transcurrido al menos una hora completa desde el último reseteo.
             case 'day': // Cuando el periodo es diario.
-                return gmdate( 'Y-m-d', $current_timestamp + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) !== gmdate( 'Y-m-d', $last_reset + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ); // Compara el día actual con el del último reseteo.
+                return $current_datetime->format( 'Y-m-d' ) !== $last_reset_datetime->format( 'Y-m-d' ); // Compara la fecha local actual con la almacenada para detectar cambios de día.
             case 'week': // Cuando el periodo es semanal.
-                return gmdate( 'oW', $current_timestamp + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) !== gmdate( 'oW', $last_reset + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ); // Compara la semana ISO actual con la anterior.
+                return $current_datetime->format( 'oW' ) !== $last_reset_datetime->format( 'oW' ); // Compara la semana ISO local actual con la de la última ejecución para detectar cambios semanales.
             default: // Para cualquier otro valor (incluyendo 'none').
                 return false; // No se requiere reinicio.
         }
     }
 
     /**
-     * Sanitiza los datos antes de insertarlos en base de datos.
-     *
-     * @param array<string, mixed> $data Datos originales.
-     *
-     * @return array<string, mixed>
-     */
+    * Sanitiza los datos antes de insertarlos en base de datos.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Sanitiza los datos antes de insertarlos en base de datos.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $data Datos originales.
+    *
+    * @return array<string, mixed>
+    */
     protected static function sanitize_data( $data ) { // Método auxiliar para limpiar datos antes de persistirlos.
         $clean = array(); // Inicializa el arreglo donde se guardarán los valores sanitizados.
         $clean['form_id']       = isset( $data['form_id'] ) ? (int) $data['form_id'] : 0; // Convierte el identificador de formulario a entero.
@@ -919,12 +1151,18 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Sanitiza los datos destinados a la tabla de excepciones antes de persistirlos.
-     *
-     * @param array<string, mixed> $data Datos originales a validar.
-     *
-     * @return array<string, mixed>
-     */
+    * Sanitiza los datos destinados a la tabla de excepciones antes de persistirlos.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Sanitiza los datos destinados a la tabla de excepciones antes de persistirlos.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $data Datos originales a validar.
+    *
+    * @return array<string, mixed>
+    */
     protected static function sanitize_override_data( $data ) { // Método auxiliar que normaliza los datos de la tabla de excepciones.
         $clean = self::sanitize_data( $data ); // Reutiliza la lógica de sanitización general para los campos compartidos.
         $clean['post_id'] = isset( $data['post_id'] ) ? max( 0, (int) $data['post_id'] ) : 0; // Normaliza el identificador del post asociado a la excepción.
@@ -932,10 +1170,16 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Comprueba si existen columnas desfasadas y las actualiza para mantener el esquema consistente.
-     *
-     * @return void
-     */
+    * Comprueba si existen columnas desfasadas y las actualiza para mantener el esquema consistente.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Comprueba si existen columnas desfasadas y las actualiza para mantener el esquema consistente.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     protected static function maybe_upgrade_columns() { // Método protegido que garantiza la compatibilidad del esquema.
         global $wpdb; // Accede al objeto global de base de datos.
         self::resolve_table_names(); // Asegura que los nombres de las tablas estén disponibles sin disparar recursivamente la inicialización completa.
@@ -960,10 +1204,15 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
     }
 
     /**
-     * Ejecuta los scripts SQL incrementales para mantener el esquema actualizado.
-     *
-     * @return void
-     */
+    * Ejecuta los scripts SQL incrementales para mantener el esquema actualizado.
+    * Explicación:
+    * - Resume la tarea principal: Ejecuta los scripts SQL incrementales para mantener el esquema actualizado.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     protected static function run_migrations() { // Método protegido que recorre los scripts incrementales disponibles.
         global $wpdb; // Accede al objeto global de base de datos para ejecutar sentencias directas.
         self::resolve_table_names(); // Asegura que los nombres de las tablas estén actualizados respetando el prefijo activo.

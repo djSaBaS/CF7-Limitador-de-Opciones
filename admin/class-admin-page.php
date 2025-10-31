@@ -11,10 +11,15 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     const MENU_SLUG = 'cf7-option-limiter'; // Define el identificador del submenú dentro de Contact Form 7.
 
     /**
-     * Inicializa los hooks específicos para el panel de administración.
-     *
-     * @return void
-     */
+    * Configura los puntos de entrada del panel de administración del plugin.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Configura los puntos de entrada del panel de administración del plugin.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return void
+    */
     public static function init() { // Método principal de arranque para el área administrativa.
         add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) ); // Agrega la página al menú de Contact Form 7.
         add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) ); // Encola estilos y scripts cuando se visita la página.
@@ -27,10 +32,15 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Registra la página de submenú dentro de Contact Form 7.
-     *
-     * @return void
-     */
+    * Registra la pantalla del plugin como submenú del panel de Contact Form 7.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Registra la pantalla del plugin como submenú del panel de Contact Form 7.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return void
+    */
     public static function register_menu() { // Método que agrega la página al menú de Contact Form 7.
         add_submenu_page( // Llama a la función de WordPress que crea un submenú.
             'wpcf7', // Slug del menú padre perteneciente a Contact Form 7.
@@ -43,12 +53,17 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Encola los recursos necesarios únicamente en la pantalla del plugin.
-     *
-     * @param string $hook Identificador de la pantalla actual.
-     *
-     * @return void
-     */
+    * Encola los recursos necesarios únicamente en la pantalla del plugin.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Encola los recursos necesarios únicamente en la pantalla del plugin.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param string $hook Identificador de la pantalla actual.
+    *
+    * @return void
+    */
     public static function enqueue_assets( $hook ) {
         // Verifica que estamos en la página correspondiente al plugin antes de cargar los recursos.
         if ( strpos( $hook, self::MENU_SLUG ) === false ) {
@@ -69,11 +84,15 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
 
 
     /**
-     * Renderiza la interfaz principal de configuración de límites.
-     *
-     * @return void
-     */
-
+    * Renderiza la interfaz principal de configuración de límites.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Renderiza la interfaz principal de configuración de límites.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return void
+    */
     public static function render_page() { // Método encargado de generar el HTML de la página de ajustes.
         if ( ! current_user_can( 'manage_options' ) ) { // Comprueba permisos antes de mostrar contenido.
             wp_die( esc_html__( 'No tienes permisos suficientes para acceder a esta página.', 'cf7-option-limiter' ) ); // Muestra un mensaje de error si el usuario no tiene permisos.
@@ -87,6 +106,7 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
         $total_rules = CF7_OptionLimiter_DB::count_limits( $selected_form ); // Calcula el número total de reglas disponibles para construir la paginación.
         $total_pages = $per_page > 0 ? max( 1, (int) ceil( $total_rules / $per_page ) ) : 1; // Determina cuántas páginas son necesarias asegurando que exista al menos una.
         $notice = null; // Inicializa la variable que almacenará mensajes contextuales para el usuario.
+        $redirect_to = self::build_redirect_with_context( $_GET ); // Calcula la URL de retorno preservando filtros y paginación.
         $debug_enabled = CF7_OptionLimiter_Logger::is_debug_enabled(); // Recupera el estado actual del modo de depuración persistente.
         $log_lines = CF7_OptionLimiter_Logger::get_recent_lines( 120 ); // Obtiene las últimas líneas del log para mostrarlas en la interfaz.
         $log_error = CF7_OptionLimiter_Logger::get_last_error(); // Recupera un posible mensaje de error al preparar el archivo de log.
@@ -197,22 +217,23 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
                                             ),
                                             admin_url( 'admin.php' ) // Base del área de administración de WordPress.
                                         );
+                                        $edit_label = esc_attr__( 'Editar límite en el formulario de Contact Form 7', 'cf7-option-limiter' ); // Traduce el texto descriptivo del icono de edición.
                                         ?>
-                                        <a class="button button-primary" href="<?php echo esc_url( $edit_url ); ?>"><?php echo esc_html__( 'Editar en el formulario', 'cf7-option-limiter' ); ?></a> <!-- Enlace que redirige al editor de Contact Form 7 con los datos listos para editar. -->
-                                        <?php $can_release_slot = (int) $rule['current_count'] > 0; // Calcula si el contador permite liberar un uso para habilitar el botón correspondiente. ?>
-                                        <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="cf7-option-limiter-inline-form"> <!-- Formulario que libera un uso restando una unidad al contador. -->
-                                            <?php wp_nonce_field( 'cf7_option_limiter_release', 'cf7_option_limiter_release_nonce' ); ?> <!-- Nonce de seguridad que protege la operación de liberación frente a peticiones no autorizadas. -->
-                                            <input type="hidden" name="action" value="cf7_option_limiter_release" /> <!-- Acción admin-post que identifica el manejador responsable de restar el contador. -->
-                                            <input type="hidden" name="rule_id" value="<?php echo esc_attr( $rule['id'] ); ?>" /> <!-- Identificador de la regla cuyo contador se ajustará. -->
-                                            <input type="hidden" name="redirect_to" value="<?php echo esc_url( add_query_arg( array( 'page' => self::MENU_SLUG ), admin_url( 'admin.php' ) ) ); ?>" /> <!-- Redirección de retorno tras completar la liberación. -->
-                                            <button type="submit" class="button" <?php disabled( ! $can_release_slot ); ?>><?php echo esc_html__( 'Liberar un uso', 'cf7-option-limiter' ); ?></button> <!-- Botón que ejecuta el decremento del contador, deshabilitado cuando ya está en cero. -->
-                                        </form>
+                                        <a class="button cf7-option-limiter-action-button" href="<?php echo esc_url( $edit_url ); ?>" title="<?php echo $edit_label; ?>" aria-label="<?php echo $edit_label; ?>"> <!-- Enlace icónico que abre la regla en el editor original. -->
+                                            <span class="dashicons dashicons-edit"></span> <!-- Icono visual de edición proporcionado por Dashicons. -->
+                                            <span class="screen-reader-text"><?php echo esc_html( $edit_label ); ?></span> <!-- Texto descriptivo exclusivo para lector de pantalla. -->
+                                        </a>
+                                        <?php echo self::render_release_form( $rule, $redirect_to ); // Inserta el formulario encapsulado que libera manualmente un uso manteniendo el mismo formato en todas las filas. ?>
                                         <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="cf7-option-limiter-inline-form"> <!-- Formulario para eliminar la regla. -->
                                             <?php wp_nonce_field( 'cf7_option_limiter_delete', 'cf7_option_limiter_delete_nonce' ); ?> <!-- Nonce de seguridad para el borrado. -->
                                             <input type="hidden" name="action" value="cf7_option_limiter_delete" /> <!-- Acción admin-post correspondiente. -->
                                             <input type="hidden" name="rule_id" value="<?php echo esc_attr( $rule['id'] ); ?>" /> <!-- Identificador de la regla a eliminar. -->
-                                            <input type="hidden" name="redirect_to" value="<?php echo esc_url( add_query_arg( array( 'page' => self::MENU_SLUG ), admin_url( 'admin.php' ) ) ); ?>" /> <!-- Redirección de retorno tras eliminar la regla. -->
-                                            <button type="submit" class="button button-secondary" onclick="return confirm('<?php echo esc_js( __( '¿Seguro que deseas eliminar esta regla?', 'cf7-option-limiter' ) ); ?>');"><?php echo esc_html__( 'Eliminar', 'cf7-option-limiter' ); ?></button> <!-- Botón de eliminación con confirmación. -->
+                                            <input type="hidden" name="redirect_to" value="<?php echo esc_url( $redirect_to ); ?>" /> <!-- Redirección de retorno tras eliminar la regla conservando filtros. -->
+                                            <?php $delete_label = esc_attr__( 'Eliminar definitivamente esta regla', 'cf7-option-limiter' ); // Traduce la descripción del botón de borrado para utilizarla en atributos accesibles. ?>
+                                            <button type="submit" class="button button-secondary cf7-option-limiter-action-button" title="<?php echo $delete_label; ?>" aria-label="<?php echo $delete_label; ?>" onclick="return confirm('<?php echo esc_js( __( '¿Seguro que deseas eliminar esta regla?', 'cf7-option-limiter' ) ); ?>');"> <!-- Botón que inicia la eliminación tras confirmación. -->
+                                                <span class="dashicons dashicons-trash"></span> <!-- Icono de papelera que identifica la acción destructiva. -->
+                                                <span class="screen-reader-text"><?php echo esc_html( $delete_label ); ?></span> <!-- Texto accesible que describe la acción al lector de pantalla. -->
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -281,10 +302,91 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Maneja el guardado de una regla proveniente del formulario.
-     *
-     * @return void
-     */
+    * Construye la URL de retorno para los formularios internos preservando filtros y paginación.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Construye la URL de retorno para los formularios internos preservando filtros y paginación.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $request Conjunto de parámetros procedentes de la petición actual.
+    *
+    * @return string
+    */
+    protected static function build_redirect_with_context( $request ) { // Método auxiliar que calcula la URL de retorno contextualizada.
+        $base_url = admin_url( 'admin.php' ); // Obtiene la base del área de administración sobre la que se añadirán los parámetros.
+        $redirect_args = array( 'page' => self::MENU_SLUG ); // Inicializa los argumentos obligatorios incluyendo el slug de la página del plugin.
+        if ( isset( $request['form_filter'] ) ) { // Comprueba si la petición incluye un filtro por formulario.
+            $raw_filter = wp_unslash( $request['form_filter'] ); // Extrae el valor permitiendo eliminar barras añadidas por WordPress.
+            $form_filter = (int) $raw_filter; // Convierte el filtro en entero para garantizar un valor seguro.
+            if ( $form_filter > 0 ) { // Verifica que el filtro represente un formulario específico distinto del estado por defecto.
+                $redirect_args['form_filter'] = $form_filter; // Añade el filtro al conjunto de argumentos a preservar.
+            }
+        }
+        if ( isset( $request['ol_page'] ) ) { // Comprueba si la petición especifica una página concreta dentro del listado.
+            $raw_page = wp_unslash( $request['ol_page'] ); // Extrae el valor original de la petición.
+            $page_number = (int) $raw_page; // Convierte el valor en entero para evitar inyecciones de parámetros no numéricos.
+            if ( $page_number > 1 ) { // Evita añadir la página inicial para mantener URLs limpias cuando no es necesario.
+                $redirect_args['ol_page'] = $page_number; // Preserva la página actual cuando el usuario navega por páginas posteriores.
+            }
+        }
+        return add_query_arg( $redirect_args, $base_url ); // Devuelve la URL final combinando los argumentos con la base administrativa.
+    }
+
+    /**
+    * Genera el formulario en línea encargado de liberar un uso manualmente.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Genera el formulario en línea encargado de liberar un uso manualmente.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param array<string, mixed> $rule Registro de la regla actual que se está renderizando en la tabla.
+    * @param string               $redirect_to URL a la que debe regresar la interfaz tras procesar la liberación.
+    *
+    * @return string
+    */
+    protected static function render_release_form( $rule, $redirect_to ) { // Método auxiliar que encapsula la construcción del formulario de liberación.
+        $rule_id = isset( $rule['id'] ) ? (int) $rule['id'] : 0; // Asegura que el identificador de la regla sea un entero válido antes de imprimirlo.
+        $current_count = isset( $rule['current_count'] ) ? (int) $rule['current_count'] : 0; // Normaliza el contador actual para evaluar si queda algún uso liberable.
+        $can_release = $current_count > 0; // Determina si existe al menos un uso disponible para habilitar el control.
+        $action_url = esc_url( admin_url( 'admin-post.php' ) ); // Calcula la URL segura hacia admin-post donde se procesará la petición.
+        $redirect_url = esc_url( $redirect_to ); // Normaliza la URL de retorno preservando el contexto del filtro.
+        $nonce_field = wp_nonce_field( 'cf7_option_limiter_release', 'cf7_option_limiter_release_nonce', true, false ); // Genera el campo nonce como cadena para insertarlo manualmente dentro del formulario.
+        if ( ! is_string( $nonce_field ) ) { // Comprueba que el nonce generado sea una cadena antes de añadirlo al marcado.
+            $nonce_field = ''; // Evita avisos cuando el entorno de pruebas devuelve valores no textuales.
+        }
+        $release_label = esc_attr__( 'Liberar un uso reservado manualmente', 'cf7-option-limiter' ); // Traduce el texto descriptivo que se mostrará como tooltip y etiqueta accesible.
+        $button_classes = 'button button-secondary cf7-option-limiter-action-button'; // Agrupa las clases que unifican el estilo con el resto de acciones de la tabla.
+        if ( ! $can_release ) { // Comprueba si el contador está agotado para reflejarlo visualmente.
+            $button_classes .= ' cf7-option-limiter-action-button--disabled'; // Añade una clase auxiliar que permitirá matizar el estilo en estado inactivo.
+        }
+        $disabled_attribute = $can_release ? '' : ' disabled="disabled" aria-disabled="true"'; // Calcula el atributo disabled sólo cuando no es posible liberar usos.
+        $form  = '<form method="post" action="' . $action_url . '" class="cf7-option-limiter-inline-form"> <!-- Formulario que libera un uso restando una unidad al contador. -->'; // Abre el formulario en línea reutilizando la clase existente y conserva el comentario descriptivo original.
+        $form .= $nonce_field; // Inserta el nonce generado para proteger la operación frente a peticiones manipuladas.
+        $form .= '<input type="hidden" name="action" value="cf7_option_limiter_release" /> <!-- Acción admin-post que identifica el manejador responsable de restar el contador. -->'; // Añade la acción que WordPress utilizará para despachar la solicitud.
+        $form .= '<input type="hidden" name="rule_id" value="' . esc_attr( (string) $rule_id ) . '" /> <!-- Identificador de la regla cuyo contador se ajustará. -->'; // Inserta el identificador de la regla asegurando su escape en el atributo.
+        $form .= '<input type="hidden" name="redirect_to" value="' . $redirect_url . '" /> <!-- Redirección de retorno tras completar la liberación conservando filtros. -->'; // Mantiene la URL de retorno para preservar el contexto tras la operación.
+        $form .= '<button type="submit" class="' . esc_attr( $button_classes ) . '" title="' . $release_label . '" aria-label="' . $release_label . '"' . $disabled_attribute . '>'; // Configura el botón icónico incluyendo los atributos accesibles y el estado habilitado.
+        $form .= '<span class="dashicons dashicons-unlock"></span>'; // Inserta el icono de desbloqueo que representa la liberación de plazas.
+        $form .= '<span class="screen-reader-text">' . esc_html( $release_label ) . '</span>'; // Añade texto sólo para lectores de pantalla con la misma descripción del tooltip.
+        $form .= '</button>'; // Cierra el botón de envío del formulario en línea.
+        $form .= '</form>'; // Cierra el formulario en línea para completar el bloque de acciones.
+        return $form; // Devuelve el marcado construido para que pueda insertarse en la tabla.
+    }
+
+    /**
+    * Maneja el guardado de una regla proveniente del formulario.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Maneja el guardado de una regla proveniente del formulario.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function handle_save() { // Método que procesa la creación o actualización de una regla.
         if ( ! current_user_can( 'manage_options' ) ) { // Comprueba permisos de usuario.
             wp_die( esc_html__( 'Permisos insuficientes.', 'cf7-option-limiter' ) ); // Muestra error si no tiene permisos.
@@ -309,10 +411,16 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Gestiona el guardado mediante peticiones AJAX autenticadas.
-     *
-     * @return void
-     */
+    * Gestiona el guardado mediante peticiones AJAX autenticadas.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Gestiona el guardado mediante peticiones AJAX autenticadas.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function ajax_save_rule() { // Método que procesa las peticiones AJAX para guardar reglas sin recargar la página.
         if ( ! current_user_can( 'manage_options' ) ) { // Comprueba que la persona usuaria tenga permisos de administración.
             wp_send_json_error( array( 'message' => __( 'No tienes permisos suficientes para guardar límites.', 'cf7-option-limiter' ) ), 403 ); // Devuelve un error JSON con código 403 indicando la falta de permisos.
@@ -336,12 +444,18 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Extrae y normaliza los parámetros provenientes de una petición de guardado.
-     *
-     * @param array<string, mixed> $request Datos brutos recibidos desde el formulario o desde AJAX.
-     *
-     * @return array<string, mixed>
-     */
+    * Extrae y normaliza los parámetros provenientes de una petición de guardado.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Extrae y normaliza los parámetros provenientes de una petición de guardado.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $request Datos brutos recibidos desde el formulario o desde AJAX.
+    *
+    * @return array<string, mixed>
+    */
     protected static function collect_save_params_from_request( $request ) { // Método auxiliar que centraliza la normalización de parámetros de guardado.
         $form_id = isset( $request['form_id'] ) ? (int) $request['form_id'] : 0; // Convierte el identificador del formulario a entero evitando valores inesperados.
         $field_name = isset( $request['field_name'] ) ? sanitize_text_field( wp_unslash( $request['field_name'] ) ) : ''; // Sanitiza el nombre del campo seleccionado.
@@ -372,12 +486,18 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Ejecuta la lógica de validación y persistencia reutilizada por admin-post y AJAX.
-     *
-     * @param array<string, mixed> $params Parámetros normalizados devueltos por collect_save_params_from_request().
-     *
-     * @return array<string, mixed>|WP_Error
-     */
+    * Ejecuta la lógica de validación y persistencia reutilizada por admin-post y AJAX.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Ejecuta la lógica de validación y persistencia reutilizada por admin-post y AJAX.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<string, mixed> $params Parámetros normalizados devueltos por collect_save_params_from_request().
+    *
+    * @return array<string, mixed>|WP_Error
+    */
     protected static function process_save_operation( $params ) { // Método centralizado que valida y guarda la regla devolviendo un resultado homogéneo.
         $form_id = isset( $params['form_id'] ) ? (int) $params['form_id'] : 0; // Recupera el identificador del formulario objetivo garantizando un entero.
         $field_name = isset( $params['field_name'] ) ? (string) $params['field_name'] : ''; // Recupera el nombre del campo seleccionado.
@@ -460,10 +580,16 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Gestiona la liberación manual de un uso cuando un administrador lo solicita.
-     *
-     * @return void
-     */
+    * Gestiona la liberación manual de un uso cuando un administrador lo solicita.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Gestiona la liberación manual de un uso cuando un administrador lo solicita.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function handle_release() { // Método que decrementa el contador almacenado para una regla específica.
         if ( ! current_user_can( 'manage_options' ) ) { // Comprueba que el usuario tenga permisos para modificar la configuración.
             wp_die( esc_html__( 'Permisos insuficientes.', 'cf7-option-limiter' ) ); // Detiene la ejecución mostrando un mensaje seguro cuando falta la capacidad requerida.
@@ -503,10 +629,16 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Maneja la eliminación de una regla específica.
-     *
-     * @return void
-     */
+    * Maneja la eliminación de una regla específica.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Maneja la eliminación de una regla específica.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function handle_delete() { // Método que elimina una regla existente.
         if ( ! current_user_can( 'manage_options' ) ) { // Verifica permisos de administración.
             wp_die( esc_html__( 'Permisos insuficientes.', 'cf7-option-limiter' ) ); // Detiene la ejecución si no tiene permisos.
@@ -532,10 +664,16 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Gestiona el formulario que activa o desactiva el modo de depuración persistente.
-     *
-     * @return void
-     */
+    * Gestiona el formulario que activa o desactiva el modo de depuración persistente.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Gestiona el formulario que activa o desactiva el modo de depuración persistente.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function handle_toggle_debug() { // Método público que alterna el modo depuración del plugin.
         if ( ! current_user_can( 'manage_options' ) ) { // Verifica que el usuario tenga permisos suficientes.
             wp_die( esc_html__( 'Permisos insuficientes.', 'cf7-option-limiter' ) ); // Detiene la ejecución si el usuario no puede gestionar ajustes.
@@ -550,10 +688,16 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Devuelve la lista de formularios de Contact Form 7 disponibles.
-     *
-     * @return array<int, array<string, mixed>>
-     */
+    * Devuelve la lista de formularios de Contact Form 7 disponibles.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve la lista de formularios de Contact Form 7 disponibles.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return array<int, array<string, mixed>>
+    */
     protected static function get_forms() { // Método auxiliar para obtener los formularios disponibles.
         $forms = array(); // Inicializa el listado de formularios que se devolverá al final.
         if ( function_exists( 'wpcf7_contact_forms' ) ) { // Comprueba si Contact Form 7 expone su función principal para listar formularios.
@@ -592,15 +736,27 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Devuelve la configuración localizada utilizada por el script administrativo.
-     *
-     * @return array<string, mixed>
-     */
+    * Devuelve la configuración localizada utilizada por el script administrativo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve la configuración localizada utilizada por el script administrativo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return array<string, mixed>
+    */
 
     public static function get_localization_data() { // Método público que expone los textos y parámetros utilizados por el script JS.
         return array( // Devuelve el arreglo completo de configuración.
-            'ajaxUrl' => admin_url( 'admin-ajax.php' ), // URL para las peticiones AJAX.
-            'nonce'   => wp_create_nonce( 'cf7_option_limiter_ajax' ), // Nonce de seguridad para validar peticiones.
+            'ajaxUrl'       => admin_url( 'admin-ajax.php' ), // URL para las peticiones AJAX.
+            'adminPostUrl'  => admin_url( 'admin-post.php' ), // URL base que se reutiliza al construir formularios ocultos dinámicos.
+            'nonce'         => wp_create_nonce( 'cf7_option_limiter_ajax' ), // Nonce de seguridad para validar peticiones.
+            'embeddedNonces' => array( // Colección de nonces que permiten recrear los formularios ocultos cuando no se imprimen desde PHP.
+                'save'    => wp_create_nonce( 'cf7_option_limiter_save' ), // Nonce empleado por el flujo de guardado tradicional.
+                'delete'  => wp_create_nonce( 'cf7_option_limiter_delete' ), // Nonce empleado por el flujo de eliminación tradicional.
+                'release' => wp_create_nonce( 'cf7_option_limiter_release' ), // Nonce empleado por el flujo de liberación tradicional.
+            ),
             'i18n'    => array( // Textos traducibles utilizados en la interfaz JS.
                 'loading'      => __( 'Cargando campos...', 'cf7-option-limiter' ), // Texto mostrado mientras se cargan campos.
                 'noFields'     => __( 'No se detectaron campos compatibles en este formulario.', 'cf7-option-limiter' ), // Mensaje cuando no hay campos disponibles.
@@ -609,10 +765,16 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
                 'optionManual' => __( 'Selecciona una opción del desplegable asociado al campo elegido.', 'cf7-option-limiter' ), // Indicación para elegir valores detectados automáticamente.
                 'selectField'  => __( 'Selecciona un campo para ver sus opciones disponibles.', 'cf7-option-limiter' ), // Mensaje que recuerda seleccionar primero el campo.
                 'noOptions'    => __( 'No se detectaron opciones en el formulario para este campo.', 'cf7-option-limiter' ), // Mensaje cuando no se detectan valores compatibles para un campo.
+                'missingFieldLabel'   => __( '%s (campo eliminado)', 'cf7-option-limiter' ), // Etiqueta temporal que muestra claramente que el campo ya no existe.
+                'missingFieldStatus'  => __( 'El campo original ya no está disponible en el formulario. Selecciona otro campo o elimina la regla.', 'cf7-option-limiter' ), // Mensaje contextual que advierte de la ausencia del campo.
+                'missingFieldNotice'  => __( 'La regla hace referencia a un campo que ya no está en el formulario. Revisa la configuración antes de guardarla.', 'cf7-option-limiter' ), // Aviso detallado mostrado en el panel cuando falta el campo.
+                'missingOptionLabel'  => __( '%s (opción eliminada)', 'cf7-option-limiter' ), // Etiqueta temporal utilizada cuando una opción dejó de existir.
+                'missingOptionStatus' => __( 'La opción original ya no está disponible en el formulario. Selecciona otra opción antes de guardar la regla.', 'cf7-option-limiter' ), // Mensaje contextual para el selector de opciones.
+                'missingOptionNotice' => __( 'La regla apunta a una opción que ya no existe en el formulario. Ajusta el valor o elimina la regla para evitar inconsistencias.', 'cf7-option-limiter' ), // Aviso extendido que anima a corregir la regla cuando falta la opción.
                 'errorLoading' => __( 'No se pudieron cargar los campos automáticamente. Revisa el formulario y vuelve a intentarlo.', 'cf7-option-limiter' ), // Mensaje mostrado cuando la petición AJAX falla.
                 'saveLabel'    => __( 'Guardar límite', 'cf7-option-limiter' ), // Etiqueta utilizada por el botón de guardado.
                 'updateLabel'  => __( 'Actualizar límite', 'cf7-option-limiter' ), // Etiqueta utilizada cuando se edita una regla existente.
-                'deleteConfirm' => __( '¿Seguro que deseas eliminar esta regla?', 'cf7-option-limiter' ), // Mensaje de confirmación reutilizado en los botones de borrado.
+                'deleteConfirm' => __( '¿Seguro que deseas eliminar esta regla? Recuerda guardar el formulario principal para aplicar los cambios.', 'cf7-option-limiter' ), // Mensaje de confirmación reutilizado en los botones de borrado e incluye una advertencia sobre guardar el formulario principal.
                 'saving'       => __( 'Guardando…', 'cf7-option-limiter' ), // Texto mostrado mientras la interfaz espera la respuesta AJAX.
                 'saveSuccess'  => __( 'El límite se guardó correctamente.', 'cf7-option-limiter' ), // Mensaje general de confirmación tras un guardado satisfactorio.
                 'ajaxValidationError' => __( 'No se pudo guardar el límite porque faltan datos o existe un conflicto.', 'cf7-option-limiter' ), // Mensaje mostrado cuando el servidor rechaza la petición AJAX por validación.
@@ -626,12 +788,18 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Obtiene el identificador de un formulario sin importar si llega como objeto de Contact Form 7 o como post estándar.
-     *
-     * @param mixed $form Instancia del formulario recuperado.
-     *
-     * @return int
-     */
+    * Obtiene el identificador de un formulario sin importar si llega como objeto de Contact Form 7 o como post estándar.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Obtiene el identificador de un formulario sin importar si llega como objeto de Contact Form 7 o como post estándar.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param mixed $form Instancia del formulario recuperado.
+    *
+    * @return int
+    */
     protected static function resolve_form_id( $form ) { // Método auxiliar que intenta extraer el ID del formulario en distintos formatos.
         if ( is_object( $form ) && method_exists( $form, 'id' ) ) { // Comprueba si el formulario es un objeto con método id() típico de Contact Form 7.
             return (int) $form->id(); // Devuelve el identificador convertido a entero.
@@ -646,12 +814,18 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Obtiene el título de un formulario asegurando un texto legible en todos los escenarios soportados.
-     *
-     * @param mixed $form Instancia del formulario recuperado.
-     *
-     * @return string
-     */
+    * Obtiene el título de un formulario asegurando un texto legible en todos los escenarios soportados.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Obtiene el título de un formulario asegurando un texto legible en todos los escenarios soportados.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param mixed $form Instancia del formulario recuperado.
+    *
+    * @return string
+    */
     protected static function resolve_form_title( $form ) { // Método auxiliar que devuelve el título del formulario según el tipo de dato recibido.
         if ( is_object( $form ) && method_exists( $form, 'title' ) ) { // Comprueba si existe el método title() típico de Contact Form 7.
             return (string) $form->title(); // Devuelve el resultado del método como cadena.
@@ -667,13 +841,19 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Devuelve el título de un formulario usando la lista preparada o el ID en caso de no encontrarlo.
-     *
-     * @param int   $form_id Identificador del formulario.
-     * @param array $forms   Lista de formularios disponibles.
-     *
-     * @return string
-     */
+    * Devuelve el título de un formulario usando la lista preparada o el ID en caso de no encontrarlo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Devuelve el título de un formulario usando la lista preparada o el ID en caso de no encontrarlo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param int   $form_id Identificador del formulario.
+    * @param array $forms   Lista de formularios disponibles.
+    *
+    * @return string
+    */
     protected static function get_form_title( $form_id, $forms ) { // Método auxiliar para obtener el título de un formulario.
         foreach ( $forms as $form ) { // Recorre la lista de formularios proporcionada.
             if ( (int) $form['id'] === (int) $form_id ) { // Comprueba si coincide el ID buscado.
@@ -684,12 +864,18 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Traduce el identificador del periodo a una etiqueta legible para el usuario.
-     *
-     * @param string $period Identificador del periodo (none, hour, day, week).
-     *
-     * @return string
-     */
+    * Traduce el identificador del periodo a una etiqueta legible para el usuario.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Traduce el identificador del periodo a una etiqueta legible para el usuario.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string $period Identificador del periodo (none, hour, day, week).
+    *
+    * @return string
+    */
     public static function get_period_label( $period ) { // Método auxiliar que convierte el periodo en texto.
         switch ( $period ) { // Evalúa cada valor posible del periodo.
             case 'hour': // Cuando el periodo es por hora.
@@ -704,10 +890,16 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Maneja la petición AJAX que analiza un formulario y devuelve sus campos limitables.
-     *
-     * @return void
-     */
+    * Maneja la petición AJAX que analiza un formulario y devuelve sus campos limitables.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Maneja la petición AJAX que analiza un formulario y devuelve sus campos limitables.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function ajax_scan_form() { // Método que responde a las peticiones AJAX desde la interfaz administrativa.
         check_ajax_referer( 'cf7_option_limiter_ajax', 'nonce' ); // Valida el nonce para la petición AJAX.
         if ( ! current_user_can( 'manage_options' ) ) { // Verifica los permisos de usuario.
@@ -734,12 +926,18 @@ class CF7_OptionLimiter_Admin { // Declara la clase encargada del área de admin
     }
 
     /**
-     * Normaliza una etiqueta de Contact Form 7 para obtener nombre y opciones independientemente del formato recibido.
-     *
-     * @param mixed $tag Etiqueta devuelta por Contact Form 7 que puede ser objeto o arreglo.
-     *
-     * @return array<string, mixed>|null
-     */
+    * Normaliza una etiqueta de Contact Form 7 para obtener nombre y opciones independientemente del formato recibido.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Normaliza una etiqueta de Contact Form 7 para obtener nombre y opciones independientemente del formato recibido.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param mixed $tag Etiqueta devuelta por Contact Form 7 que puede ser objeto o arreglo.
+    *
+    * @return array<string, mixed>|null
+    */
     protected static function normalize_tag( $tag ) { // Método auxiliar que transforma la etiqueta en un formato uniforme.
         $base_type = ''; // Inicializa la variable que almacenará el tipo base de campo (select, radio o checkbox).
         $field_name = ''; // Inicializa la variable para el nombre del campo.

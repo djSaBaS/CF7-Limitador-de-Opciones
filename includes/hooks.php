@@ -14,10 +14,16 @@ class CF7_OptionLimiter_Hooks { // Define la clase que gestionará los hooks glo
     protected static $admin_assets_registered = false; // Propiedad que evita registrar estilos y scripts múltiples veces.
 
     /**
-     * Inicializa los hooks necesarios para dependencias y reseteos periódicos.
-     *
-     * @return void
-     */
+    * Inicializa los hooks necesarios para dependencias y reseteos periódicos.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Inicializa los hooks necesarios para dependencias y reseteos periódicos.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function init() { // Método estático de arranque.
         add_action( 'init', array( __CLASS__, 'maybe_reset_limits' ), 8 ); // Programa el reseteo de límites en cada carga pública.
         add_action( 'admin_init', array( __CLASS__, 'maybe_reset_limits' ), 8 ); // Asegura el reseteo también en el área de administración.
@@ -30,19 +36,31 @@ class CF7_OptionLimiter_Hooks { // Define la clase que gestionará los hooks glo
     }
 
     /**
-     * Resetea los contadores cuando corresponda según la política establecida.
-     *
-     * @return void
-     */
+    * Resetea los contadores cuando corresponda según la política establecida.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Resetea los contadores cuando corresponda según la política establecida.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function maybe_reset_limits() { // Método que invoca el gestor de base de datos para resetear límites.
         CF7_OptionLimiter_DB::reset_periods(); // Utiliza el gestor de base de datos para recalcular los contadores caducados.
     }
 
     /**
-     * Imprime un aviso si Contact Form 7 no está activo.
-     *
-     * @return void
-     */
+    * Imprime un aviso si Contact Form 7 no está activo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Imprime un aviso si Contact Form 7 no está activo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function print_dependency_notice() { // Método encargado de mostrar avisos en el escritorio.
         if ( self::$notice_printed ) { // Comprueba si ya se imprimió el aviso para no repetirlo.
             return; // Finaliza anticipadamente si el aviso ya ha sido mostrado.
@@ -71,12 +89,18 @@ class CF7_OptionLimiter_Hooks { // Define la clase que gestionará los hooks glo
     }
 
     /**
-     * Encola recursos compartidos utilizados por varios componentes en la administración.
-     *
-     * @param string $hook Identificador del hook actual de admin enqueue.
-     *
-     * @return void
-     */
+    * Encola recursos compartidos utilizados por varios componentes en la administración.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Encola recursos compartidos utilizados por varios componentes en la administración.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string $hook Identificador del hook actual de admin enqueue.
+    *
+    * @return void
+    */
     public static function enqueue_shared_admin_assets( $hook ) { // Método para encolar estilos y scripts compartidos.
         if ( ! self::$admin_assets_registered ) { // Comprueba si los recursos ya se registraron.
             wp_register_style( // Registra la hoja de estilos administrativa.
@@ -92,6 +116,22 @@ class CF7_OptionLimiter_Hooks { // Define la clase que gestionará los hooks glo
                 array( 'jquery' ), // Declara jQuery como dependencia para asegurar su carga previa.
                 CF7_OPTION_LIMITER_VERSION, // Utiliza la versión del plugin para sincronizar el cache busting.
                 true // Indica que el script debe cargarse al final del documento.
+            );
+
+            wp_register_script( // Registra el script dedicado a los toggles del metabox de redirección.
+                'cf7-option-limiter-redirect-toggles', // Identificador único del script de toggles.
+                CF7_OPTION_LIMITER_URL . 'assets/index.js', // URL del archivo JavaScript que resuelve los selectores declarados en data-toggle.
+                array(), // No requiere dependencias adicionales al utilizar JavaScript nativo.
+                CF7_OPTION_LIMITER_VERSION, // Alinea la versión del recurso con la constante global para el control de caché.
+                true // Solicita cargar el script en el pie para evitar bloquear la renderización inicial del editor.
+            );
+
+            wp_register_script( // Registra el script que prepara la pestaña de encuestas de forma segura.
+                'cf7-option-limiter-survey-tab', // Identificador único del script de la pestaña de encuestas.
+                CF7_OPTION_LIMITER_URL . 'assets/survey.js', // URL del archivo JavaScript que encapsula la preparación de la pestaña.
+                array(), // No necesita dependencias porque sólo utiliza la API nativa del DOM.
+                CF7_OPTION_LIMITER_VERSION, // Mantiene sincronizada la versión del recurso para invalidar la caché tras los despliegues.
+                true // Solicita cargar el script en el pie de página junto al resto de assets administrativos.
             );
 
             self::$admin_assets_registered = true; // Marca que los recursos ya han sido registrados en esta petición.
@@ -123,13 +163,22 @@ class CF7_OptionLimiter_Hooks { // Define la clase que gestionará los hooks glo
         if ( strpos( $hook, 'wpcf7' ) === false ) { // Comprueba si estamos en pantallas relevantes para Contact Form 7.
             return; // Sale si no se trata de las pantallas soportadas.
         }
+
+        wp_enqueue_script( 'cf7-option-limiter-redirect-toggles' ); // Encola el script que corrige los selectores y aplica los toggles del metabox.
+        wp_enqueue_script( 'cf7-option-limiter-survey-tab' ); // Encola el script que protege la pestaña de encuestas ante elementos ausentes.
     }
 
     /**
-     * Captura la preferencia del usuario respecto a eliminar o conservar los datos durante la desactivación.
-     *
-     * @return void
-     */
+    * Captura la preferencia del usuario respecto a eliminar o conservar los datos durante la desactivación.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Captura la preferencia del usuario respecto a eliminar o conservar los datos durante la desactivación.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @return void
+    */
     public static function capture_cleanup_preference() { // Método que almacena temporalmente la preferencia de limpieza.
         if ( ! is_admin() ) { // Comprueba que la ejecución ocurra en el administrador.
             return; // Finaliza si la petición no pertenece al área administrativa.
@@ -174,14 +223,20 @@ class CF7_OptionLimiter_Hooks { // Define la clase que gestionará los hooks glo
     }
 
     /**
-     * Determina la acción de nonce que debe verificarse según el contexto de la petición.
-     *
-     * @param string $action          Acción solicitada en la pantalla de plugins.
-     * @param string $primary_target  Plugin recibido en la petición individual.
-     * @param bool   $is_bulk_action  Indicador de que la petición procesa múltiples elementos.
-     *
-     * @return string
-     */
+    * Determina la acción de nonce que debe verificarse según el contexto de la petición.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Determina la acción de nonce que debe verificarse según el contexto de la petición.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param string $action          Acción solicitada en la pantalla de plugins.
+    * @param string $primary_target  Plugin recibido en la petición individual.
+    * @param bool   $is_bulk_action  Indicador de que la petición procesa múltiples elementos.
+    *
+    * @return string
+    */
     protected static function determine_cleanup_nonce_action( $action, $primary_target, $is_bulk_action ) { // Método auxiliar que identifica la acción de nonce a validar.
         if ( 'deactivate' === $action && $primary_target ) { // Comprueba si se trata de una desactivación individual.
             return 'deactivate-plugin_' . $primary_target; // Devuelve la acción específica utilizada por WordPress para validar la desactivación individual.
@@ -201,25 +256,37 @@ class CF7_OptionLimiter_Hooks { // Define la clase que gestionará los hooks glo
     }
 
     /**
-     * Añade un enlace directo a la documentación dentro de la fila del plugin.
-     *
-     * @param array<int, string> $links  Conjunto de enlaces actuales.
-     *
-     * @return array<int, string>
-     */
+    * Añade un enlace directo a la documentación dentro de la fila del plugin.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Añade un enlace directo a la documentación dentro de la fila del plugin.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<int, string> $links  Conjunto de enlaces actuales.
+    *
+    * @return array<int, string>
+    */
     public static function add_plugin_action_links( $links ) { // Método que añade enlaces personalizados a la fila del plugin.
         $links[] = '<a href="' . esc_url( CF7_OptionLimiter_Docs::get_page_url() ) . '">' . esc_html__( 'Documentos y preguntas frecuentes', 'cf7-option-limiter' ) . '</a>'; // Inserta el enlace hacia la documentación interna.
         return $links; // Devuelve el arreglo con el nuevo enlace incluido.
     }
 
     /**
-     * Añade enlaces adicionales en la sección de metadatos situada bajo la descripción del plugin.
-     *
-     * @param array<int, string> $links Conjunto de enlaces actuales.
-     * @param string             $file  Identificador del plugin al que pertenecen los enlaces.
-     *
-     * @return array<int, string>
-     */
+    * Añade enlaces adicionales en la sección de metadatos situada bajo la descripción del plugin.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Añade enlaces adicionales en la sección de metadatos situada bajo la descripción del plugin.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * @param array<int, string> $links Conjunto de enlaces actuales.
+    * @param string             $file  Identificador del plugin al que pertenecen los enlaces.
+    *
+    * @return array<int, string>
+    */
     public static function add_plugin_row_meta( $links, $file ) { // Método que extiende los metadatos de la fila del plugin.
         if ( CF7_OPTION_LIMITER_BASENAME !== $file ) { // Comprueba si la fila corresponde a nuestro plugin.
             return $links; // Devuelve los enlaces sin modificar cuando se trata de otro plugin.

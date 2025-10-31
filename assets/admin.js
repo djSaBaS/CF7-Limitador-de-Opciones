@@ -18,19 +18,25 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
     var $originalFieldInput = $( '#cf7-ol-original-field-name' ); // Referencia al campo oculto que conserva el nombre original del campo.
     var $originalOptionInput = $( '#cf7-ol-original-option-value' ); // Referencia al campo oculto que conserva la opción original.
     var $redirectInput = $( '#cf7-ol-redirect' ); // Referencia al campo oculto que almacena la URL de retorno tras guardar.
-    var $embeddedForm = $( '#cf7-option-limiter-embedded-form' ); // Referencia al formulario oculto que se enviará programáticamente.
-    var $hiddenFormId = $( '#cf7-ol-hidden-form-id' ); // Referencia al campo oculto definitivo que recibirá el identificador del formulario antes del envío.
-    var $hiddenFieldName = $( '#cf7-ol-hidden-field-name' ); // Referencia al campo oculto definitivo que recibirá el nombre del campo seleccionado.
-    var $hiddenOptionValue = $( '#cf7-ol-hidden-option-value' ); // Referencia al campo oculto definitivo que conservará el valor específico elegido.
-    var $hiddenMaxCount = $( '#cf7-ol-hidden-max-count' ); // Referencia al campo oculto definitivo que almacenará el máximo permitido.
-    var $hiddenLimitPeriod = $( '#cf7-ol-hidden-limit-period' ); // Referencia al campo oculto definitivo que replicará el periodo configurado.
-    var $hiddenCustomMessage = $( '#cf7-ol-hidden-custom-message' ); // Referencia al campo oculto definitivo que llevará el mensaje personalizado al manejador PHP.
-    var $hiddenHideExhausted = $( '#cf7-ol-hidden-hide-exhausted' ); // Referencia al campo oculto definitivo que representará la casilla de ocultar opciones agotadas.
-    var $hiddenRuleId = $( '#cf7-ol-hidden-rule-id' ); // Referencia al campo oculto definitivo que replicará el identificador de la regla en edición.
-    var $hiddenOriginalFormId = $( '#cf7-ol-hidden-original-form-id' ); // Referencia al campo oculto definitivo que conservará el identificador original del formulario.
-    var $hiddenOriginalFieldName = $( '#cf7-ol-hidden-original-field-name' ); // Referencia al campo oculto definitivo que almacenará el nombre original del campo.
-    var $hiddenOriginalOptionValue = $( '#cf7-ol-hidden-original-option-value' ); // Referencia al campo oculto definitivo que guardará la opción original.
-    var $hiddenRedirect = $( '#cf7-ol-hidden-redirect' ); // Referencia al campo oculto definitivo que transportará la URL de retorno.
+    var $embeddedForm = $(); // Inicializa la referencia al formulario oculto utilizado como respaldo tradicional.
+    var $hiddenFormId = $(); // Inicializa la referencia al campo definitivo que conservará el identificador del formulario.
+    var $hiddenFieldName = $(); // Inicializa la referencia al campo definitivo que almacenará el nombre del campo seleccionado.
+    var $hiddenOptionValue = $(); // Inicializa la referencia al campo definitivo que conservará el valor específico elegido.
+    var $hiddenMaxCount = $(); // Inicializa la referencia al campo definitivo que almacenará el máximo permitido configurado.
+    var $hiddenLimitPeriod = $(); // Inicializa la referencia al campo definitivo que replicará el periodo seleccionado.
+    var $hiddenCustomMessage = $(); // Inicializa la referencia al campo definitivo que trasladará el mensaje personalizado al manejador PHP.
+    var $hiddenHideExhausted = $(); // Inicializa la referencia al campo definitivo asociado a la casilla de ocultar opciones agotadas.
+    var $hiddenRuleId = $(); // Inicializa la referencia al campo definitivo que replicará el identificador de la regla en edición.
+    var $hiddenOriginalFormId = $(); // Inicializa la referencia al campo definitivo que conservará el identificador original del formulario.
+    var $hiddenOriginalFieldName = $(); // Inicializa la referencia al campo definitivo que almacenará el nombre original del campo cuando se edita.
+    var $hiddenOriginalOptionValue = $(); // Inicializa la referencia al campo definitivo que guardará la opción original asociada a la regla.
+    var $hiddenRedirect = $(); // Inicializa la referencia al campo definitivo que transportará la URL de retorno utilizada en el flujo clásico.
+    var $releaseForm = $(); // Inicializa la referencia al formulario oculto dedicado a la liberación manual.
+    var $releaseRuleIdField = $(); // Inicializa la referencia al campo que recibirá el identificador de la regla a liberar.
+    var $releaseRedirectField = $(); // Inicializa la referencia al campo que trasladará la URL de retorno durante la liberación.
+    var $deleteForm = $(); // Inicializa la referencia al formulario oculto dedicado a las eliminaciones.
+    var $deleteRuleIdField = $(); // Inicializa la referencia al campo que transporta el identificador de la regla a eliminar.
+    var $deleteRedirectField = $(); // Inicializa la referencia al campo que transporta la URL de retorno durante la eliminación.
     var $rulesTableBody = $( '.cf7-option-limiter-editor table tbody' ); // Referencia al cuerpo de la tabla para insertar o actualizar filas sin necesidad de recargar.
     var isAjaxSubmitting = false; // Indicador que permite evitar que el usuario dispare múltiples peticiones simultáneas.
     var saveLabel = ( CF7OptionLimiterAdmin.i18n && CF7OptionLimiterAdmin.i18n.saveLabel ) ? CF7OptionLimiterAdmin.i18n.saveLabel : 'Guardar límite'; // Etiqueta por defecto para el botón principal.
@@ -40,6 +46,7 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
     var $accessibleNotice = ensureAccessibleNotice(); // Contenedor reutilizable que anuncia errores en un área con soporte para lectores de pantalla.
     var $inlineNotice = ensureInlineNoticeContainer(); // Contenedor visible reutilizable para mostrar mensajes informativos, de éxito o de error.
 
+    refreshEmbeddedFormsContext(); // Garantiza que los formularios ocultos existan o se generen dinámicamente y actualiza las referencias locales.
     resetFieldInput( CF7OptionLimiterAdmin.i18n.fieldManual, false ); // Inicializa el selector de campos mostrando el mensaje por defecto.
     resetOptionInput( false ); // Inicializa el selector de opciones dejándolo deshabilitado hasta que se elija un campo.
     $submitButton.text( saveLabel ); // Asegura que el botón principal muestre la etiqueta adecuada al cargar la interfaz.
@@ -107,6 +114,39 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
         clearEditMode(); // Restablece el formulario a su estado inicial.
     } );
 
+    // Gestiona los botones de liberación cuando el panel se encuentra incrustado en Contact Form 7.
+    $( document ).on( 'click', '.cf7-option-limiter-release', function( event ) { // Maneja los clics sobre los botones de liberación personalizados.
+        event.preventDefault(); // Evita acciones por defecto que puedan desplazar la página.
+        var $button = $( this ); // Captura la referencia al botón presionado para reutilizarla.
+        if ( $button.is( ':disabled' ) || $button.hasClass( 'cf7-option-limiter-action-button--disabled' ) ) { // Comprueba si el botón está deshabilitado visual o programáticamente.
+            return; // Finaliza sin intentar liberar cuando la acción no está permitida.
+        }
+        var ruleId = $button.data( 'ruleId' ); // Recupera el identificador de la regla asociada al botón.
+        var redirect = $button.data( 'redirect' ); // Recupera la URL de retorno deseada tras completar la operación.
+        if ( ! ruleId ) { // Comprueba que exista un identificador válido.
+            return; // Finaliza silenciosamente cuando faltan datos esenciales.
+        }
+        var restoreEditorWarning = suppressEditorBeforeUnloadWarning(); // Desactiva la alerta del editor y obtiene la función de restauración.
+        refreshEmbeddedFormsContext(); // Actualiza las referencias asegurando que el formulario oculto de liberación esté disponible.
+        if ( ! $releaseForm.length ) { // Comprueba que el formulario exista en el DOM tras actualizar referencias.
+            if ( restoreEditorWarning ) { // Verifica que exista la función de restauración.
+                restoreEditorWarning(); // Restaura la alerta cuando no se puede completar el envío.
+            }
+            return; // Finaliza silenciosamente si no se encuentra el formulario auxiliar.
+        }
+        if ( $releaseRuleIdField.length ) { // Comprueba que el campo del identificador esté disponible.
+            $releaseRuleIdField.val( ruleId ); // Inserta el identificador de la regla en el formulario oculto.
+        }
+        if ( $releaseRedirectField.length ) { // Comprueba que el campo de retorno exista.
+            if ( redirect ) { // Comprueba si se proporcionó una URL personalizada.
+                $releaseRedirectField.val( redirect ); // Actualiza la URL de retorno cuando se facilita una personalizada.
+            } else {
+                $releaseRedirectField.val( '' ); // Limpia la URL de retorno cuando no se facilitó un valor específico.
+            }
+        }
+        $releaseForm.trigger( 'submit' ); // Envía el formulario oculto para procesar la liberación con los datos sincronizados.
+    } );
+
     // Gestiona los botones de eliminación cuando el panel se encuentra incrustado en Contact Form 7.
     $( document ).on( 'click', '.cf7-option-limiter-delete', function( event ) { // Maneja los clics sobre los botones de eliminación personalizados.
         event.preventDefault(); // Evita acciones por defecto del navegador.
@@ -117,18 +157,29 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
         if ( ! ruleId ) { // Comprueba que exista un identificador válido.
             return; // Finaliza si falta el ID de la regla.
         }
+        var restoreEditorWarning = suppressEditorBeforeUnloadWarning(); // Desactiva la alerta del editor y devuelve una función capaz de restablecerla si la operación no concluye.
         if ( confirmMessage && ! window.confirm( confirmMessage ) ) { // Solicita confirmación al usuario antes de eliminar.
+            if ( restoreEditorWarning ) { // Comprueba si existe un restaurador activo.
+                restoreEditorWarning(); // Restaura inmediatamente los avisos de salida para mantener la protección del editor.
+            }
             return; // Detiene la operación si el usuario cancela.
         }
-        var $deleteForm = $( '#cf7-option-limiter-embedded-delete' ); // Localiza el formulario oculto que enviará la eliminación.
-        if ( ! $deleteForm.length ) { // Comprueba que el formulario exista en el DOM.
+        refreshEmbeddedFormsContext(); // Actualiza las referencias para asegurarse de que el formulario oculto de eliminación está disponible.
+        if ( ! $deleteForm.length ) { // Comprueba que el formulario exista en el DOM tras la actualización de referencias.
+            if ( restoreEditorWarning ) { // Verifica que el helper devolviera una función de restauración.
+                restoreEditorWarning(); // Restaura la alerta cuando no se puede completar el envío.
+            }
             return; // Finaliza silenciosamente si no se encuentra el formulario auxiliar.
         }
-        $deleteForm.find( '#cf7-ol-delete-rule-id' ).val( ruleId ); // Inserta el identificador de la regla en el formulario oculto.
-        if ( redirect ) { // Comprueba si se proporcionó una URL de retorno específica.
-            $deleteForm.find( '#cf7-ol-delete-redirect' ).val( redirect ); // Actualiza la URL de retorno cuando se facilita una personalizada.
+        if ( $deleteRuleIdField.length ) { // Comprueba que el campo del identificador esté disponible.
+            $deleteRuleIdField.val( ruleId ); // Inserta el identificador de la regla en el formulario oculto.
         }
-        $deleteForm.trigger( 'submit' ); // Envía el formulario oculto para procesar la eliminación.
+        if ( redirect ) { // Comprueba si se proporcionó una URL de retorno específica.
+            if ( $deleteRedirectField.length ) { // Comprueba que el campo de retorno exista.
+                $deleteRedirectField.val( redirect ); // Actualiza la URL de retorno cuando se facilita una personalizada.
+            }
+        }
+        $deleteForm.trigger( 'submit' ); // Envía el formulario oculto para procesar la eliminación con los datos sincronizados.
     } );
 
     // Observa cuándo finaliza la carga de campos para aplicar datos pendientes de edición.
@@ -173,6 +224,194 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
         }
     }() );
 
+    function refreshEmbeddedFormsContext() { // Actualiza las referencias globales a los formularios ocultos asegurando su disponibilidad.
+        var context = ensureEmbeddedFormsPresence(); // Obtiene la colección de formularios y campos garantizando que existan en el DOM.
+        $embeddedForm = context.$embeddedForm || $(); // Actualiza la referencia al formulario oculto principal o la deja vacía si sigue sin existir.
+        $hiddenFormId = context.$hiddenFormId || $(); // Sincroniza la referencia al campo oculto del identificador de formulario.
+        $hiddenFieldName = context.$hiddenFieldName || $(); // Sincroniza la referencia al campo oculto del nombre del campo seleccionado.
+        $hiddenOptionValue = context.$hiddenOptionValue || $(); // Sincroniza la referencia al campo oculto del valor específico.
+        $hiddenMaxCount = context.$hiddenMaxCount || $(); // Sincroniza la referencia al campo oculto del máximo permitido.
+        $hiddenLimitPeriod = context.$hiddenLimitPeriod || $(); // Sincroniza la referencia al campo oculto del periodo seleccionado.
+        $hiddenCustomMessage = context.$hiddenCustomMessage || $(); // Sincroniza la referencia al campo oculto del mensaje personalizado.
+        $hiddenHideExhausted = context.$hiddenHideExhausted || $(); // Sincroniza la referencia al campo oculto vinculado a la casilla de ocultar opciones agotadas.
+        $hiddenRuleId = context.$hiddenRuleId || $(); // Sincroniza la referencia al campo oculto del identificador de regla.
+        $hiddenOriginalFormId = context.$hiddenOriginalFormId || $(); // Sincroniza la referencia al campo oculto del identificador original del formulario.
+        $hiddenOriginalFieldName = context.$hiddenOriginalFieldName || $(); // Sincroniza la referencia al campo oculto del nombre original del campo.
+        $hiddenOriginalOptionValue = context.$hiddenOriginalOptionValue || $(); // Sincroniza la referencia al campo oculto de la opción original.
+        $hiddenRedirect = context.$hiddenRedirect || $(); // Sincroniza la referencia al campo oculto de la URL de retorno.
+        $releaseForm = context.$releaseForm || $(); // Actualiza la referencia al formulario oculto encargado de las liberaciones.
+        $releaseRuleIdField = context.$releaseRuleId || $(); // Actualiza la referencia al campo del identificador de regla a liberar.
+        $releaseRedirectField = context.$releaseRedirect || $(); // Actualiza la referencia al campo de la URL de retorno para liberaciones.
+        $deleteForm = context.$deleteForm || $(); // Actualiza la referencia al formulario oculto encargado de las eliminaciones.
+        $deleteRuleIdField = context.$deleteRuleId || $(); // Actualiza la referencia al campo oculto del identificador de regla a eliminar.
+        $deleteRedirectField = context.$deleteRedirect || $(); // Actualiza la referencia al campo oculto de la URL de retorno en eliminaciones.
+    }
+
+    function ensureEmbeddedFormsPresence() { // Garantiza que los formularios ocultos existan y devuelve todas sus referencias relevantes.
+        var hasConfig = ( typeof CF7OptionLimiterAdmin !== 'undefined' ); // Comprueba si la configuración localizada está disponible en la página.
+        var postUrl = hasConfig && CF7OptionLimiterAdmin.adminPostUrl ? CF7OptionLimiterAdmin.adminPostUrl : ''; // Recupera la URL de admin-post.php proporcionada por PHP.
+        var nonces = hasConfig && CF7OptionLimiterAdmin.embeddedNonces ? CF7OptionLimiterAdmin.embeddedNonces : {}; // Recupera los nonces localizados para los flujos tradicionales.
+        var saveNonce = nonces.save || ''; // Extrae el nonce de guardado o una cadena vacía si no está disponible.
+        var deleteNonce = nonces.delete || ''; // Extrae el nonce de eliminación o una cadena vacía si falta.
+        var releaseNonce = nonces.release || ''; // Extrae el nonce de liberación o una cadena vacía si no está disponible.
+        var $saveForm = $( '#cf7-option-limiter-embedded-form' ); // Busca el formulario oculto de guardado en el DOM actual.
+        if ( ! $saveForm.length && postUrl ) { // Comprueba si es necesario crear el formulario dinámicamente y si se dispone de la URL de destino.
+            $saveForm = createEmbeddedSaveForm( postUrl, saveNonce ); // Genera el formulario oculto de guardado con los campos esperados.
+        }
+        hydrateSaveForm( $saveForm, postUrl, saveNonce ); // Ajusta la URL, el nonce y el referer del formulario de guardado.
+        var $releaseFormLocal = $( '#cf7-option-limiter-embedded-release' ); // Busca el formulario oculto de liberación en el DOM.
+        if ( ! $releaseFormLocal.length && postUrl ) { // Comprueba si es necesario crear el formulario de liberación dinámicamente.
+            $releaseFormLocal = createEmbeddedReleaseForm( postUrl, releaseNonce ); // Genera el formulario oculto de liberación con los campos necesarios.
+        }
+        hydrateReleaseForm( $releaseFormLocal, postUrl, releaseNonce ); // Ajusta la URL, el nonce y el referer del formulario de liberación.
+        var $deleteFormLocal = $( '#cf7-option-limiter-embedded-delete' ); // Busca el formulario oculto de eliminación en el DOM.
+        if ( ! $deleteFormLocal.length && postUrl ) { // Comprueba si es necesario crear el formulario de eliminación dinámicamente.
+            $deleteFormLocal = createEmbeddedDeleteForm( postUrl, deleteNonce ); // Genera el formulario oculto de eliminación con los campos necesarios.
+        }
+        hydrateDeleteForm( $deleteFormLocal, postUrl, deleteNonce ); // Ajusta la URL, el nonce y el referer del formulario de eliminación.
+        return { // Devuelve todas las referencias relevantes para su reutilización por el script.
+            $embeddedForm: $saveForm, // Formulario oculto de guardado.
+            $hiddenFormId: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-form-id' ) : $(), // Campo del identificador de formulario.
+            $hiddenFieldName: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-field-name' ) : $(), // Campo del nombre del campo seleccionado.
+            $hiddenOptionValue: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-option-value' ) : $(), // Campo del valor específico.
+            $hiddenMaxCount: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-max-count' ) : $(), // Campo del máximo permitido.
+            $hiddenLimitPeriod: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-limit-period' ) : $(), // Campo del periodo de limitación.
+            $hiddenCustomMessage: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-custom-message' ) : $(), // Campo del mensaje personalizado.
+            $hiddenHideExhausted: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-hide-exhausted' ) : $(), // Campo asociado a la casilla de ocultar opciones agotadas.
+            $hiddenRuleId: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-rule-id' ) : $(), // Campo del identificador de regla.
+            $hiddenOriginalFormId: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-original-form-id' ) : $(), // Campo del identificador original del formulario.
+            $hiddenOriginalFieldName: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-original-field-name' ) : $(), // Campo del nombre original del campo.
+            $hiddenOriginalOptionValue: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-original-option-value' ) : $(), // Campo de la opción original.
+            $hiddenRedirect: $saveForm.length ? $saveForm.find( '#cf7-ol-hidden-redirect' ) : $(), // Campo de la URL de retorno.
+            $releaseForm: $releaseFormLocal, // Formulario oculto de liberación.
+            $releaseRuleId: $releaseFormLocal.length ? $releaseFormLocal.find( '#cf7-ol-release-rule-id' ) : $(), // Campo del identificador de regla a liberar.
+            $releaseRedirect: $releaseFormLocal.length ? $releaseFormLocal.find( '#cf7-ol-release-redirect' ) : $(), // Campo de la URL de retorno tras liberar.
+            $deleteForm: $deleteFormLocal, // Formulario oculto de eliminación.
+            $deleteRuleId: $deleteFormLocal.length ? $deleteFormLocal.find( '#cf7-ol-delete-rule-id' ) : $(), // Campo del identificador de regla a eliminar.
+            $deleteRedirect: $deleteFormLocal.length ? $deleteFormLocal.find( '#cf7-ol-delete-redirect' ) : $(), // Campo de la URL de retorno tras eliminar.
+        };
+    }
+
+    function createEmbeddedSaveForm( postUrl, saveNonce ) { // Construye el formulario oculto de guardado cuando falta en el DOM.
+        var $form = $( '<form>', { // Crea el elemento formulario utilizando jQuery para mantener la compatibilidad.
+            id: 'cf7-option-limiter-embedded-form', // Asigna el identificador reutilizado por el resto del código.
+            method: 'post', // Define el método de envío esperado por admin-post.php.
+            action: postUrl, // Establece la URL de destino proporcionada por WordPress.
+            style: 'display:none;', // Oculta el formulario para que no interfiera con la interfaz visible.
+        } );
+        $form.append( $( '<input>', { type: 'hidden', name: 'action', value: 'cf7_option_limiter_save' } ) ); // Inserta el campo que indica la acción de guardado.
+        $form.append( $( '<input>', { type: 'hidden', name: 'cf7_option_limiter_nonce', id: 'cf7_option_limiter_nonce', value: saveNonce } ) ); // Inserta el nonce inicial que autentica el guardado tradicional.
+        $form.append( $( '<input>', { type: 'hidden', name: 'form_id', id: 'cf7-ol-hidden-form-id', value: '' } ) ); // Añade el campo que recibirá el identificador del formulario.
+        $form.append( $( '<input>', { type: 'hidden', name: 'field_name', id: 'cf7-ol-hidden-field-name', value: '' } ) ); // Añade el campo que replicará el nombre del campo seleccionado.
+        $form.append( $( '<input>', { type: 'hidden', name: 'option_value', id: 'cf7-ol-hidden-option-value', value: '' } ) ); // Añade el campo que replicará el valor específico elegido.
+        $form.append( $( '<input>', { type: 'hidden', name: 'max_count', id: 'cf7-ol-hidden-max-count', value: '' } ) ); // Añade el campo que replicará el máximo permitido configurado.
+        $form.append( $( '<input>', { type: 'hidden', name: 'limit_period', id: 'cf7-ol-hidden-limit-period', value: '' } ) ); // Añade el campo que replicará el periodo seleccionado.
+        $form.append( $( '<input>', { type: 'hidden', name: 'custom_message', id: 'cf7-ol-hidden-custom-message', value: '' } ) ); // Añade el campo que replicará el mensaje personalizado.
+        var $hideField = $( '<input>', { type: 'hidden', name: 'hide_exhausted', id: 'cf7-ol-hidden-hide-exhausted', value: '' } ); // Crea el campo que representa la casilla de ocultar opciones agotadas.
+        $hideField.prop( 'disabled', true ); // Deshabilita el campo para que sólo se envíe cuando la casilla esté marcada.
+        $form.append( $hideField ); // Inserta el campo deshabilitado dentro del formulario oculto.
+        $form.append( $( '<input>', { type: 'hidden', name: 'rule_id', id: 'cf7-ol-hidden-rule-id', value: '0' } ) ); // Añade el campo que replicará el identificador de la regla.
+        $form.append( $( '<input>', { type: 'hidden', name: 'original_form_id', id: 'cf7-ol-hidden-original-form-id', value: '' } ) ); // Añade el campo que conservará el formulario original durante la edición.
+        $form.append( $( '<input>', { type: 'hidden', name: 'original_field_name', id: 'cf7-ol-hidden-original-field-name', value: '' } ) ); // Añade el campo que conservará el nombre original del campo.
+        $form.append( $( '<input>', { type: 'hidden', name: 'original_option_value', id: 'cf7-ol-hidden-original-option-value', value: '' } ) ); // Añade el campo que conservará la opción original.
+        $form.append( $( '<input>', { type: 'hidden', name: 'redirect_to', id: 'cf7-ol-hidden-redirect', value: '' } ) ); // Añade el campo que replicará la URL de retorno.
+        $( document.body ).append( $form ); // Inserta el formulario al final del cuerpo del documento para que esté disponible inmediatamente.
+        return $form; // Devuelve la referencia al formulario recién creado para su reutilización.
+    }
+
+    function createEmbeddedReleaseForm( postUrl, releaseNonce ) { // Construye el formulario oculto de liberación cuando falta en el DOM.
+        var $form = $( '<form>', { // Crea el formulario utilizando jQuery para mantener compatibilidad amplia.
+            id: 'cf7-option-limiter-embedded-release', // Asigna el identificador reutilizado para las liberaciones.
+            method: 'post', // Define el método POST que espera admin-post.php.
+            action: postUrl, // Establece la URL de destino suministrada por WordPress.
+            style: 'display:none;', // Oculta el formulario para que no afecte a la interfaz visible.
+        } );
+        $form.append( $( '<input>', { type: 'hidden', name: 'action', value: 'cf7_option_limiter_release' } ) ); // Inserta el campo que identifica la acción de liberación.
+        $form.append( $( '<input>', { type: 'hidden', name: 'cf7_option_limiter_release_nonce', id: 'cf7_option_limiter_release_nonce', value: releaseNonce } ) ); // Inserta el nonce inicial que autentica la liberación tradicional.
+        $form.append( $( '<input>', { type: 'hidden', name: 'rule_id', id: 'cf7-ol-release-rule-id', value: '0' } ) ); // Añade el campo que recibirá el identificador de la regla a liberar.
+        $form.append( $( '<input>', { type: 'hidden', name: 'redirect_to', id: 'cf7-ol-release-redirect', value: '' } ) ); // Añade el campo que transportará la URL de retorno tras liberar.
+        $( document.body ).append( $form ); // Inserta el formulario en el cuerpo del documento para que quede disponible inmediatamente.
+        return $form; // Devuelve la referencia al formulario recién creado.
+    }
+
+    function createEmbeddedDeleteForm( postUrl, deleteNonce ) { // Construye el formulario oculto de eliminación cuando falta en el DOM.
+        var $form = $( '<form>', { // Crea el formulario utilizando jQuery.
+            id: 'cf7-option-limiter-embedded-delete', // Asigna el identificador reutilizado para las eliminaciones.
+            method: 'post', // Define el método POST que espera admin-post.php.
+            action: postUrl, // Establece la URL de destino suministrada por WordPress.
+            style: 'display:none;', // Oculta el formulario para que no afecte a la interfaz visible.
+        } );
+        $form.append( $( '<input>', { type: 'hidden', name: 'action', value: 'cf7_option_limiter_delete' } ) ); // Inserta el campo que identifica la acción de borrado.
+        $form.append( $( '<input>', { type: 'hidden', name: 'cf7_option_limiter_delete_nonce', id: 'cf7_option_limiter_delete_nonce', value: deleteNonce } ) ); // Inserta el nonce inicial para la eliminación tradicional.
+        $form.append( $( '<input>', { type: 'hidden', name: 'rule_id', id: 'cf7-ol-delete-rule-id', value: '0' } ) ); // Añade el campo que recibirá el identificador de la regla a eliminar.
+        $form.append( $( '<input>', { type: 'hidden', name: 'redirect_to', id: 'cf7-ol-delete-redirect', value: '' } ) ); // Añade el campo que transportará la URL de retorno tras eliminar.
+        $( document.body ).append( $form ); // Inserta el formulario en el cuerpo del documento para que quede disponible.
+        return $form; // Devuelve la referencia al formulario recién creado.
+    }
+
+    function hydrateSaveForm( $saveForm, postUrl, saveNonce ) { // Ajusta el formulario oculto de guardado con los datos más recientes.
+        if ( ! $saveForm || ! $saveForm.length ) { // Comprueba que el formulario exista antes de operar.
+            return; // Finaliza si no hay formulario disponible.
+        }
+        if ( postUrl && $saveForm.attr( 'action' ) !== postUrl ) { // Comprueba si la URL de destino necesita actualizarse.
+            $saveForm.attr( 'action', postUrl ); // Actualiza la URL para apuntar a admin-post.php.
+        }
+        ensureNonceValue( $saveForm, 'cf7_option_limiter_nonce', saveNonce ); // Garantiza que el nonce de guardado esté presente y actualizado.
+        ensureRefererValue( $saveForm ); // Asegura que el referer refleje la URL actual del editor.
+    }
+
+    function hydrateReleaseForm( $releaseFormLocal, postUrl, releaseNonce ) { // Ajusta el formulario oculto de liberación con los datos más recientes.
+        if ( ! $releaseFormLocal || ! $releaseFormLocal.length ) { // Comprueba que el formulario exista antes de operar.
+            return; // Finaliza si no hay formulario disponible.
+        }
+        if ( postUrl && $releaseFormLocal.attr( 'action' ) !== postUrl ) { // Comprueba si la URL de destino necesita actualizarse.
+            $releaseFormLocal.attr( 'action', postUrl ); // Actualiza la URL del formulario de liberación.
+        }
+        ensureNonceValue( $releaseFormLocal, 'cf7_option_limiter_release_nonce', releaseNonce ); // Garantiza que el nonce de liberación esté presente y actualizado.
+        ensureRefererValue( $releaseFormLocal ); // Asegura que el referer corresponda a la URL actual.
+    }
+
+    function hydrateDeleteForm( $deleteFormLocal, postUrl, deleteNonce ) { // Ajusta el formulario oculto de eliminación con los datos más recientes.
+        if ( ! $deleteFormLocal || ! $deleteFormLocal.length ) { // Comprueba que el formulario exista antes de operar.
+            return; // Finaliza si no hay formulario disponible.
+        }
+        if ( postUrl && $deleteFormLocal.attr( 'action' ) !== postUrl ) { // Comprueba si la URL de destino necesita actualizarse.
+            $deleteFormLocal.attr( 'action', postUrl ); // Actualiza la URL del formulario de eliminación.
+        }
+        ensureNonceValue( $deleteFormLocal, 'cf7_option_limiter_delete_nonce', deleteNonce ); // Garantiza que el nonce de eliminación esté presente y actualizado.
+        ensureRefererValue( $deleteFormLocal ); // Asegura que el referer corresponda a la URL actual.
+    }
+
+    function ensureNonceValue( $form, fieldName, nonceValue ) { // Garantiza que un formulario contenga un nonce válido para la acción indicada.
+        if ( ! $form || ! $form.length || ! nonceValue ) { // Comprueba que exista el formulario y que se haya proporcionado un nonce válido.
+            return; // Finaliza si falta información para sincronizar el nonce.
+        }
+        var $nonceField = $form.find( '[name="' + fieldName + '"]' ); // Busca el campo correspondiente al nonce dentro del formulario.
+        if ( ! $nonceField.length ) { // Comprueba si el campo aún no existe.
+            $nonceField = $( '<input>', { type: 'hidden', name: fieldName, id: fieldName, value: nonceValue } ); // Crea el campo oculto con el nonce proporcionado.
+            $form.prepend( $nonceField ); // Inserta el campo al inicio del formulario para seguir la convención de WordPress.
+            return; // Finaliza tras crear el campo porque ya contiene el valor correcto.
+        }
+        $nonceField.val( nonceValue ); // Actualiza el valor del nonce existente para mantenerlo sincronizado con PHP.
+    }
+
+    function ensureRefererValue( $form ) { // Garantiza que el formulario incluya el referer requerido por WordPress.
+        if ( ! $form || ! $form.length ) { // Comprueba que exista un formulario válido antes de operar.
+            return; // Finaliza si no hay formulario disponible.
+        }
+        var refererValue = ( window.location && window.location.href ) ? window.location.href : ''; // Obtiene la URL actual para utilizarla como referer.
+        if ( ! refererValue ) { // Comprueba que se haya obtenido un valor válido.
+            return; // Finaliza si no es posible determinar la URL actual.
+        }
+        var $refererField = $form.find( '[name="_wp_http_referer"]' ); // Busca el campo de referer dentro del formulario.
+        if ( ! $refererField.length ) { // Comprueba si el campo aún no existe.
+            $refererField = $( '<input>', { type: 'hidden', name: '_wp_http_referer', value: refererValue } ); // Crea el campo oculto con la URL actual.
+            $form.prepend( $refererField ); // Inserta el campo al inicio del formulario para seguir la convención de WordPress.
+            return; // Finaliza tras crear el campo porque ya contiene el valor adecuado.
+        }
+        $refererField.val( refererValue ); // Actualiza el valor del campo existente para mantener el referer alineado con la URL actual.
+    }
+
     function setHiddenFieldValue( $field, value ) { // Función auxiliar que asigna un valor seguro a un campo oculto definitivo.
         if ( ! $field.length ) { // Comprueba que el campo exista antes de operar.
             return; // Finaliza sin realizar cambios cuando el campo no está disponible.
@@ -185,7 +424,32 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
         $field.val( sanitizedValue ); // Asigna el valor normalizado al campo oculto correspondiente.
     }
 
+    function suppressEditorBeforeUnloadWarning() { // Helper reutilizable que silencia temporalmente la alerta del editor.
+        var previousHandler = window.onbeforeunload; // Almacena el manejador directo configurado en window para poder restaurarlo después de la operación en curso.
+        var interceptingListener = function( event ) { // Declara el listener nativo que detendrá la propagación de la alerta genérica.
+            if ( event && typeof event.stopImmediatePropagation === 'function' ) { // Comprueba que exista el método para detener la propagación inmediata.
+                event.stopImmediatePropagation(); // Evita que otros manejadores `beforeunload` se ejecuten durante la operación iniciada por el plugin.
+            }
+            if ( event && typeof event.preventDefault === 'function' ) { // Comprueba si se puede llamar a `preventDefault` sobre el evento recibido.
+                event.preventDefault(); // Cancela el comportamiento por defecto para garantizar que no aparezca la alerta estándar del navegador.
+            }
+            return undefined; // Devuelve `undefined` explícitamente, evitando que el navegador muestre textos personalizados en la alerta.
+        };
+        window.onbeforeunload = null; // Anula el manejador directo actual para impedir que WordPress fuerce el aviso genérico.
+        window.addEventListener( 'beforeunload', interceptingListener, true ); // Registra el listener en fase de captura para bloquear el resto de manejadores antes de que actúen.
+        var restored = false; // Bandera interna que evita restaurar varias veces los manejadores originales.
+        return function restoreEditorWarning() { // Devuelve una función que permite revertir el cambio cuando la operación se cancela o no llega a ejecutarse.
+            if ( restored ) { // Comprueba si la restauración ya se realizó previamente.
+                return; // Finaliza sin repetir la operación para mantener un flujo predecible.
+            }
+            restored = true; // Marca que la restauración ya se llevó a cabo para impedir ejecuciones duplicadas.
+            window.removeEventListener( 'beforeunload', interceptingListener, true ); // Elimina el listener temporal añadido en captura para reactivar los manejadores nativos.
+            window.onbeforeunload = previousHandler || null; // Restaura el manejador directo original del editor, devolviendo la protección habitual frente a cambios sin guardar.
+        };
+    }
+
     function syncEmbeddedFormValues() { // Función que replica todos los valores visibles en los campos del formulario oculto definitivo.
+        refreshEmbeddedFormsContext(); // Revalida las referencias para contemplar formularios creados dinámicamente antes de sincronizar valores.
         if ( ! $embeddedForm.length ) { // Comprueba que el formulario oculto exista antes de intentar sincronizar los datos.
             return; // Finaliza silenciosamente cuando el formulario no está disponible.
         }
@@ -264,12 +528,36 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
         if ( ! $embeddedForm.length ) { // Comprueba que el formulario auxiliar exista antes de intentar utilizarlo.
             return; // Finaliza silenciosamente cuando el formulario no está disponible en el DOM.
         }
+        var restoreEditorWarning = suppressEditorBeforeUnloadWarning(); // Desactiva temporalmente la alerta genérica y conserva una función para restaurarla si el envío no se completa.
         var domForm = $embeddedForm.get( 0 ); // Obtiene la referencia DOM nativa al formulario oculto.
+        if ( domForm && typeof domForm.checkValidity === 'function' && ! domForm.checkValidity() ) { // Comprueba si el formulario es inválido antes de intentar el envío programático.
+            if ( restoreEditorWarning ) { // Verifica que exista un restaurador disponible.
+                restoreEditorWarning(); // Restaura inmediatamente la alerta del editor porque no habrá navegación.
+            }
+            domForm.reportValidity(); // Solicita al navegador que muestre qué campos provocaron el fallo de validación.
+            return; // Finaliza porque el formulario no puede enviarse hasta que se corrijan los errores.
+        }
         if ( domForm && typeof domForm.requestSubmit === 'function' ) { // Comprueba si el navegador soporta requestSubmit.
             domForm.requestSubmit(); // Lanza el envío respetando las validaciones estándar del formulario oculto.
+            if ( restoreEditorWarning ) { // Verifica que se disponga de la función de restauración.
+                window.setTimeout( function() { // Programa una restauración diferida para los casos en los que la navegación no llegue a completarse.
+                    restoreEditorWarning(); // Restaura la alerta del editor permitiendo que WordPress vuelva a avisar de cambios sin guardar.
+                }, 1000 ); // Utiliza un segundo de margen para que la restauración sólo se ejecute cuando la página permanezca cargada.
+            }
             return; // Finaliza tras ejecutar el envío moderno para evitar disparar el respaldo adicional.
         }
+        if ( ! $embeddedForm.length ) { // Vuelve a comprobar la presencia del formulario antes de recurrir al flujo tradicional.
+            if ( restoreEditorWarning ) { // Revisa que se disponga de la función de restauración.
+                restoreEditorWarning(); // Restaura la alerta del editor porque no se puede completar el envío.
+            }
+            return; // Finaliza silenciosamente al detectar que el formulario ya no está disponible.
+        }
         $embeddedForm.trigger( 'submit' ); // Utiliza el envío tradicional cuando requestSubmit no está disponible.
+        if ( restoreEditorWarning ) { // Comprueba que exista la función para restablecer la alerta del editor.
+            window.setTimeout( function() { // Programa la restauración con un pequeño retardo para detectar si la navegación fue bloqueada por otros manejadores.
+                restoreEditorWarning(); // Reactiva la advertencia de cambios sin guardar cuando la página sigue en el editor.
+            }, 1000 ); // Aplica el mismo margen de un segundo para minimizar restauraciones prematuras.
+        }
     }
 
     function setLoadingState( loading ) { // Actualiza el estado del botón principal durante el proceso de guardado.
@@ -304,6 +592,7 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
         ).done( function( response ) { // Gestiona la respuesta satisfactoria del servidor.
             populateFieldInput( response, formId ); // Interpreta el resultado y rellena las opciones del selector correspondiente.
         } ).fail( function() { // Gestiona los fallos de la petición o respuestas inesperadas.
+            $fieldSelect.data( 'cf7OlFieldsLoaded', true ); // Marca que la carga ha concluido aunque la petición haya fallado.
             setFieldStatus( CF7OptionLimiterAdmin.i18n.errorLoading ); // Informa al usuario de que deberá revisar el formulario.
             $( document ).trigger( 'cf7OptionLimiterFieldsLoaded', [ formId ] ); // Notifica igualmente que la carga ha finalizado para desbloquear posibles ediciones pendientes.
         } );
@@ -331,6 +620,7 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
             $fieldSelect.find( 'option' ).not( ':first' ).remove(); // Elimina todas las opciones excepto el marcador inicial.
             $fieldSelect.data( 'fieldOptions', {} ); // Limpia el mapa de opciones detectadas para cada campo.
             $fieldSelect.prop( 'disabled', true ); // Deshabilita el selector hasta que se carguen nuevos datos.
+            $fieldSelect.data( 'cf7OlFieldsLoaded', false ); // Marca que todavía no se han cargado los campos del formulario actual.
         }
         $fieldSelect.val( '' ); // Restablece la selección a la opción por defecto.
         setFieldStatus( statusMessage || CF7OptionLimiterAdmin.i18n.fieldManual ); // Actualiza el mensaje contextual del campo.
@@ -354,12 +644,14 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
     function populateFieldInput( response, requestedFormId ) { // Función que procesa la respuesta AJAX para rellenar el selector de campos.
         resetFieldInput( CF7OptionLimiterAdmin.i18n.fieldManual, false ); // Limpia cualquier dato previo antes de cargar la nueva información.
         if ( ! response || ! response.success || ! response.data || ! response.data.fields ) { // Verifica que la respuesta contenga la estructura esperada.
+            $fieldSelect.data( 'cf7OlFieldsLoaded', true ); // Señala que la carga concluyó aun sin obtener datos válidos para este formulario.
             setFieldStatus( CF7OptionLimiterAdmin.i18n.noFields ); // Informa que no se detectaron campos compatibles en el formulario.
             $( document ).trigger( 'cf7OptionLimiterFieldsLoaded', [ requestedFormId ] ); // Notifica que la carga ha finalizado aunque no existan campos.
             return; // Finaliza la ejecución al no disponer de datos útiles.
         }
         var fields = response.data.fields; // Extrae la lista de campos detectados por el servidor.
         if ( ! fields.length ) { // Comprueba si el arreglo está vacío.
+            $fieldSelect.data( 'cf7OlFieldsLoaded', true ); // Marca que el proceso terminó aunque no haya campos disponibles.
             setFieldStatus( CF7OptionLimiterAdmin.i18n.noFields ); // Reitera que no se encontraron campos compatibles.
             $( document ).trigger( 'cf7OptionLimiterFieldsLoaded', [ requestedFormId ] ); // Notifica que la carga ha finalizado.
             return; // Finaliza sin modificar el selector.
@@ -376,6 +668,7 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
             $fieldSelect.append( option ); // Inserta la opción en el selector de campos.
         } );
         $fieldSelect.data( 'fieldOptions', fieldOptionsMap ); // Almacena el mapa en el selector para futuras consultas.
+        $fieldSelect.data( 'cf7OlFieldsLoaded', true ); // Marca que los campos del formulario actual están listos para ser usados en la edición.
         if ( ! $.isEmptyObject( fieldOptionsMap ) ) { // Comprueba si se cargaron campos válidos.
             $fieldSelect.prop( 'disabled', false ); // Habilita el selector ahora que existen opciones disponibles.
         }
@@ -403,6 +696,69 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
         return true; // Indica que la población se realizó correctamente.
     }
 
+    function ensureTemporaryOption( $select, value, label ) { // Garantiza la presencia de una opción temporal que represente valores faltantes.
+        if ( ! $select || ! $select.length ) { // Comprueba que el selector exista antes de manipularlo.
+            return null; // Finaliza sin realizar cambios cuando no hay selector disponible.
+        }
+        var normalizedValue = ( typeof value === 'undefined' || value === null ) ? '' : String( value ); // Normaliza el valor recibido a una cadena segura.
+        if ( ! normalizedValue ) { // Comprueba que exista un valor identificador.
+            return null; // Finaliza porque no hay valor que representar en el selector.
+        }
+        var normalizedLabel = label ? String( label ) : normalizedValue; // Determina la etiqueta visible utilizando el valor como respaldo.
+        var $existing = $select.find( 'option' ).filter( function() { // Busca si ya existe una opción con el mismo valor normalizado.
+            return String( $( this ).val() ) === normalizedValue; // Compara el valor de cada opción convirtiéndolo a cadena.
+        } );
+        if ( $existing.length ) { // Comprueba si se encontró una opción existente.
+            var $first = $existing.first(); // Selecciona la primera coincidencia para normalizarla.
+            $first.attr( 'data-temporary', 'true' ); // Marca la opción como temporal para facilitar su identificación en depuraciones futuras.
+            $first.addClass( 'cf7-ol-temporary-option' ); // Añade una clase que permite aplicar estilos específicos si se desea.
+            $first.text( normalizedLabel ); // Actualiza la etiqueta visible con la versión normalizada proporcionada.
+            return $first; // Devuelve la opción reutilizada tras actualizar su contenido.
+        }
+        var $placeholder = $( '<option></option>' ) // Crea un nuevo elemento option para representar el valor faltante.
+            .attr( 'value', normalizedValue ) // Establece el valor exacto del elemento temporal.
+            .attr( 'data-temporary', 'true' ) // Marca el elemento como temporal mediante un atributo de datos.
+            .addClass( 'cf7-ol-temporary-option' ) // Añade una clase que permite identificar visualmente la opción en estilos personalizados.
+            .text( normalizedLabel ); // Inserta la etiqueta visible correspondiente.
+        $select.append( $placeholder ); // Inserta la opción temporal al final del selector.
+        return $placeholder; // Devuelve la nueva opción creada para su reutilización inmediata.
+    }
+
+    function injectMissingFieldPlaceholder( fieldName ) { // Inserta una opción temporal cuando el campo original ya no existe en el formulario.
+        var normalizedField = fieldName ? String( fieldName ) : ''; // Normaliza el nombre del campo para operar con cadenas seguras.
+        if ( ! normalizedField ) { // Comprueba que exista un nombre de campo válido.
+            return ''; // Devuelve una cadena vacía cuando no hay campo que representar.
+        }
+        var labelTemplate = ( CF7OptionLimiterAdmin.i18n && CF7OptionLimiterAdmin.i18n.missingFieldLabel ) ? CF7OptionLimiterAdmin.i18n.missingFieldLabel : '%s (campo eliminado)'; // Determina la plantilla de etiqueta visible.
+        var optionLabel = labelTemplate.replace( '%s', normalizedField ); // Sustituye el marcador de posición por el nombre del campo.
+        ensureTemporaryOption( $fieldSelect, normalizedField, optionLabel ); // Garantiza que el selector incluya la opción temporal.
+        $fieldSelect.prop( 'disabled', false ); // Asegura que el selector permanezca habilitado para permitir la selección.
+        $fieldSelect.val( normalizedField ); // Selecciona inmediatamente el campo temporal para reflejar el valor almacenado.
+        var statusMessage = ( CF7OptionLimiterAdmin.i18n && CF7OptionLimiterAdmin.i18n.missingFieldStatus ) ? CF7OptionLimiterAdmin.i18n.missingFieldStatus : 'El campo original ya no está disponible en el formulario.'; // Determina el mensaje contextual del estado del campo.
+        setFieldStatus( statusMessage ); // Actualiza el mensaje visible y accesible del selector de campos.
+        updateSubmitState(); // Recalcula la disponibilidad del botón de envío ahora que existe una selección válida.
+        var noticeMessage = ( CF7OptionLimiterAdmin.i18n && CF7OptionLimiterAdmin.i18n.missingFieldNotice ) ? CF7OptionLimiterAdmin.i18n.missingFieldNotice : 'El campo original ha desaparecido del formulario. Puedes elegir otro campo o eliminar la regla.'; // Determina el mensaje a mostrar en el aviso en línea.
+        return noticeMessage; // Devuelve el mensaje para que la función que invoque gestione el aviso visible.
+    }
+
+    function injectMissingOptionPlaceholder( optionValue, optionLabel ) { // Inserta una opción temporal cuando el valor original ya no está disponible.
+        var normalizedValue = optionValue ? String( optionValue ) : ''; // Normaliza el valor a una cadena segura.
+        if ( ! normalizedValue ) { // Comprueba que exista un valor identificador.
+            return ''; // Devuelve cadena vacía porque no hay valor que representar.
+        }
+        var labelSource = optionLabel ? String( optionLabel ) : normalizedValue; // Determina el texto base que se mostrará al usuario.
+        var labelTemplate = ( CF7OptionLimiterAdmin.i18n && CF7OptionLimiterAdmin.i18n.missingOptionLabel ) ? CF7OptionLimiterAdmin.i18n.missingOptionLabel : '%s (opción eliminada)'; // Recupera la plantilla de etiqueta para opciones faltantes.
+        var displayLabel = labelTemplate.replace( '%s', labelSource ); // Sustituye el marcador de posición con la etiqueta base.
+        ensureTemporaryOption( $optionSelect, normalizedValue, displayLabel ); // Inserta la opción temporal en el selector dependiente.
+        $optionSelect.prop( 'disabled', false ); // Garantiza que el selector permanezca habilitado para permitir ajustes manuales.
+        $optionSelect.val( normalizedValue ); // Selecciona automáticamente el valor temporal para conservar el dato almacenado.
+        var statusMessage = ( CF7OptionLimiterAdmin.i18n && CF7OptionLimiterAdmin.i18n.missingOptionStatus ) ? CF7OptionLimiterAdmin.i18n.missingOptionStatus : 'La opción original ya no está disponible en el formulario, selecciona otra antes de guardar.'; // Determina el mensaje contextual para el estado del selector de opciones.
+        setOptionStatus( statusMessage ); // Actualiza el mensaje visible y accesible asociado al selector dependiente.
+        updateSubmitState(); // Reevalúa el estado del botón para permitir guardar la regla con los datos temporales.
+        var noticeMessage = ( CF7OptionLimiterAdmin.i18n && CF7OptionLimiterAdmin.i18n.missingOptionNotice ) ? CF7OptionLimiterAdmin.i18n.missingOptionNotice : 'La opción seleccionada ya no existe en el formulario. Puedes escoger otra opción o actualizar la regla.'; // Determina el mensaje informativo para el aviso visible.
+        return noticeMessage; // Devuelve el mensaje que describe la incidencia detectada.
+    }
+
     function startRuleEdit( data ) { // Función que prepara la edición de una regla utilizando la información disponible.
         pendingRuleData = $.extend( {}, data ); // Clona los datos recibidos para evitar mutaciones inesperadas.
         var targetFormId = data.formId || data.form_id || $formSelect.val(); // Determina el formulario que debe estar activo.
@@ -424,12 +780,15 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
             return false; // Finaliza indicando que no se realizó ninguna acción.
         }
         var fieldName = pendingRuleData.fieldName || pendingRuleData.field_name || ''; // Determina el nombre del campo a editar.
-        if ( fieldName && ! fieldsReadyFor( fieldName ) ) { // Comprueba que el selector de campos incluya el campo requerido.
-            return false; // Espera a que se completen los datos necesarios.
+        var optionValue = pendingRuleData.optionValue || pendingRuleData.option_value || ''; // Determina la opción específica asociada a la regla.
+        var optionLabel = pendingRuleData.optionLabel || pendingRuleData.option_label || pendingRuleData.optionText || pendingRuleData.option_text || optionValue; // Recupera una etiqueta legible para la opción si está disponible.
+        var fieldOptionsMap = $fieldSelect.data( 'fieldOptions' ) || {}; // Recupera el mapa de campos cargados durante el análisis del formulario.
+        var fieldsLoaded = $fieldSelect.data( 'cf7OlFieldsLoaded' ) === true || ! $.isEmptyObject( fieldOptionsMap ); // Determina si la carga de campos ya finalizó.
+        if ( ! fieldsLoaded ) { // Comprueba si todavía se están cargando los campos del formulario seleccionado.
+            return false; // Espera a que finalice la carga antes de aplicar los datos.
         }
         isEditing = true; // Marca el formulario como en modo edición.
         var ruleId = pendingRuleData.ruleId || pendingRuleData.id || 0; // Determina el identificador de la regla en edición.
-        var optionValue = pendingRuleData.optionValue || pendingRuleData.option_value || ''; // Determina la opción específica asociada a la regla.
         var maxCount = pendingRuleData.maxCount || pendingRuleData.max_count || 1; // Determina el máximo permitido configurado.
         var limitPeriod = pendingRuleData.limitPeriod || pendingRuleData.limit_period || 'none'; // Determina el periodo configurado.
         var customMessage = pendingRuleData.customMessage || pendingRuleData.custom_message || ''; // Determina el mensaje personalizado almacenado.
@@ -437,14 +796,43 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
         $ruleInput.val( ruleId ); // Almacena el identificador de la regla en el campo oculto correspondiente.
         $originalFieldInput.val( fieldName ); // Guarda el nombre del campo original para el manejador de guardado.
         $originalOptionInput.val( optionValue ); // Guarda la opción original.
-        if ( fieldName ) { // Comprueba que exista un campo válido para seleccionar.
-            $fieldSelect.val( fieldName ); // Selecciona el campo en el desplegable.
+        clearInlineNotice(); // Elimina cualquier aviso previo antes de mostrar nuevos mensajes informativos.
+        var warningMessages = []; // Inicializa la colección de mensajes de advertencia que se mostrarán al usuario.
+        var fieldExists = fieldName && fieldOptionsMap[ fieldName ]; // Determina si el campo original continúa disponible en el formulario analizado.
+        if ( fieldName ) { // Comprueba si hay un campo que restaurar.
+            if ( fieldExists ) { // Evalúa si el campo continúa existiendo en el formulario.
+                $fieldSelect.val( fieldName ); // Selecciona el campo en el desplegable cuando está disponible.
+            } else { // Gestiona el caso en el que el campo ya no existe.
+                var fieldWarning = injectMissingFieldPlaceholder( fieldName ); // Inserta una opción temporal para mantener la referencia del campo ausente.
+                if ( fieldWarning ) { // Comprueba si se generó un mensaje informativo para el usuario.
+                    warningMessages.push( fieldWarning ); // Registra el mensaje de advertencia para mostrarlo posteriormente.
+                }
+                resetOptionInput( false ); // Limpia cualquier lista de opciones dependientes porque ya no corresponden al campo original.
+            }
+        } else { // Cuando no hay un campo definido en la regla.
+            resetOptionInput( false ); // Limpia las opciones dependientes para evitar inconsistencias.
         }
-        var hasOptions = populateOptionsForField( fieldName ); // Rellena el selector de opciones con los valores detectados.
-        if ( hasOptions && optionValue ) { // Comprueba si se debe seleccionar una opción concreta.
-            $optionSelect.val( optionValue ); // Selecciona la opción almacenada previamente.
-        } else if ( ! hasOptions ) { // Si no se pudieron cargar opciones para el campo.
-            setOptionStatus( CF7OptionLimiterAdmin.i18n.noOptions ); // Mantiene un mensaje claro indicando la ausencia de opciones.
+        var hasOptions = false; // Inicializa el indicador que refleja si se cargaron opciones válidas.
+        if ( fieldName && fieldExists ) { // Comprueba si se debe cargar la lista de opciones del campo actual.
+            hasOptions = populateOptionsForField( fieldName ); // Rellena el selector de opciones con los valores detectados.
+        }
+        if ( optionValue ) { // Evalúa si existe una opción almacenada en la regla.
+            if ( hasOptions ) { // Comprueba si se cargaron opciones para el campo actual.
+                $optionSelect.val( optionValue ); // Intenta seleccionar la opción almacenada previamente.
+                if ( String( $optionSelect.val() ) !== String( optionValue ) ) { // Comprueba si la opción ya no existe en el selector.
+                    var missingOptionMessage = injectMissingOptionPlaceholder( optionValue, optionLabel ); // Inserta una opción temporal que represente el valor desaparecido.
+                    if ( missingOptionMessage ) { // Comprueba si la función devolvió un mensaje para el usuario.
+                        warningMessages.push( missingOptionMessage ); // Registra el mensaje para mostrarlo en el aviso general.
+                    }
+                }
+            } else { // Gestiona el caso en que no se pudo cargar la lista de opciones del campo.
+                var optionWarning = injectMissingOptionPlaceholder( optionValue, optionLabel ); // Inserta la opción temporal para mantener el valor original.
+                if ( optionWarning ) { // Comprueba si se generó un mensaje informativo.
+                    warningMessages.push( optionWarning ); // Añade el mensaje a la cola de advertencias a mostrar.
+                }
+            }
+        } else if ( ! hasOptions ) { // Cuando no existe una opción almacenada y tampoco hay lista de opciones.
+            setOptionStatus( CF7OptionLimiterAdmin.i18n.noOptions ); // Mantiene un mensaje claro indicando la ausencia de opciones disponibles.
         }
         $maxInput.val( maxCount ); // Rellena el máximo permitido conservando el valor existente.
         $limitSelect.val( limitPeriod ); // Ajusta el periodo configurado.
@@ -456,21 +844,10 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
         $submitButton.text( updateLabel ); // Cambia la etiqueta del botón para indicar el modo edición.
         updateSubmitState(); // Mantiene el botón activo sólo cuando la edición cuenta con todas las selecciones obligatorias.
         $cancelButton.show(); // Muestra el botón de cancelar edición.
+        if ( warningMessages.length ) { // Comprueba si se registraron advertencias durante el proceso de restauración.
+            showInlineNotice( 'warning', warningMessages.join( ' ' ) ); // Muestra las advertencias concatenadas en un único aviso visible.
+        }
         return true; // Indica que los datos se aplicaron correctamente.
-    }
-
-    function fieldsReadyFor( fieldName ) { // Función que verifica si el selector de campos incluye la información necesaria.
-        if ( ! $fieldSelect.length ) { // Comprueba que el selector exista.
-            return false; // Indica que no hay campos disponibles.
-        }
-        var optionsMap = $fieldSelect.data( 'fieldOptions' ) || {}; // Recupera el mapa de campos cargados.
-        if ( $.isEmptyObject( optionsMap ) ) { // Comprueba si todavía no se ha cargado ningún campo.
-            return false; // Indica que los campos no están listos.
-        }
-        if ( ! fieldName ) { // Si no se especificó un campo concreto.
-            return true; // Considera que los campos están listos porque la lista existe.
-        }
-        return !! optionsMap[ fieldName ]; // Indica si el campo solicitado está presente en el mapa.
     }
 
     function clearEditMode() { // Función que restablece el formulario tras cancelar la edición.
@@ -479,6 +856,7 @@ jQuery( document ).ready( function( $ ) { // Inicia la función principal utiliz
         $ruleInput.val( '0' ); // Restablece el identificador de la regla editada.
         $originalFieldInput.val( '' ); // Limpia el nombre original del campo.
         $originalOptionInput.val( '' ); // Limpia la opción original.
+        clearInlineNotice(); // Elimina cualquier aviso visible para evitar confusiones al salir del modo edición.
         $submitButton.text( saveLabel ); // Restaura la etiqueta del botón principal.
         $cancelButton.hide(); // Oculta el botón de cancelar edición.
         resetFieldInput( CF7OptionLimiterAdmin.i18n.fieldManual, true ); // Restablece el selector de campos conservando las opciones disponibles.

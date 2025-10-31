@@ -5,26 +5,89 @@ if ( ! defined( 'WPCF7_VERSION' ) ) { // Comprueba si la constante de Contact Fo
     define( 'WPCF7_VERSION', '1.0.0' ); // Define una versión simulada para permitir que los hooks del panel se registren.
 }
 if ( ! function_exists( '__' ) ) { // Comprueba si la función de traducción estándar no existe.
+    /**
+    * Declara una versión simplificada de __().
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara una versión simplificada de __().
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $text Valor utilizado por la función __.
+    * @param mixed $domain Valor utilizado por la función __.
+    *
+    * @return mixed Resultado devuelto por la función __.
+    */
     function __( $text, $domain = null ) { // Declara una versión simplificada de __().
         return $text; // Devuelve el mismo texto ya que no se evalúan traducciones en las pruebas.
     }
 }
 if ( ! function_exists( 'esc_html__' ) ) { // Comprueba si la función esc_html__ no está disponible.
+    /**
+    * Declara la función de ayuda de traducción.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función de ayuda de traducción.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $text Valor utilizado por la función esc_html__.
+    * @param mixed $domain Valor utilizado por la función esc_html__.
+    *
+    * @return mixed Resultado devuelto por la función esc_html__.
+    */
     function esc_html__( $text, $domain = null ) { // Declara la función de ayuda de traducción.
         return $text; // Devuelve el texto sin modificar para fines de prueba.
     }
 }
 if ( ! function_exists( 'esc_attr__' ) ) { // Comprueba si la función esc_attr__ no existe.
+    /**
+    * Declara un sustituto básico.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto básico.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $text Valor utilizado por la función esc_attr__.
+    * @param mixed $domain Valor utilizado por la función esc_attr__.
+    *
+    * @return mixed Resultado devuelto por la función esc_attr__.
+    */
     function esc_attr__( $text, $domain = null ) { // Declara un sustituto básico.
         return $text; // Devuelve el texto directamente sin escapar adicional.
     }
 }
 if ( ! function_exists( 'esc_html' ) ) { // Comprueba si la función esc_html no está disponible.
+    /**
+    * Declara la función ficticia.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función ficticia.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $text Valor utilizado por la función esc_html.
+    *
+    * @return mixed Resultado devuelto por la función esc_html.
+    */
     function esc_html( $text ) { // Declara la función ficticia.
         return $text; // Devuelve el texto sin procesamiento adicional.
     }
 }
 if ( ! function_exists( 'esc_attr' ) ) { // Comprueba si la función esc_attr no existe.
+    /**
+    * Declara la función ficticia.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función ficticia.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $text Valor utilizado por la función esc_attr.
+    *
+    * @return mixed Resultado devuelto por la función esc_attr.
+    */
     function esc_attr( $text ) { // Declara la función ficticia.
         return $text; // Devuelve el texto sin cambios.
     }
@@ -33,11 +96,39 @@ if ( ! class_exists( 'WP_Error' ) ) { // Comprueba si la clase WP_Error no está
     class WP_Error { // Declara una implementación mínima de la clase WP_Error.
         public $errors = array(); // Almacena los mensajes registrados por código de error.
         public $error_data = array(); // Almacena datos adicionales asociados a los códigos registrados.
+        /**
+        * Constructor que permite registrar un error inicial.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Constructor que permite registrar un error inicial.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $code Valor utilizado por la función __construct.
+        * @param mixed $message Valor utilizado por la función __construct.
+        * @param mixed $data Valor utilizado por la función __construct.
+        *
+        * @return mixed Resultado devuelto por la función __construct.
+        */
         public function __construct( $code = '', $message = '', $data = array() ) { // Constructor que permite registrar un error inicial.
             if ( $code ) { // Comprueba si se proporcionó un código de error.
                 $this->add( $code, $message, $data ); // Registra el error inicial utilizando el método add para mantener consistencia.
             }
         }
+        /**
+        * Permite añadir errores adicionales replicando la firma original.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Permite añadir errores adicionales replicando la firma original.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $code Valor utilizado por la función add.
+        * @param mixed $message Valor utilizado por la función add.
+        * @param mixed $data Valor utilizado por la función add.
+        *
+        * @return mixed Resultado devuelto por la función add.
+        */
         public function add( $code, $message, $data = array() ) { // Permite añadir errores adicionales replicando la firma original.
             if ( ! isset( $this->errors[ $code ] ) ) { // Comprueba si aún no se han registrado errores con el mismo código.
                 $this->errors[ $code ] = array(); // Inicializa la colección de mensajes para el código indicado.
@@ -47,10 +138,32 @@ if ( ! class_exists( 'WP_Error' ) ) { // Comprueba si la clase WP_Error no está
                 $this->error_data[ $code ] = $data; // Almacena los datos adicionales asociados al código.
             }
         }
+        /**
+        * Devuelve el primer código registrado replicando el comportamiento habitual.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Devuelve el primer código registrado replicando el comportamiento habitual.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @return mixed Resultado devuelto por la función get_error_code.
+        */
         public function get_error_code() { // Devuelve el primer código registrado replicando el comportamiento habitual.
             $codes = array_keys( $this->errors ); // Recupera todos los códigos registrados.
             return isset( $codes[0] ) ? $codes[0] : ''; // Devuelve el primer código o una cadena vacía si no existen errores.
         }
+        /**
+        * Recupera el primer mensaje almacenado para un código específico.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Recupera el primer mensaje almacenado para un código específico.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $code Valor utilizado por la función get_error_message.
+        *
+        * @return mixed Resultado devuelto por la función get_error_message.
+        */
         public function get_error_message( $code = '' ) { // Recupera el primer mensaje almacenado para un código específico.
             $code = $code ? $code : $this->get_error_code(); // Determina qué código se debe consultar.
             if ( empty( $code ) || empty( $this->errors[ $code ] ) ) { // Comprueba si no existen mensajes registrados para el código indicado.
@@ -61,26 +174,120 @@ if ( ! class_exists( 'WP_Error' ) ) { // Comprueba si la clase WP_Error no está
     }
 }
 if ( ! function_exists( 'is_wp_error' ) ) { // Comprueba si la función is_wp_error no está disponible.
+    /**
+    * Declara un sustituto que replica el comportamiento de WordPress.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que replica el comportamiento de WordPress.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $thing Valor utilizado por la función is_wp_error.
+    *
+    * @return mixed Resultado devuelto por la función is_wp_error.
+    */
     function is_wp_error( $thing ) { // Declara un sustituto que replica el comportamiento de WordPress.
         return $thing instanceof WP_Error; // Devuelve true únicamente cuando el valor recibido es una instancia de WP_Error.
     }
 }
 if ( ! function_exists( 'esc_url' ) ) { // Comprueba si la función esc_url no existe.
+    /**
+    * Declara la función ficticia para las pruebas.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función ficticia para las pruebas.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $url Valor utilizado por la función esc_url.
+    *
+    * @return mixed Resultado devuelto por la función esc_url.
+    */
     function esc_url( $url ) { // Declara la función ficticia para las pruebas.
         return $url; // Devuelve la URL sin modificación, suficiente para las comprobaciones de lógica.
     }
 }
 if ( ! function_exists( 'esc_url_raw' ) ) { // Comprueba si la función esc_url_raw no está disponible en las pruebas.
+    /**
+    * Declara un sustituto básico alineado con la firma original de WordPress.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto básico alineado con la firma original de WordPress.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $url Valor utilizado por la función esc_url_raw.
+    *
+    * @return mixed Resultado devuelto por la función esc_url_raw.
+    */
     function esc_url_raw( $url ) { // Declara un sustituto básico alineado con la firma original de WordPress.
         return $url; // Devuelve la URL sin alteraciones porque no se evalúa sanitización real en el entorno de pruebas.
     }
 }
 if ( ! function_exists( 'wp_nonce_field' ) ) { // Comprueba si la función wp_nonce_field no está disponible.
-    function wp_nonce_field() { // Declara un sustituto vacío.
-        return ''; // No realiza ninguna acción durante las pruebas.
+    /**
+    * Declara un sustituto que emula la salida HTML básica del nonce.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que emula la salida HTML básica del nonce.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $action Identificador del nonce solicitado.
+    * @param mixed $name   Nombre del campo oculto que almacenará el nonce.
+    * @param bool  $referer Indica si se debe incluir el campo referer adicional.
+    * @param bool  $echo   Controla si el resultado se imprime directamente o se devuelve como cadena.
+    *
+    * @return string Resultado que representa los campos ocultos generados.
+    */
+    function wp_nonce_field( $action = -1, $name = '_wpnonce', $referer = true, $echo = true ) { // Declara un sustituto que emula la salida HTML básica del nonce.
+        $action_value = is_scalar( $action ) ? (string) $action : ''; // Normaliza el identificador del nonce para insertarlo en el valor del campo.
+        $field_name = $name ? (string) $name : '_wpnonce'; // Garantiza que exista un nombre de campo válido reutilizando el predeterminado cuando falte.
+        $field  = '<input type="hidden" name="' . $field_name . '" value="nonce-' . $action_value . '" />'; // Construye el campo oculto principal simulando el comportamiento de WordPress.
+        if ( $referer ) { // Comprueba si se debe añadir el campo referer.
+            $field .= '<input type="hidden" name="_wp_http_referer" value="/wp-admin/admin.php" />'; // Añade un campo referer consistente para las pruebas automatizadas.
+        }
+        if ( $echo ) { // Comprueba si el resultado debe imprimirse directamente.
+            echo $field; // Imprime el marcado generado para imitar el comportamiento original.
+        }
+        return $field; // Devuelve el marcado para los escenarios que necesitan manipularlo manualmente.
+    }
+}
+if ( ! function_exists( 'disabled' ) ) { // Comprueba si la función disabled no está disponible en el entorno de pruebas.
+    /**
+    * Declara un sustituto que replica la firma de WordPress para imprimir el atributo disabled.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que replica la firma de WordPress para imprimir el atributo disabled.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $disabled Valor que determina si se debe marcar el atributo.
+    * @param mixed $current  Valor de comparación utilizado internamente por WordPress.
+    * @param bool  $echo     Indica si el atributo se imprime directamente o se devuelve como cadena.
+    *
+    * @return string Resultado que contiene el atributo disabled cuando procede.
+    */
+    function disabled( $disabled, $current = true, $echo = true ) { // Declara un sustituto que replica la firma de WordPress para imprimir el atributo disabled.
+        $should_disable = ( $disabled == $current ); // Evalúa si los valores coinciden para determinar si debe aplicarse el atributo.
+        $attribute = $should_disable ? ' disabled="disabled"' : ''; // Construye el atributo únicamente cuando los valores coinciden.
+        if ( $echo ) { // Comprueba si el resultado debe imprimirse directamente.
+            echo $attribute; // Imprime el atributo simulando el comportamiento de WordPress.
+        }
+        return $attribute; // Devuelve el atributo para los escenarios que requieren manipularlo manualmente.
     }
 }
 if ( ! function_exists( 'wp_reset_postdata' ) ) { // Comprueba si la función wp_reset_postdata no existe en el entorno.
+    /**
+    * Declara la función ficticia utilizada tras consultas manuales.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función ficticia utilizada tras consultas manuales.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función wp_reset_postdata.
+    */
     function wp_reset_postdata() { // Declara la función ficticia utilizada tras consultas manuales.
         return true; // Devuelve verdadero sin realizar operaciones, suficiente para las pruebas unitarias.
     }
@@ -89,22 +296,70 @@ if ( ! defined( 'ARRAY_A' ) ) { // Comprueba si la constante ARRAY_A no está de
     define( 'ARRAY_A', 'ARRAY_A' ); // Define la constante con un valor simbólico para las llamadas a $wpdb.
 }
 if ( ! function_exists( 'wp_unslash' ) ) { // Comprueba si wp_unslash no existe.
+    /**
+    * Declara la función de utilidad.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función de utilidad.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $value Valor utilizado por la función wp_unslash.
+    *
+    * @return mixed Resultado devuelto por la función wp_unslash.
+    */
     function wp_unslash( $value ) { // Declara la función de utilidad.
         return $value; // Devuelve el valor original sin modificaciones.
     }
 }
 if ( ! function_exists( 'sanitize_text_field' ) ) { // Comprueba si sanitize_text_field no está disponible.
+    /**
+    * Declara la función simplificada.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función simplificada.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $value Valor utilizado por la función sanitize_text_field.
+    *
+    * @return mixed Resultado devuelto por la función sanitize_text_field.
+    */
     function sanitize_text_field( $value ) { // Declara la función simplificada.
         return is_string( $value ) ? $value : (string) $value; // Convierte valores a cadena para simular la sanitización básica.
     }
 }
 if ( ! function_exists( 'sanitize_key' ) ) { // Comprueba si sanitize_key no existe en el entorno de pruebas.
+    /**
+    * Declara una versión simplificada de la función de WordPress.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara una versión simplificada de la función de WordPress.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $key Valor utilizado por la función sanitize_key.
+    *
+    * @return mixed Resultado devuelto por la función sanitize_key.
+    */
     function sanitize_key( $key ) { // Declara una versión simplificada de la función de WordPress.
         $key = strtolower( (string) $key ); // Convierte la entrada a minúsculas para seguir la convención habitual.
         return preg_replace( '/[^a-z0-9_]/', '', $key ); // Elimina cualquier carácter que no sea alfanumérico o guion bajo.
     }
 }
 if ( ! function_exists( 'check_admin_referer' ) ) { // Comprueba si la función check_admin_referer no existe en el entorno de pruebas.
+    /**
+    * Declara la función ficticia responsable de validar peticiones en el administrador.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función ficticia responsable de validar peticiones en el administrador.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $action Valor utilizado por la función check_admin_referer.
+    *
+    * @return mixed Resultado devuelto por la función check_admin_referer.
+    */
     function check_admin_referer( $action = -1 ) { // Declara la función ficticia responsable de validar peticiones en el administrador.
         $GLOBALS['cf7_option_limiter_last_nonce_action'] = $action; // Registra la acción del nonce para poder verificarla en las aserciones.
         if ( ! empty( $GLOBALS['cf7_option_limiter_nonce_should_fail'] ) ) { // Comprueba si las pruebas solicitaron forzar un fallo en la validación.
@@ -114,6 +369,18 @@ if ( ! function_exists( 'check_admin_referer' ) ) { // Comprueba si la función 
     }
 }
 if ( ! function_exists( 'current_user_can' ) ) { // Comprueba si current_user_can no existe.
+    /**
+    * Declara la función stub.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función stub.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $capability Valor utilizado por la función current_user_can.
+    *
+    * @return mixed Resultado devuelto por la función current_user_can.
+    */
     function current_user_can( $capability = '' ) { // Declara la función stub.
         $GLOBALS['cf7_option_limiter_last_capability'] = $capability; // Registra la capacidad solicitada para que las pruebas puedan inspeccionarla.
         if ( 'activate_plugins' === $capability && isset( $GLOBALS['cf7_option_limiter_capability_result'] ) ) { // Comprueba si las pruebas definieron un resultado explícito para la capacidad clave.
@@ -123,13 +390,36 @@ if ( ! function_exists( 'current_user_can' ) ) { // Comprueba si current_user_ca
     }
 }
 if ( ! function_exists( 'check_ajax_referer' ) ) { // Comprueba si check_ajax_referer no existe.
+    /**
+    * Declara un sustituto vacío.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto vacío.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función check_ajax_referer.
+    */
     function check_ajax_referer() { // Declara un sustituto vacío.
         return true; // Acepta todas las peticiones en pruebas.
     }
 }
 if ( ! function_exists( 'is_admin' ) ) { // Comprueba si la función is_admin no está disponible.
+    /**
+    * Declara la función simplificada utilizada en el panel incrustado.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función simplificada utilizada en el panel incrustado.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función is_admin.
+    */
     function is_admin() { // Declara la función simplificada utilizada en el panel incrustado.
-        return true; // Indica que siempre nos encontramos en el administrador durante las pruebas.
+        if ( isset( $GLOBALS['cf7_option_limiter_is_admin'] ) ) { // Comprueba si las pruebas han definido un contexto concreto.
+            return (bool) $GLOBALS['cf7_option_limiter_is_admin']; // Devuelve el valor indicado por las pruebas para simular frontend o administración.
+        }
+        return true; // Indica que por defecto las pruebas se ejecutan en el administrador.
     }
 }
 if ( ! class_exists( 'CF7_Option_Limiter_Test_JSON_Response' ) ) { // Comprueba si la excepción personalizada para respuestas JSON ya fue declarada.
@@ -137,6 +427,20 @@ if ( ! class_exists( 'CF7_Option_Limiter_Test_JSON_Response' ) ) { // Comprueba 
         public $payload; // Almacena los datos devueltos por la función JSON.
         public $success; // Indica si la respuesta representa un éxito o un error.
         public $status; // Almacena el código de estado HTTP simulado.
+        /**
+        * Constructor que inicializa la respuesta interceptada.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Constructor que inicializa la respuesta interceptada.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $success Valor utilizado por la función __construct.
+        * @param mixed $payload Valor utilizado por la función __construct.
+        * @param mixed $status Valor utilizado por la función __construct.
+        *
+        * @return mixed Resultado devuelto por la función __construct.
+        */
         public function __construct( $success, $payload, $status = 200 ) { // Constructor que inicializa la respuesta interceptada.
             parent::__construct( 'json_response', $status ); // Llama al constructor base indicando un mensaje genérico.
             $this->success = $success; // Almacena el indicador de éxito.
@@ -146,31 +450,100 @@ if ( ! class_exists( 'CF7_Option_Limiter_Test_JSON_Response' ) ) { // Comprueba 
     }
 }
 if ( ! function_exists( 'wp_send_json_success' ) ) { // Comprueba si wp_send_json_success no existe.
+    /**
+    * Declara la función sustituta.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función sustituta.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $data Valor utilizado por la función wp_send_json_success.
+    *
+    * @return mixed Resultado devuelto por la función wp_send_json_success.
+    */
     function wp_send_json_success( $data ) { // Declara la función sustituta.
         throw new CF7_Option_Limiter_Test_JSON_Response( true, $data, 200 ); // Lanza una excepción para permitir que la prueba capture la respuesta sin finalizar la ejecución.
     }
 }
 if ( ! function_exists( 'wp_send_json_error' ) ) { // Comprueba si wp_send_json_error no existe.
+    /**
+    * Declara la función sustituta para los errores.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función sustituta para los errores.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $data Valor utilizado por la función wp_send_json_error.
+    * @param mixed $status Valor utilizado por la función wp_send_json_error.
+    *
+    * @return mixed Resultado devuelto por la función wp_send_json_error.
+    */
     function wp_send_json_error( $data, $status = 400 ) { // Declara la función sustituta para los errores.
         throw new CF7_Option_Limiter_Test_JSON_Response( false, $data, $status ); // Lanza una excepción que representa la respuesta de error sin detener las pruebas.
     }
 }
 if ( ! function_exists( 'admin_url' ) ) { // Comprueba si admin_url no existe.
+    /**
+    * Declara la función ficticia.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función ficticia.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $path Valor utilizado por la función admin_url.
+    *
+    * @return mixed Resultado devuelto por la función admin_url.
+    */
     function admin_url( $path = '' ) { // Declara la función ficticia.
         return $path; // Devuelve el mismo valor recibido.
     }
 }
 if ( ! function_exists( 'plugin_dir_path' ) ) { // Comprueba si plugin_dir_path no existe en el entorno de pruebas.
+    /**
+    * Declara un sustituto que replica el comportamiento original.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que replica el comportamiento original.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $file Valor utilizado por la función plugin_dir_path.
+    *
+    * @return mixed Resultado devuelto por la función plugin_dir_path.
+    */
     function plugin_dir_path( $file ) { // Declara un sustituto que replica el comportamiento original.
         return rtrim( dirname( $file ), '/\\' ) . '/'; // Devuelve la ruta absoluta del directorio con barra final.
     }
 }
 if ( ! function_exists( 'plugin_dir_url' ) ) { // Comprueba si plugin_dir_url no está disponible durante las pruebas.
+    /**
+    * Declara un sustituto sencillo.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto sencillo.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función plugin_dir_url.
+    */
     function plugin_dir_url() { // Declara un sustituto sencillo.
         return 'http://example.com/plugin/'; // Devuelve una URL fija suficiente para pruebas lógicas.
     }
 }
 if ( ! function_exists( 'wp_upload_dir' ) ) { // Comprueba si wp_upload_dir no está disponible en el entorno de pruebas.
+    /**
+    * Declara un sustituto que imita la estructura devuelta por WordPress.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que imita la estructura devuelta por WordPress.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función wp_upload_dir.
+    */
     function wp_upload_dir() { // Declara un sustituto que imita la estructura devuelta por WordPress.
         $base_dir = sys_get_temp_dir() . '/cf7-option-limiter-tests-uploads'; // Calcula un directorio temporal dedicado para los logs de prueba.
         return array( // Devuelve la estructura esperada por el plugin.
@@ -180,6 +553,18 @@ if ( ! function_exists( 'wp_upload_dir' ) ) { // Comprueba si wp_upload_dir no e
     }
 }
 if ( ! function_exists( 'wp_mkdir_p' ) ) { // Comprueba si wp_mkdir_p no está disponible durante las pruebas.
+    /**
+    * Declara una versión simplificada para crear directorios anidados.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara una versión simplificada para crear directorios anidados.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $target Valor utilizado por la función wp_mkdir_p.
+    *
+    * @return mixed Resultado devuelto por la función wp_mkdir_p.
+    */
     function wp_mkdir_p( $target ) { // Declara una versión simplificada para crear directorios anidados.
         if ( is_dir( $target ) ) { // Comprueba si el directorio ya existe.
             return true; // Devuelve true porque no es necesario crearlo nuevamente.
@@ -189,23 +574,73 @@ if ( ! function_exists( 'wp_mkdir_p' ) ) { // Comprueba si wp_mkdir_p no está d
 }
 if ( ! function_exists( 'dbDelta' ) ) { // Comprueba si dbDelta no está disponible en el entorno aislado.
     $GLOBALS['cf7_option_limiter_dbdelta_calls'] = array(); // Inicializa el registro de invocaciones para las pruebas.
+    /**
+    * Declara una implementación mínima que registre las llamadas.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara una implementación mínima que registre las llamadas.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $sql Valor utilizado por la función dbDelta.
+    *
+    * @return mixed Resultado devuelto por la función dbDelta.
+    */
     function dbDelta( $sql ) { // Declara una implementación mínima que registre las llamadas.
         $GLOBALS['cf7_option_limiter_dbdelta_calls'][] = $sql; // Almacena el SQL recibido para validaciones posteriores.
         return true; // Devuelve true para simular una ejecución satisfactoria.
     }
 }
 if ( ! function_exists( 'trailingslashit' ) ) { // Comprueba si trailingslashit no existe en el entorno reducido.
+    /**
+    * Declara la función que asegura la barra final.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función que asegura la barra final.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $path Valor utilizado por la función trailingslashit.
+    *
+    * @return mixed Resultado devuelto por la función trailingslashit.
+    */
     function trailingslashit( $path ) { // Declara la función que asegura la barra final.
         return rtrim( $path, '/\\' ) . '/'; // Elimina barras sobrantes y añade exactamente una al final.
     }
 }
 if ( ! function_exists( 'plugin_basename' ) ) { // Comprueba si plugin_basename no está disponible.
+    /**
+    * Declara el sustituto simplificado.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara el sustituto simplificado.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $file Valor utilizado por la función plugin_basename.
+    *
+    * @return mixed Resultado devuelto por la función plugin_basename.
+    */
     function plugin_basename( $file ) { // Declara el sustituto simplificado.
         return basename( $file ); // Devuelve el nombre del archivo para reproducir el identificador del plugin.
     }
 }
 if ( ! function_exists( 'wp_register_style' ) ) { // Comprueba si wp_register_style no existe.
     $GLOBALS['cf7_option_limiter_registered_styles'] = array(); // Inicializa el registro de estilos simulados.
+    /**
+    * Declara un sustituto que almacena la información recibida.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que almacena la información recibida.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $handle Valor utilizado por la función wp_register_style.
+    * @param mixed $src Valor utilizado por la función wp_register_style.
+    * @param mixed $deps Valor utilizado por la función wp_register_style.
+    *
+    * @return mixed Resultado devuelto por la función wp_register_style.
+    */
     function wp_register_style( $handle, $src = '', $deps = array(), $ver = false, $media = 'all' ) { // Declara un sustituto que almacena la información recibida.
         $GLOBALS['cf7_option_limiter_registered_styles'][ $handle ] = array( // Guarda los metadatos del estilo registrado.
             'src'   => $src, // Ruta del archivo CSS registrado.
@@ -218,6 +653,20 @@ if ( ! function_exists( 'wp_register_style' ) ) { // Comprueba si wp_register_st
 }
 if ( ! function_exists( 'wp_register_script' ) ) { // Comprueba si wp_register_script no existe.
     $GLOBALS['cf7_option_limiter_registered_scripts'] = array(); // Inicializa el registro de scripts simulados.
+    /**
+    * Declara un sustituto que almacena los parámetros recibidos.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que almacena los parámetros recibidos.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $handle Valor utilizado por la función wp_register_script.
+    * @param mixed $src Valor utilizado por la función wp_register_script.
+    * @param mixed $deps Valor utilizado por la función wp_register_script.
+    *
+    * @return mixed Resultado devuelto por la función wp_register_script.
+    */
     function wp_register_script( $handle, $src = '', $deps = array(), $ver = false, $in_footer = false ) { // Declara un sustituto que almacena los parámetros recibidos.
         $GLOBALS['cf7_option_limiter_registered_scripts'][ $handle ] = array( // Guarda los metadatos del script registrado.
             'src'       => $src, // Ruta al archivo JavaScript registrado.
@@ -230,6 +679,18 @@ if ( ! function_exists( 'wp_register_script' ) ) { // Comprueba si wp_register_s
 }
 if ( ! function_exists( 'wp_enqueue_style' ) ) { // Comprueba si wp_enqueue_style no existe.
     $GLOBALS['cf7_option_limiter_enqueued_styles'] = array(); // Inicializa la lista de estilos encolados durante las pruebas.
+    /**
+    * Declara un sustituto que registra cada encolado.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que registra cada encolado.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $handle Valor utilizado por la función wp_enqueue_style.
+    *
+    * @return mixed Resultado devuelto por la función wp_enqueue_style.
+    */
     function wp_enqueue_style( $handle ) { // Declara un sustituto que registra cada encolado.
         $GLOBALS['cf7_option_limiter_enqueued_styles'][] = $handle; // Añade el identificador del estilo encolado.
         return true; // Devuelve true para simular un encolado satisfactorio.
@@ -237,6 +698,18 @@ if ( ! function_exists( 'wp_enqueue_style' ) ) { // Comprueba si wp_enqueue_styl
 }
 if ( ! function_exists( 'wp_enqueue_script' ) ) { // Comprueba si wp_enqueue_script no existe.
     $GLOBALS['cf7_option_limiter_enqueued_scripts'] = array(); // Inicializa la lista de scripts encolados.
+    /**
+    * Declara el sustituto que registra los scripts encolados.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara el sustituto que registra los scripts encolados.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $handle Valor utilizado por la función wp_enqueue_script.
+    *
+    * @return mixed Resultado devuelto por la función wp_enqueue_script.
+    */
     function wp_enqueue_script( $handle ) { // Declara el sustituto que registra los scripts encolados.
         $GLOBALS['cf7_option_limiter_enqueued_scripts'][] = $handle; // Añade el identificador del script encolado.
         return true; // Devuelve true para mantener el flujo esperado durante las pruebas.
@@ -244,6 +717,20 @@ if ( ! function_exists( 'wp_enqueue_script' ) ) { // Comprueba si wp_enqueue_scr
 }
 if ( ! function_exists( 'wp_localize_script' ) ) { // Comprueba si wp_localize_script no existe.
     $GLOBALS['cf7_option_limiter_localized_scripts'] = array(); // Inicializa el registro de localizaciones simuladas.
+    /**
+    * Declara un sustituto que almacena la configuración localizada.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que almacena la configuración localizada.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $handle Valor utilizado por la función wp_localize_script.
+    * @param mixed $name Valor utilizado por la función wp_localize_script.
+    * @param mixed $data Valor utilizado por la función wp_localize_script.
+    *
+    * @return mixed Resultado devuelto por la función wp_localize_script.
+    */
     function wp_localize_script( $handle, $name, $data ) { // Declara un sustituto que almacena la configuración localizada.
         $GLOBALS['cf7_option_limiter_localized_scripts'][ $handle ] = array( // Guarda el nombre del objeto y los datos asociados.
             'name' => $name, // Identificador del objeto JavaScript creado.
@@ -253,6 +740,19 @@ if ( ! function_exists( 'wp_localize_script' ) ) { // Comprueba si wp_localize_s
     }
 }
 if ( ! function_exists( 'wp_style_is' ) ) { // Comprueba si wp_style_is no existe.
+    /**
+    * Declara un sustituto que consulta los estilos registrados o encolados.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que consulta los estilos registrados o encolados.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $handle Valor utilizado por la función wp_style_is.
+    * @param mixed $list Valor utilizado por la función wp_style_is.
+    *
+    * @return mixed Resultado devuelto por la función wp_style_is.
+    */
     function wp_style_is( $handle, $list = 'enqueued' ) { // Declara un sustituto que consulta los estilos registrados o encolados.
         $registered = isset( $GLOBALS['cf7_option_limiter_registered_styles'] ) ? $GLOBALS['cf7_option_limiter_registered_styles'] : array(); // Recupera el registro de estilos simulados.
         $enqueued = isset( $GLOBALS['cf7_option_limiter_enqueued_styles'] ) ? $GLOBALS['cf7_option_limiter_enqueued_styles'] : array(); // Recupera la lista de estilos encolados.
@@ -263,6 +763,19 @@ if ( ! function_exists( 'wp_style_is' ) ) { // Comprueba si wp_style_is no exist
     }
 }
 if ( ! function_exists( 'wp_script_is' ) ) { // Comprueba si wp_script_is no existe.
+    /**
+    * Declara un sustituto que consulta los scripts registrados o encolados.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que consulta los scripts registrados o encolados.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $handle Valor utilizado por la función wp_script_is.
+    * @param mixed $list Valor utilizado por la función wp_script_is.
+    *
+    * @return mixed Resultado devuelto por la función wp_script_is.
+    */
     function wp_script_is( $handle, $list = 'enqueued' ) { // Declara un sustituto que consulta los scripts registrados o encolados.
         $registered = isset( $GLOBALS['cf7_option_limiter_registered_scripts'] ) ? $GLOBALS['cf7_option_limiter_registered_scripts'] : array(); // Recupera el registro de scripts simulados.
         $enqueued = isset( $GLOBALS['cf7_option_limiter_enqueued_scripts'] ) ? $GLOBALS['cf7_option_limiter_enqueued_scripts'] : array(); // Recupera la lista de scripts encolados.
@@ -273,16 +786,54 @@ if ( ! function_exists( 'wp_script_is' ) ) { // Comprueba si wp_script_is no exi
     }
 }
 if ( ! function_exists( 'wp_json_encode' ) ) { // Comprueba si wp_json_encode no está disponible en el entorno de pruebas.
+    /**
+    * Declara un sustituto compatible con la firma original.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto compatible con la firma original.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $data Valor utilizado por la función wp_json_encode.
+    * @param mixed $options Valor utilizado por la función wp_json_encode.
+    * @param mixed $depth Valor utilizado por la función wp_json_encode.
+    *
+    * @return mixed Resultado devuelto por la función wp_json_encode.
+    */
     function wp_json_encode( $data, $options = 0, $depth = 512 ) { // Declara un sustituto compatible con la firma original.
         return json_encode( $data, $options, $depth ); // Utiliza json_encode para replicar el comportamiento básico.
     }
 }
 if ( ! function_exists( 'add_submenu_page' ) ) { // Comprueba si add_submenu_page no existe.
+    /**
+    * Declara una versión sin efectos.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara una versión sin efectos.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función add_submenu_page.
+    */
     function add_submenu_page() { // Declara una versión sin efectos.
         return true; // Devuelve true porque no es necesario registrar menús reales en las pruebas.
     }
 }
 if ( ! function_exists( 'selected' ) ) { // Comprueba si la función selected no existe.
+    /**
+    * Declara un sustituto compatible con la firma de WordPress.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto compatible con la firma de WordPress.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $selected Valor utilizado por la función selected.
+    * @param mixed $current Valor utilizado por la función selected.
+    * @param mixed $echo Valor utilizado por la función selected.
+    *
+    * @return mixed Resultado devuelto por la función selected.
+    */
     function selected( $selected, $current, $echo = true ) { // Declara un sustituto compatible con la firma de WordPress.
         $result = ( (string) $selected === (string) $current ) ? ' selected="selected"' : ''; // Calcula el atributo cuando los valores coinciden.
         if ( $echo ) { // Comprueba si se debe imprimir el resultado directamente.
@@ -292,6 +843,20 @@ if ( ! function_exists( 'selected' ) ) { // Comprueba si la función selected no
     }
 }
 if ( ! function_exists( 'checked' ) ) { // Comprueba si la función checked no existe en el entorno reducido.
+    /**
+    * Declara el sustituto compatible con la firma original.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara el sustituto compatible con la firma original.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $checked Valor utilizado por la función checked.
+    * @param mixed $current Valor utilizado por la función checked.
+    * @param mixed $echo Valor utilizado por la función checked.
+    *
+    * @return mixed Resultado devuelto por la función checked.
+    */
     function checked( $checked, $current = true, $echo = true ) { // Declara el sustituto compatible con la firma original.
         $result = ( (bool) $checked === (bool) $current ) ? ' checked="checked"' : ''; // Calcula el atributo checked cuando los valores coinciden.
         if ( $echo ) { // Verifica si se debe imprimir el resultado directamente.
@@ -302,6 +867,21 @@ if ( ! function_exists( 'checked' ) ) { // Comprueba si la función checked no e
 }
 if ( ! function_exists( 'add_action' ) ) { // Comprueba si add_action no existe en el entorno de pruebas.
     $GLOBALS['cf7_option_limiter_actions'] = array(); // Inicializa el registro global de acciones simuladas.
+    /**
+    * Declara la función stub.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función stub.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $hook Valor utilizado por la función add_action.
+    * @param mixed $callback Valor utilizado por la función add_action.
+    * @param mixed $priority Valor utilizado por la función add_action.
+    * @param mixed $accepted_args Valor utilizado por la función add_action.
+    *
+    * @return mixed Resultado devuelto por la función add_action.
+    */
     function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ) { // Declara la función stub.
         $GLOBALS['cf7_option_limiter_actions'][] = array( // Almacena la acción registrada para posibles verificaciones.
             'hook'          => $hook, // Nombre del hook asociado.
@@ -313,11 +893,36 @@ if ( ! function_exists( 'add_action' ) ) { // Comprueba si add_action no existe 
     }
 }
 if ( ! function_exists( 'do_action' ) ) { // Comprueba si do_action no existe en el entorno de pruebas.
+    /**
+    * Declara un stub sin efectos que permita ejecutar hooks sin dependencia de WordPress.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un stub sin efectos que permita ejecutar hooks sin dependencia de WordPress.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función do_action.
+    */
     function do_action() { // Declara un stub sin efectos que permita ejecutar hooks sin dependencia de WordPress.
         return true; // No realiza ninguna operación adicional.
     }
 }
 if ( ! function_exists( 'add_filter' ) ) { // Comprueba si add_filter no existe.
+    /**
+    * Declara la función stub.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función stub.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $hook Valor utilizado por la función add_filter.
+    * @param mixed $callback Valor utilizado por la función add_filter.
+    * @param mixed $priority Valor utilizado por la función add_filter.
+    * @param mixed $accepted_args Valor utilizado por la función add_filter.
+    *
+    * @return mixed Resultado devuelto por la función add_filter.
+    */
     function add_filter( $hook, $callback, $priority = 10, $accepted_args = 1 ) { // Declara la función stub.
         add_action( $hook, $callback, $priority, $accepted_args ); // Reutiliza la lógica de add_action para almacenar el registro.
         return true; // Devuelve true para mantener el flujo sin interrupciones.
@@ -325,32 +930,100 @@ if ( ! function_exists( 'add_filter' ) ) { // Comprueba si add_filter no existe.
 }
 if ( ! function_exists( 'register_activation_hook' ) ) { // Comprueba si register_activation_hook no existe.
     $GLOBALS['cf7_option_limiter_activation_callback'] = null; // Inicializa el almacenamiento del callback de activación.
+    /**
+    * Declara la función stub para capturar el callback.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función stub para capturar el callback.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $file Valor utilizado por la función register_activation_hook.
+    * @param mixed $callback Valor utilizado por la función register_activation_hook.
+    *
+    * @return mixed Resultado devuelto por la función register_activation_hook.
+    */
     function register_activation_hook( $file, $callback ) { // Declara la función stub para capturar el callback.
         $GLOBALS['cf7_option_limiter_activation_callback'] = $callback; // Guarda el callback para invocarlo en las pruebas.
     }
 }
 if ( ! function_exists( 'register_deactivation_hook' ) ) { // Comprueba si register_deactivation_hook no existe.
+    /**
+    * Declara un stub sin operaciones.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un stub sin operaciones.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función register_deactivation_hook.
+    */
     function register_deactivation_hook() { // Declara un stub sin operaciones.
         return true; // Devuelve true para cumplir con la firma esperada.
     }
 }
 if ( ! function_exists( 'register_uninstall_hook' ) ) { // Comprueba si register_uninstall_hook no existe.
+    /**
+    * Declara un stub sin operaciones.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un stub sin operaciones.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función register_uninstall_hook.
+    */
     function register_uninstall_hook() { // Declara un stub sin operaciones.
         return true; // Devuelve true manteniendo la compatibilidad con el flujo del plugin.
     }
 }
 if ( ! function_exists( 'did_action' ) ) { // Comprueba si did_action no existe.
     $GLOBALS['cf7_option_limiter_did_actions'] = array(); // Inicializa el seguimiento de hooks ejecutados.
+    /**
+    * Declara la función stub que consulta el seguimiento.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función stub que consulta el seguimiento.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $hook Valor utilizado por la función did_action.
+    *
+    * @return mixed Resultado devuelto por la función did_action.
+    */
     function did_action( $hook ) { // Declara la función stub que consulta el seguimiento.
         return ! empty( $GLOBALS['cf7_option_limiter_did_actions'][ $hook ] ); // Devuelve true si se marcó el hook como ejecutado.
     }
 }
 if ( ! function_exists( 'wp_create_nonce' ) ) { // Comprueba si wp_create_nonce no existe.
+    /**
+    * Declara el sustituto.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara el sustituto.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función wp_create_nonce.
+    */
     function wp_create_nonce() { // Declara el sustituto.
         return 'nonce'; // Devuelve un valor fijo para las pruebas.
     }
 }
 if ( ! function_exists( 'add_query_arg' ) ) { // Comprueba si add_query_arg no existe.
+    /**
+    * Declara el sustituto.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara el sustituto.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $args Valor utilizado por la función add_query_arg.
+    * @param mixed $url Valor utilizado por la función add_query_arg.
+    *
+    * @return mixed Resultado devuelto por la función add_query_arg.
+    */
     function add_query_arg( $args, $url ) { // Declara el sustituto.
         return $url . '?' . http_build_query( $args ); // Construye una URL simple basada en los argumentos.
     }
@@ -360,6 +1033,18 @@ if ( ! class_exists( 'CF7_Option_Limiter_Test_Redirect' ) ) { // Comprueba si la
     }
 }
 if ( ! function_exists( 'wp_safe_redirect' ) ) { // Comprueba si wp_safe_redirect no existe.
+    /**
+    * Declara la función ficticia que captura redirecciones.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara la función ficticia que captura redirecciones.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $url Valor utilizado por la función wp_safe_redirect.
+    *
+    * @return mixed Resultado devuelto por la función wp_safe_redirect.
+    */
     function wp_safe_redirect( $url ) { // Declara la función ficticia que captura redirecciones.
         $GLOBALS['cf7_option_limiter_last_redirect'] = $url; // Almacena la URL solicitada para poder inspeccionarla en las aserciones.
         throw new CF7_Option_Limiter_Test_Redirect( $url ); // Lanza una excepción para detener la ejecución en las pruebas sin finalizar el proceso completo.
@@ -370,6 +1055,19 @@ if ( ! defined( 'HOUR_IN_SECONDS' ) ) { // Comprueba si la constante de una hora
 }
 if ( ! function_exists( 'update_option' ) ) { // Comprueba si update_option no existe.
     $GLOBALS['cf7_option_limiter_fake_options'] = array(); // Inicializa el almacenamiento de opciones simulado.
+    /**
+    * Declara el sustituto que actualiza una opción.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara el sustituto que actualiza una opción.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $name Valor utilizado por la función update_option.
+    * @param mixed $value Valor utilizado por la función update_option.
+    *
+    * @return mixed Resultado devuelto por la función update_option.
+    */
     function update_option( $name, $value ) { // Declara el sustituto que actualiza una opción.
         $GLOBALS['cf7_option_limiter_fake_options'][ $name ] = $value; // Almacena el valor para consultas posteriores.
         return true; // Devuelve true para simular una actualización correcta.
@@ -377,6 +1075,18 @@ if ( ! function_exists( 'update_option' ) ) { // Comprueba si update_option no e
 }
 update_option( 'cf7_option_limiter_schema_version', '0.9.0' ); // Preconfigura una versión de esquema antigua para comprobar que las migraciones se ejecutan durante las pruebas.
 if ( ! function_exists( 'current_time' ) ) { // Comprueba si la función current_time no existe en el entorno de pruebas.
+    /**
+    * Declara un sustituto sencillo de current_time.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto sencillo de current_time.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $type Valor utilizado por la función current_time.
+    *
+    * @return mixed Resultado devuelto por la función current_time.
+    */
     function current_time( $type ) { // Declara un sustituto sencillo de current_time.
         if ( 'timestamp' === $type ) { // Verifica si se solicita el valor como marca temporal numérica.
             return time(); // Devuelve la hora actual del sistema como entero.
@@ -385,25 +1095,103 @@ if ( ! function_exists( 'current_time' ) ) { // Comprueba si la función current
     }
 }
 if ( ! function_exists( 'get_option' ) ) { // Comprueba si la función get_option no está disponible.
+    /**
+    * Declara un sustituto mínimo de get_option.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto mínimo de get_option.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $name Valor utilizado por la función get_option.
+    *
+    * @return mixed Resultado devuelto por la función get_option.
+    */
     function get_option( $name ) { // Declara un sustituto mínimo de get_option.
         if ( 'gmt_offset' === $name ) { // Comprueba si se solicita el desfase horario.
-            return 0; // Devuelve cero para indicar que no existe desfase en las pruebas.
+            return isset( $GLOBALS['cf7_option_limiter_fake_options']['gmt_offset'] ) ? (float) $GLOBALS['cf7_option_limiter_fake_options']['gmt_offset'] : 0.0; // Devuelve el desfase configurado en las pruebas o cero cuando no se especifica.
         }
         return isset( $GLOBALS['cf7_option_limiter_fake_options'][ $name ] ) ? $GLOBALS['cf7_option_limiter_fake_options'][ $name ] : null; // Devuelve el valor almacenado o null si no existe.
     }
 }
+if ( ! function_exists( 'wp_timezone' ) ) { // Comprueba si wp_timezone no está disponible en el entorno de pruebas.
+    /**
+    * Declara un sustituto que replica la resolución de zona horaria de WordPress.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que replica la resolución de zona horaria de WordPress.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return DateTimeZone Zona horaria calculada a partir de las opciones almacenadas.
+    */
+    function wp_timezone() { // Declara un sustituto que replica la resolución de zona horaria de WordPress.
+        $timezone_string = isset( $GLOBALS['cf7_option_limiter_fake_options']['timezone_string'] ) ? (string) $GLOBALS['cf7_option_limiter_fake_options']['timezone_string'] : ''; // Recupera la cadena de zona horaria si se definió explícitamente.
+        if ( '' !== $timezone_string ) { // Comprueba si existe un identificador de zona horaria completo.
+            try { // Intenta instanciar la zona horaria indicada directamente.
+                return new DateTimeZone( $timezone_string ); // Devuelve la zona horaria configurada explícitamente.
+            } catch ( Exception $exception ) { // Intercepta errores cuando la cadena no es válida.
+                // Se ignora la excepción para continuar con el cálculo basado en gmt_offset. // Mantiene la compatibilidad con escenarios que sólo ajustan el desfase numérico.
+            }
+        }
+        $offset_hours = get_option( 'gmt_offset' ); // Recupera el desfase en horas para construir la zona horaria.
+        if ( ! is_numeric( $offset_hours ) ) { // Comprueba que el valor sea numérico antes de calcular la zona horaria.
+            return new DateTimeZone( 'UTC' ); // Devuelve UTC cuando no hay datos fiables disponibles.
+        }
+        $offset_seconds = (int) round( (float) $offset_hours * HOUR_IN_SECONDS ); // Convierte el desfase de horas a segundos completos.
+        $timezone_name = timezone_name_from_abbr( '', $offset_seconds, 0 ); // Solicita un identificador de zona horaria basado en el desfase calculado.
+        if ( false !== $timezone_name ) { // Comprueba si se resolvió un identificador válido.
+            return new DateTimeZone( $timezone_name ); // Devuelve la zona horaria asociada al desfase horario.
+        }
+        return new DateTimeZone( 'UTC' ); // Utiliza UTC como reserva cuando no se pudo resolver el identificador.
+    }
+}
 if ( ! function_exists( 'delete_option' ) ) { // Comprueba si delete_option no existe.
+    /**
+    * Declara el sustituto que elimina una opción almacenada.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara el sustituto que elimina una opción almacenada.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $name Valor utilizado por la función delete_option.
+    *
+    * @return mixed Resultado devuelto por la función delete_option.
+    */
     function delete_option( $name ) { // Declara el sustituto que elimina una opción almacenada.
         unset( $GLOBALS['cf7_option_limiter_fake_options'][ $name ] ); // Elimina la opción simulada.
         return true; // Devuelve true para indicar que la eliminación se realizó.
     }
 }
 if ( ! function_exists( 'wp_die' ) ) { // Comprueba si wp_die no existe.
+    /**
+    * Declara el sustituto.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara el sustituto.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @param mixed $message Valor utilizado por la función wp_die.
+    *
+    * @return mixed Resultado devuelto por la función wp_die.
+    */
     function wp_die( $message ) { // Declara el sustituto.
         throw new RuntimeException( $message ); // Lanza una excepción para detener la ejecución durante las pruebas.
     }
 }
 if ( ! function_exists( 'wpcf7_get_current_contact_form' ) ) { // Comprueba si la función auxiliar de Contact Form 7 no existe.
+    /**
+    * Declara un sustituto que devuelve null.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Declara un sustituto que devuelve null.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    * @return mixed Resultado devuelto por la función wpcf7_get_current_contact_form.
+    */
     function wpcf7_get_current_contact_form() { // Declara un sustituto que devuelve null.
         return null; // No se simula un formulario activo fuera de las sumisiones configuradas manualmente.
     }
@@ -416,9 +1204,29 @@ if ( ! class_exists( 'WPCF7_Submission' ) ) { // Comprueba si la clase de sumisi
         public static function get_instance() { // Método estático que Contact Form 7 utiliza para recuperar la sumisión actual.
             return self::$instance; // Devuelve la instancia configurada manualmente en las pruebas.
         }
+        /**
+        * Devuelve los datos enviados en el formulario.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Devuelve los datos enviados en el formulario.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @return mixed Resultado devuelto por la función get_posted_data.
+        */
         public function get_posted_data() { // Devuelve los datos enviados en el formulario.
             return $this->posted_data; // Retorna el arreglo asignado desde la prueba.
         }
+        /**
+        * Devuelve el formulario asociado a la sumisión.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Devuelve el formulario asociado a la sumisión.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @return mixed Resultado devuelto por la función get_contact_form.
+        */
         public function get_contact_form() { // Devuelve el formulario asociado a la sumisión.
             return $this->form; // Retorna el formulario simulado.
         }
@@ -427,9 +1235,31 @@ if ( ! class_exists( 'WPCF7_Submission' ) ) { // Comprueba si la clase de sumisi
 if ( ! class_exists( 'WPCF7_ContactForm' ) ) { // Comprueba si la clase de formulario de Contact Form 7 está ausente.
     class WPCF7_ContactForm { // Declara una versión simplificada del formulario.
         protected $identifier; // Almacena el identificador numérico del formulario.
+        /**
+        * Constructor que recibe el identificador del formulario.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Constructor que recibe el identificador del formulario.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $id Valor utilizado por la función __construct.
+        *
+        * @return mixed Resultado devuelto por la función __construct.
+        */
         public function __construct( $id ) { // Constructor que recibe el identificador del formulario.
             $this->identifier = $id; // Asigna el identificador recibido a la propiedad interna.
         }
+        /**
+        * Método que devuelve el identificador como haría la clase real.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Método que devuelve el identificador como haría la clase real.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @return mixed Resultado devuelto por la función id.
+        */
         public function id() { // Método que devuelve el identificador como haría la clase real.
             return $this->identifier; // Retorna el identificador asignado.
         }
@@ -438,6 +1268,19 @@ if ( ! class_exists( 'WPCF7_ContactForm' ) ) { // Comprueba si la clase de formu
 if ( ! class_exists( 'WPCF7_ValidationResult' ) ) { // Comprueba si la clase de resultado de validación no está disponible.
     class WPCF7_ValidationResult { // Declara un sustituto compatible con el método invalidate.
         public $invalid = array(); // Almacena la lista de campos marcados como inválidos.
+        /**
+        * Replica el método que Contact Form 7 utiliza para marcar errores.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Replica el método que Contact Form 7 utiliza para marcar errores.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $tag Valor utilizado por la función invalidate.
+        * @param mixed $message Valor utilizado por la función invalidate.
+        *
+        * @return mixed Resultado devuelto por la función invalidate.
+        */
         public function invalidate( $tag, $message ) { // Replica el método que Contact Form 7 utiliza para marcar errores.
             $this->invalid[] = array( 'tag' => $tag, 'message' => $message ); // Registra el campo y el mensaje recibidos.
         }
@@ -447,6 +1290,18 @@ if ( ! class_exists( 'WP_Query' ) ) { // Comprueba si la clase WP_Query no está
     class WP_Query { // Declara una versión simplificada de WP_Query para las pruebas.
         public $posts = array(); // Propiedad pública que almacenará los posts simulados.
         public static $mock_posts = array(); // Propiedad estática para permitir la configuración externa de resultados.
+        /**
+        * Constructor que ignora los argumentos recibidos.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Constructor que ignora los argumentos recibidos.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $args Valor utilizado por la función __construct.
+        *
+        * @return mixed Resultado devuelto por la función __construct.
+        */
         public function __construct( $args = array() ) { // Constructor que ignora los argumentos recibidos.
             $this->posts = self::$mock_posts; // Copia los posts simulados para que el plugin pueda iterar sobre ellos.
         }
@@ -454,12 +1309,18 @@ if ( ! class_exists( 'WP_Query' ) ) { // Comprueba si la clase WP_Query no está
 }
 if ( ! class_exists( 'CF7_Option_Limiter_Test_WPDB' ) ) { // Comprueba si la clase de base de datos simulada no existe.
     /**
-     * Sustituto íntegramente comentado del objeto $wpdb para las pruebas unitarias.
-     *
-     * Esta implementación redefine los métodos que el plugin invoca y permite
-     * controlar con precisión las respuestas, de modo que podamos validar las
-     * ramas de código sin depender de un entorno de WordPress completo.
-     */
+    * Sustituto íntegramente comentado del objeto $wpdb para las pruebas unitarias.
+    *
+    * Explicación:
+    * - Resume la tarea principal: Sustituto íntegramente comentado del objeto $wpdb para las pruebas unitarias.
+    * - Describe brevemente los pasos clave ejecutados internamente.
+    * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+    *
+    *
+    * Esta implementación redefine los métodos que el plugin invoca y permite
+    * controlar con precisión las respuestas, de modo que podamos validar las
+    * ramas de código sin depender de un entorno de WordPress completo.
+    */
     class CF7_Option_Limiter_Test_WPDB { // Declara un sustituto mínimo del objeto $wpdb.
         public $prefix = 'wp_'; // Prefijo utilizado por defecto para las tablas durante las pruebas.
         public $expected_row = null; // Propiedad que almacenará el resultado por defecto devuelto en get_row.
@@ -479,10 +1340,35 @@ if ( ! class_exists( 'CF7_Option_Limiter_Test_WPDB' ) ) { // Comprueba si la cla
         public $last_error = ''; // Propiedad que permitirá simular mensajes de error devueltos por la base de datos.
         public $get_row_calls = 0; // Contador que permitirá verificar cuántas veces se solicitó una fila durante una prueba concreta.
 
+        /**
+        * Replica la firma de prepare.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Replica la firma de prepare.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $query Valor utilizado por la función prepare.
+        * @param mixed $...$args Valor utilizado por la función prepare.
+        *
+        * @return mixed Resultado devuelto por la función prepare.
+        */
         public function prepare( $query, ...$args ) { // Replica la firma de prepare.
             return array( 'query' => $query, 'args' => $args ); // Devuelve una estructura simple ignorando la interpolación real.
         }
 
+        /**
+        * Replica la firma de get_var utilizada en comprobaciones de esquema.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Replica la firma de get_var utilizada en comprobaciones de esquema.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $query Valor utilizado por la función get_var.
+        *
+        * @return mixed Resultado devuelto por la función get_var.
+        */
         public function get_var( $query = null ) { // Replica la firma de get_var utilizada en comprobaciones de esquema.
             $this->last_query = is_array( $query ) && isset( $query['query'] ) ? $query['query'] : (string) $query; // Registra la consulta recibida.
             if ( ! empty( $this->get_var_queue ) ) { // Comprueba si existe una cola de respuestas personalizadas.
@@ -491,6 +1377,19 @@ if ( ! class_exists( 'CF7_Option_Limiter_Test_WPDB' ) ) { // Comprueba si la cla
             return $this->get_var_return_value; // Devuelve el valor configurado por defecto para la prueba actual.
         }
 
+        /**
+        * Replica la firma de get_row.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Replica la firma de get_row.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $statement Valor utilizado por la función get_row.
+        * @param mixed $output Valor utilizado por la función get_row.
+        *
+        * @return mixed Resultado devuelto por la función get_row.
+        */
         public function get_row( $statement, $output = ARRAY_A ) { // Replica la firma de get_row.
             $this->get_row_calls++; // Incrementa el contador de llamadas para permitir comprobaciones posteriores.
             if ( ! empty( $this->expected_row_queue ) ) { // Comprueba si se configuró una cola de respuestas específicas.
@@ -520,12 +1419,39 @@ if ( ! class_exists( 'CF7_Option_Limiter_Test_WPDB' ) ) { // Comprueba si la cla
             return $this->expected_row; // Devuelve el valor general configurado previamente o null si no se definió.
         }
       
+        /**
+        * Replica la firma de replace.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Replica la firma de replace.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $table Valor utilizado por la función replace.
+        * @param mixed $data Valor utilizado por la función replace.
+        *
+        * @return mixed Resultado devuelto por la función replace.
+        */
         public function replace( $table = '', $data = array(), $format = array() ) { // Replica la firma de replace.
             $this->replace_called = true; // Marca que se intentó ejecutar una escritura.
             $this->last_replace = array( 'table' => $table, 'data' => $data, 'format' => $format ); // Almacena los datos recibidos para futuras aserciones.
             return 1; // Devuelve uno para simular una inserción/actualización exitosa.
         }
 
+        /**
+        * Replica la firma de insert utilizada en el plugin.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Replica la firma de insert utilizada en el plugin.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $table Valor utilizado por la función insert.
+        * @param mixed $data Valor utilizado por la función insert.
+        * @param mixed $format Valor utilizado por la función insert.
+        *
+        * @return mixed Resultado devuelto por la función insert.
+        */
         public function insert( $table, $data, $format = array() ) { // Replica la firma de insert utilizada en el plugin.
             $this->insert_called = true; // Marca que se solicitó una inserción en la prueba actual.
             $this->last_insert = array( 'table' => $table, 'data' => $data, 'format' => $format ); // Guarda los parámetros recibidos para verificarlos.
@@ -533,6 +1459,19 @@ if ( ! class_exists( 'CF7_Option_Limiter_Test_WPDB' ) ) { // Comprueba si la cla
             return $this->query_return_value; // Devuelve el valor configurado simulando el resultado de la inserción.
         }
       
+        /**
+        * Replica la firma de get_results utilizada en otras partes del plugin.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Replica la firma de get_results utilizada en otras partes del plugin.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $statement Valor utilizado por la función get_results.
+        * @param mixed $output Valor utilizado por la función get_results.
+        *
+        * @return mixed Resultado devuelto por la función get_results.
+        */
         public function get_results( $statement = null, $output = ARRAY_A ) { // Replica la firma de get_results utilizada en otras partes del plugin.
             if ( ! empty( $this->expected_results_map ) && is_array( $statement ) && isset( $statement['args'] ) ) { // Comprueba si se proporcionó un mapa asociativo y argumentos para filtrar.
                 $flat_arguments = array(); // Inicializa el arreglo plano de argumentos.
@@ -554,10 +1493,32 @@ if ( ! class_exists( 'CF7_Option_Limiter_Test_WPDB' ) ) { // Comprueba si la cla
             return $this->expected_results; // Devuelve las filas configuradas previamente.
         }
 
+        /**
+        * Replica la firma de delete.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Replica la firma de delete.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @return mixed Resultado devuelto por la función delete.
+        */
         public function delete() { // Replica la firma de delete.
             return 0; // Devuelve cero indicando que no se realizaron borrados.
         }
       
+        /**
+        * Replica la firma de query utilizada en incrementos.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Replica la firma de query utilizada en incrementos.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $query Valor utilizado por la función query.
+        *
+        * @return mixed Resultado devuelto por la función query.
+        */
         public function query( $query = '' ) { // Replica la firma de query utilizada en incrementos.
             if ( is_array( $query ) && isset( $query['query'] ) ) { // Comprueba si se recibió el arreglo devuelto por prepare.
                 $this->last_query = $query['query']; // Registra únicamente la cadena SQL para facilitar las aserciones.
@@ -568,6 +1529,22 @@ if ( ! class_exists( 'CF7_Option_Limiter_Test_WPDB' ) ) { // Comprueba si la cla
             return $this->query_return_value; // Devuelve el valor configurado para simular actualizaciones exitosas o fallidas.
         }
 
+        /**
+        * Replica la firma de update.
+        *
+        * Explicación:
+        * - Resume la tarea principal: Replica la firma de update.
+        * - Describe brevemente los pasos clave ejecutados internamente.
+        * - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+        *
+        * @param mixed $table Valor utilizado por la función update.
+        * @param mixed $data Valor utilizado por la función update.
+        * @param mixed $where Valor utilizado por la función update.
+        * @param mixed $data_format Valor utilizado por la función update.
+        * @param mixed $where_format Valor utilizado por la función update.
+        *
+        * @return mixed Resultado devuelto por la función update.
+        */
         public function update( $table, $data, $where, $data_format = null, $where_format = null ) { // Replica la firma de update.
             $this->last_query = array( // Registra los parámetros recibidos para posibles inspecciones.
                 'table'        => $table, // Tabla objetivo de la actualización.
@@ -604,6 +1581,11 @@ if ( $schemaVersionAfterActivation !== CF7_OPTION_LIMITER_VERSION ) { // Comprue
     throw new RuntimeException( 'La activación debería dejar registrada la versión actual del esquema tras ejecutar las migraciones.' ); // Falla la prueba si la versión almacenada difiere de la esperada.
 }
 $panelHookRegistered = false; // Inicializa la bandera que confirmará el registro del panel dentro del editor de Contact Form 7.
+$frontendHooksRegistered = array( // Inicializa las banderas que confirman el registro de los assets frontales en los hooks esperados.
+    'wp_enqueue_scripts'    => false, // Marca si el estilo y script públicos se enganchan al ciclo general de carga del tema.
+    'wpcf7_enqueue_scripts' => false, // Marca si los assets también se encolarán cuando Contact Form 7 limita su carga a páginas con formularios.
+    'init_autoload'         => false, // Marca si la clase fuerza el encolado durante init para cubrir entornos donde los hooks anteriores no se ejecutan.
+); // Finaliza la declaración de banderas para los hooks frontales.
 foreach ( $GLOBALS['cf7_option_limiter_actions'] as $registered_action ) { // Recorre todas las acciones registradas durante el arranque.
     $hook_name = $registered_action['hook']; // Recupera el nombre del hook registrado para analizarlo.
     if ( strpos( $hook_name, 'elementor/' ) !== false ) { // Comprueba si aún quedan integraciones con Elementor registradas.
@@ -615,10 +1597,49 @@ foreach ( $GLOBALS['cf7_option_limiter_actions'] as $registered_action ) { // Re
             $panelHookRegistered = true; // Marca que se detectó el registro esperado.
         }
     }
+    if ( 'wp_enqueue_scripts' === $hook_name ) { // Comprueba si el hook corresponde al ciclo general de encolado del frontend.
+        $callback = $registered_action['callback']; // Recupera el callback asociado para validar la clase y el método registrados.
+        if ( is_array( $callback ) && 'CF7_OptionLimiter_Limiter' === $callback[0] && 'enqueue_front_assets' === $callback[1] ) { // Comprueba que el limitador registre sus assets en el hook global.
+            $frontendHooksRegistered['wp_enqueue_scripts'] = true; // Marca que se detectó la inscripción correcta en wp_enqueue_scripts.
+        }
+    }
+    if ( 'wpcf7_enqueue_scripts' === $hook_name ) { // Comprueba si el hook corresponde al ciclo específico de Contact Form 7.
+        $callback = $registered_action['callback']; // Recupera el callback asociado para confirmar la suscripción correcta.
+        if ( is_array( $callback ) && 'CF7_OptionLimiter_Limiter' === $callback[0] && 'enqueue_front_assets' === $callback[1] ) { // Verifica que la clase limite también sus assets al hook especializado de CF7.
+            $frontendHooksRegistered['wpcf7_enqueue_scripts'] = true; // Marca que se detectó la inscripción en wpcf7_enqueue_scripts para cargar estilos sólo cuando hay formularios.
+        }
+    }
+    if ( 'init' === $hook_name ) { // Comprueba si el hook pertenece a la fase init de WordPress.
+        $callback = $registered_action['callback']; // Recupera el callback para validarlo.
+        if ( is_array( $callback ) && 'CF7_OptionLimiter_Limiter' === $callback[0] && 'autoload_front_assets' === $callback[1] ) { // Verifica que el método de autoload se haya registrado.
+            $frontendHooksRegistered['init_autoload'] = true; // Marca que se detectó la inscripción proactiva en init.
+        }
+    }
 }
 if ( ! $panelHookRegistered ) { // Comprueba que se haya detectado el registro de la pestaña incrustada.
     throw new RuntimeException( 'El filtro wpcf7_editor_panels debería registrarse para insertar la pestaña del limitador.' ); // Lanza una excepción si no se encontró el hook esperado.
 }
+if ( ! $frontendHooksRegistered['wp_enqueue_scripts'] ) { // Verifica que el plugin mantenga el registro del encolado frontal en el hook general.
+    throw new RuntimeException( 'CF7_OptionLimiter_Limiter::init debería registrar enqueue_front_assets en wp_enqueue_scripts para cargar la hoja de estilos global.' ); // Informa si el estilo dejaría de publicarse en páginas públicas.
+}
+if ( ! $frontendHooksRegistered['wpcf7_enqueue_scripts'] ) { // Verifica que también se registre el hook específico de Contact Form 7.
+    throw new RuntimeException( 'CF7_OptionLimiter_Limiter::init debería registrar enqueue_front_assets en wpcf7_enqueue_scripts para garantizar la carga cuando CF7 optimiza sus assets.' ); // Informa si faltara la inscripción necesaria para compatibilidad con la carga condicional de CF7.
+}
+if ( ! $frontendHooksRegistered['init_autoload'] ) { // Comprueba que el autoload esté registrado para asegurar la carga incluso sin los otros hooks.
+    throw new RuntimeException( 'CF7_OptionLimiter_Limiter::init debería registrar autoload_front_assets en init para garantizar la disponibilidad del CSS en cualquier vista pública.' ); // Informa si faltara el hook proactivo de init.
+}
+$GLOBALS['cf7_option_limiter_enqueued_styles'] = array(); // Reinicia la lista de estilos encolados para comprobar el autoload.
+$GLOBALS['cf7_option_limiter_enqueued_scripts'] = array(); // Reinicia la lista de scripts encolados para la misma comprobación.
+$GLOBALS['cf7_option_limiter_is_admin'] = false; // Simula el contexto del frontend para ejecutar el autoload.
+CF7_OptionLimiter_Limiter::autoload_front_assets(); // Ejecuta el método proactivo para verificar que encola los assets requeridos.
+if ( ! in_array( 'cf7-option-limiter-frontend', $GLOBALS['cf7_option_limiter_enqueued_styles'], true ) ) { // Comprueba que el estilo público se haya encolado automáticamente.
+    throw new RuntimeException( 'autoload_front_assets debería encolar la hoja de estilos frontend cuando se ejecuta en el frontend.' ); // Lanza excepción si el estilo no se añadió a la cola.
+}
+if ( ! in_array( 'cf7-option-limiter-frontend', $GLOBALS['cf7_option_limiter_enqueued_scripts'], true ) ) { // Comprueba que el script público también se encole automáticamente.
+    throw new RuntimeException( 'autoload_front_assets debería encolar el script frontend cuando se ejecuta en el frontend.' ); // Lanza excepción si el script no se añadió a la cola.
+}
+$GLOBALS['cf7_option_limiter_is_admin'] = true; // Restaura el contexto administrativo predeterminado para el resto de pruebas.
+unset( $GLOBALS['cf7_option_limiter_is_admin'] ); // Limpia la bandera personalizada para que el stub vuelva a su valor por defecto.
 
 CF7_OptionLimiter_Hooks::enqueue_shared_admin_assets( 'plugins.php' ); // Encola los recursos compartidos simulando la pantalla de plugins para obtener la configuración localizada.
 if ( empty( $GLOBALS['cf7_option_limiter_localized_scripts']['cf7-option-limiter-plugins'] ) ) { // Comprueba que el script específico del listado tenga datos localizados.
@@ -634,6 +1655,50 @@ if ( false === $pluginsScriptSource ) { // Comprueba que la lectura del archivo 
 }
 if ( strpos( $pluginsScriptSource, 'window.alert' ) === false || strpos( $pluginsScriptSource, 'settings.warning' ) === false ) { // Comprueba que el script utilice la advertencia localizada antes de continuar.
     throw new RuntimeException( 'assets/plugins.js debería invocar window.alert con settings.warning para avisar que las reglas dejarán de aplicarse.' ); // Lanza excepción si falta la lógica de alerta.
+}
+
+CF7_OptionLimiter_Hooks::enqueue_shared_admin_assets( 'contact-form-7_page_wpcf7' ); // Simula la carga de assets en una pantalla del editor de Contact Form 7.
+if ( empty( $GLOBALS['cf7_option_limiter_registered_scripts']['cf7-option-limiter-redirect-toggles'] ) ) { // Comprueba que el script de toggles se registrara correctamente.
+    throw new RuntimeException( 'enqueue_shared_admin_assets debería registrar el script cf7-option-limiter-redirect-toggles con la ruta de assets/index.js.' ); // Lanza excepción si la entrada no existe en el registro.
+}
+if ( empty( $GLOBALS['cf7_option_limiter_registered_scripts']['cf7-option-limiter-survey-tab'] ) ) { // Comprueba que el script de la pestaña de encuestas se registrara correctamente.
+    throw new RuntimeException( 'enqueue_shared_admin_assets debería registrar el script cf7-option-limiter-survey-tab con la ruta de assets/survey.js.' ); // Lanza excepción si falta la entrada esperada.
+}
+if ( ! in_array( 'cf7-option-limiter-redirect-toggles', $GLOBALS['cf7_option_limiter_enqueued_scripts'], true ) ) { // Verifica que el script de toggles se encolara al cargar una pantalla del editor.
+    throw new RuntimeException( 'enqueue_shared_admin_assets debería encolar cf7-option-limiter-redirect-toggles cuando el hook pertenece a Contact Form 7.' ); // Informa si el script no quedó programado para imprimirse.
+}
+if ( ! in_array( 'cf7-option-limiter-survey-tab', $GLOBALS['cf7_option_limiter_enqueued_scripts'], true ) ) { // Verifica que el script de encuestas se encolara en la misma pantalla.
+    throw new RuntimeException( 'enqueue_shared_admin_assets debería encolar cf7-option-limiter-survey-tab cuando el hook pertenece a Contact Form 7.' ); // Informa si el script no quedó programado para imprimirse.
+}
+$redirectToggleMeta = $GLOBALS['cf7_option_limiter_registered_scripts']['cf7-option-limiter-redirect-toggles']; // Recupera los metadatos del script de toggles registrado.
+if ( $redirectToggleMeta['ver'] !== CF7_OPTION_LIMITER_VERSION || $redirectToggleMeta['src'] !== CF7_OPTION_LIMITER_URL . 'assets/index.js' ) { // Comprueba que el script utilice la versión global y la ruta esperada.
+    throw new RuntimeException( 'El script cf7-option-limiter-redirect-toggles debería registrarse con CF7_OPTION_LIMITER_VERSION y la ruta assets/index.js.' ); // Lanza excepción si alguna de las propiedades no coincide.
+}
+$surveyScriptMeta = $GLOBALS['cf7_option_limiter_registered_scripts']['cf7-option-limiter-survey-tab']; // Recupera los metadatos del script de encuestas.
+if ( $surveyScriptMeta['ver'] !== CF7_OPTION_LIMITER_VERSION || $surveyScriptMeta['src'] !== CF7_OPTION_LIMITER_URL . 'assets/survey.js' ) { // Comprueba que el script de encuestas conserve versión y ruta correctas.
+    throw new RuntimeException( 'El script cf7-option-limiter-survey-tab debería registrarse con CF7_OPTION_LIMITER_VERSION y la ruta assets/survey.js.' ); // Lanza excepción cuando los metadatos no coinciden con lo esperado.
+}
+
+$toggleScriptSource = file_get_contents( __DIR__ . '/../assets/index.js' ); // Lee el contenido del script que normaliza los toggles del metabox.
+if ( false === $toggleScriptSource ) { // Comprueba que la lectura del archivo haya sido satisfactoria.
+    throw new RuntimeException( 'No se pudo leer assets/index.js durante las pruebas automáticas.' ); // Lanza excepción si no es posible analizar el script recién añadido.
+}
+if ( strpos( $toggleScriptSource, 'normalizeSelectorFragment' ) === false || strpos( $toggleScriptSource, 'data-toggle' ) === false ) { // Comprueba que el script documente y procese correctamente los selectores declarados.
+    throw new RuntimeException( 'assets/index.js debería incluir normalizeSelectorFragment y hacer referencia a data-toggle para evitar el prefijo # en selectores por clase.' ); // Lanza excepción si faltan las piezas clave de la normalización.
+}
+if ( strpos( $toggleScriptSource, "qsa( '[data-toggle]' )" ) === false || strpos( $toggleScriptSource, 'applyToggleState' ) === false ) { // Comprueba que se iteren todos los controles con data-toggle y se aplique el estado resultante.
+    throw new RuntimeException( 'assets/index.js debería recorrer todos los elementos con data-toggle y aplicar el estado mediante applyToggleState.' ); // Informa si el script no contiene la lógica de inicialización esperada.
+}
+
+$surveyScriptSource = file_get_contents( __DIR__ . '/../assets/survey.js' ); // Lee el contenido del script encargado de la pestaña de encuestas.
+if ( false === $surveyScriptSource ) { // Comprueba que el archivo exista y se pueda leer.
+    throw new RuntimeException( 'No se pudo leer assets/survey.js durante las pruebas automáticas.' ); // Lanza excepción si la lectura falla.
+}
+if ( strpos( $surveyScriptSource, 'DOMContentLoaded' ) === false || strpos( $surveyScriptSource, '#survey-tab' ) === false ) { // Comprueba que el script espere a que el DOM esté listo y busque el elemento por su ID.
+    throw new RuntimeException( 'assets/survey.js debería esperar al evento DOMContentLoaded y localizar el elemento #survey-tab antes de adjuntar listeners.' ); // Informa si falta alguna de las salvaguardas.
+}
+if ( strpos( $surveyScriptSource, 'window.configureSurveyTabListener' ) === false ) { // Comprueba que la función se exponga globalmente para mantener compatibilidad.
+    throw new RuntimeException( 'assets/survey.js debería exponer window.configureSurveyTabListener para reutilizar la función desde otros scripts.' ); // Lanza excepción si la función no queda publicada en el ámbito global.
 }
 
 $adminScriptPath = __DIR__ . '/../assets/admin.js'; // Calcula la ruta absoluta del script administrativo.
@@ -668,6 +1733,18 @@ if ( strpos( $adminScriptSource, 'ensureAccessibleNotice' ) === false || strpos(
 if ( strpos( $adminScriptSource, 'formIdValue > 0' ) === false ) { // Comprueba que el formulario seleccionado deba tener un identificador positivo.
     throw new RuntimeException( 'La validación de JavaScript debería verificar que el formulario tenga un identificador mayor que cero antes de permitir el envío.' ); // Informa si no se encontró el control del identificador positivo.
 }
+if ( strpos( $adminScriptSource, 'refreshEmbeddedFormsContext' ) === false || strpos( $adminScriptSource, 'ensureEmbeddedFormsPresence' ) === false ) { // Comprueba que el script gestione la detección y creación dinámica de formularios ocultos.
+    throw new RuntimeException( 'El script administrativo debería garantizar la presencia de los formularios ocultos mediante refreshEmbeddedFormsContext y ensureEmbeddedFormsPresence.' ); // Informa si falta la lógica que asegura la creación dinámica.
+}
+if ( strpos( $adminScriptSource, 'CF7OptionLimiterAdmin.adminPostUrl' ) === false ) { // Comprueba que el script utilice la URL global del endpoint admin-post.
+    throw new RuntimeException( 'El script administrativo debería reutilizar CF7OptionLimiterAdmin.adminPostUrl para construir o hidratar los formularios ocultos fuera del editor principal.' ); // Lanza excepción cuando no se detecta la referencia a la URL localizada.
+}
+if ( strpos( $adminScriptSource, 'embeddedNonces' ) === false ) { // Comprueba que el script haga uso de los nonces localizados para recrear formularios seguros.
+    throw new RuntimeException( 'El script administrativo debería consumir la colección embeddedNonces para poblar los formularios ocultos creados dinámicamente.' ); // Informa si no se detecta el uso de los nonces localizados.
+}
+if ( strpos( $adminScriptSource, 'cf7-option-limiter-embedded-release' ) === false || strpos( $adminScriptSource, 'cf7-ol-release-rule-id' ) === false ) { // Verifica que el script contemple la recreación del formulario oculto de liberación.
+    throw new RuntimeException( 'El script administrativo debería gestionar el formulario oculto de liberación recreándolo cuando no existe y sincronizando sus campos.' ); // Lanza excepción si falta la lógica que respalda la liberación en el editor incrustado.
+}
 
 $editorPanelPath = __DIR__ . '/../admin/class-cf7-editor-panel.php'; // Calcula la ruta absoluta del panel incrustado.
 $editorPanelSource = file_get_contents( $editorPanelPath ); // Lee el archivo PHP para validar el marcado del botón.
@@ -677,13 +1754,59 @@ if ( false === $editorPanelSource ) { // Comprueba que la lectura haya sido sati
 if ( strpos( $editorPanelSource, 'id="cf7-ol-submit"' ) === false || strpos( $editorPanelSource, 'type="button"' ) === false ) { // Verifica que el botón del panel se haya declarado explícitamente como botón para evitar envíos automáticos.
     throw new RuntimeException( 'El botón principal del panel incrustado debería declararse con type="button" para delegar el envío en JavaScript.' ); // Lanza excepción cuando el marcado no refleja el nuevo flujo.
 }
-$panelReflection = new ReflectionClass( CF7_OptionLimiter_CF7_Panel::class ); // Prepara la reflexión para manipular la bandera interna del panel incrustado.
+if ( strpos( $editorPanelSource, 'cf7-option-limiter-action-button cf7-option-limiter-edit' ) === false || strpos( $editorPanelSource, 'dashicons-edit' ) === false ) { // Comprueba que el panel utilice el botón icónico de edición solicitado.
+    throw new RuntimeException( 'La tabla del editor debería utilizar un botón icónico con dashicons-edit para la acción de editar.' ); // Informa si el icono de edición no está presente.
+}
+if ( strpos( $editorPanelSource, 'cf7-option-limiter-release' ) === false || strpos( $editorPanelSource, 'dashicons-unlock' ) === false ) { // Comprueba que exista el formulario en línea de liberación con su icono.
+    throw new RuntimeException( 'La tabla del editor debería ofrecer el botón icónico de liberar con dashicons-unlock y la clase cf7-option-limiter-release.' ); // Informa si el botón de liberar no se añadió al panel.
+}
+if ( strpos( $editorPanelSource, 'cf7-option-limiter-action-button cf7-option-limiter-delete' ) === false || strpos( $editorPanelSource, 'dashicons-trash' ) === false ) { // Comprueba que la acción de borrado se represente con un icono de papelera.
+    throw new RuntimeException( 'La tabla del editor debería mostrar el icono dashicons-trash dentro del botón de eliminación.' ); // Lanza excepción cuando falta la iconografía de eliminación.
+}
+$panelReflection = new ReflectionClass( CF7_OptionLimiter_CF7_Panel::class ); // Prepara la reflexión para reutilizarla en comprobaciones adicionales sobre el panel incrustado.
+$releaseActionMethod = $panelReflection->getMethod( 'render_release_action_form' ); // Localiza el método que genera el botón de liberación incrustado.
+$releaseActionMethod->setAccessible( true ); // Permite invocar el método protegido dentro del entorno de pruebas.
+$releaseButtonMarkup = $releaseActionMethod->invoke( null, array( 'id' => 15, 'current_count' => 3 ), 'https://example.com/editor' ); // Genera el marcado del botón cuando existen usos disponibles para liberar.
+if ( strpos( $releaseButtonMarkup, '<form' ) !== false ) { // Comprueba que el marcado no incluya formularios anidados.
+    throw new RuntimeException( 'render_release_action_form no debería imprimir etiquetas <form> dentro de la tabla incrustada del editor.' ); // Lanza excepción si aún se generan formularios anidados.
+}
+if ( strpos( $releaseButtonMarkup, 'type="button"' ) === false ) { // Verifica que el control se renderice como botón autónomo.
+    throw new RuntimeException( 'render_release_action_form debería declarar el control como type="button" para delegar el envío en JavaScript.' ); // Informa si el tipo de botón no es el esperado.
+}
+if ( strpos( $releaseButtonMarkup, 'data-rule-id="15"' ) === false ) { // Comprueba que el identificador de la regla viaje en un atributo de datos.
+    throw new RuntimeException( 'render_release_action_form debería exponer data-rule-id con el identificador de la regla a liberar.' ); // Informa si falta el atributo imprescindible para el script.
+}
+if ( strpos( $releaseButtonMarkup, 'data-redirect="https://example.com/editor"' ) === false ) { // Comprueba que la URL de retorno se traslade al botón.
+    throw new RuntimeException( 'render_release_action_form debería exponer data-redirect con la URL de retorno del editor.' ); // Lanza excepción si la redirección no se exporta al botón.
+}
+if ( strpos( $releaseButtonMarkup, 'disabled="disabled"' ) !== false || strpos( $releaseButtonMarkup, 'cf7-option-limiter-action-button--disabled' ) !== false ) { // Comprueba que no se apliquen atributos de deshabilitado cuando existen usos disponibles.
+    throw new RuntimeException( 'render_release_action_form no debería marcar como deshabilitado el botón cuando aún quedan usos liberables.' ); // Informa si la representación activa incluye estados inactivos.
+}
+$releaseButtonDisabledMarkup = $releaseActionMethod->invoke( null, array( 'id' => 16, 'current_count' => 0 ), 'https://example.com/editor' ); // Genera el marcado cuando el contador ya está agotado.
+if ( strpos( $releaseButtonDisabledMarkup, 'disabled="disabled"' ) === false || strpos( $releaseButtonDisabledMarkup, 'cf7-option-limiter-action-button--disabled' ) === false ) { // Verifica que el botón refleje el estado deshabilitado en ausencia de usos.
+    throw new RuntimeException( 'render_release_action_form debería añadir el atributo disabled y la clase de estado cuando no quedan usos por liberar.' ); // Lanza excepción si la representación inactiva no aplica ambos indicadores.
+}
 $needsProperty = $panelReflection->getProperty( 'needs_hidden_forms' ); // Recupera la propiedad protegida que controla la impresión de formularios ocultos.
 $needsProperty->setAccessible( true ); // Permite modificar la propiedad protegida dentro de la prueba.
-$needsProperty->setValue( null, true ); // Fuerza que el panel considere necesario imprimir los formularios ocultos durante la prueba evitando avisos deprecados.
-ob_start(); // Inicia el búfer de salida para capturar el HTML generado por print_hidden_forms.
-CF7_OptionLimiter_CF7_Panel::print_hidden_forms(); // Ejecuta la impresión de formularios ocultos para analizar su contenido.
-$hiddenFormsMarkup = ob_get_clean(); // Recupera el HTML generado y detiene el búfer de salida.
+$needsProperty->setValue( null, false ); // Restablece la bandera interna para simular una carga limpia del panel incrustado.
+ob_start(); // Inicia el búfer de salida para capturar cualquier impresión inesperada de print_hidden_forms.
+CF7_OptionLimiter_CF7_Panel::print_hidden_forms(); // Solicita que el panel marque la necesidad de imprimir los formularios ocultos en el pie global.
+$printHiddenOutput = ob_get_clean(); // Recupera la salida generada por print_hidden_forms.
+if ( '' !== trim( $printHiddenOutput ) ) { // Comprueba que el método no produzca salida directa tras la refactorización.
+    throw new RuntimeException( 'print_hidden_forms no debería imprimir HTML directamente; sólo debe marcar la necesidad de renderizar los formularios en el pie global.' ); // Informa cuando el método produce salida prematuramente.
+}
+if ( true !== $needsProperty->getValue( null ) ) { // Comprueba que la bandera interna quede activada tras la llamada.
+    throw new RuntimeException( 'print_hidden_forms debería establecer la bandera interna needs_hidden_forms en true para que los formularios se impriman en admin_footer.' ); // Lanza excepción si la bandera no se activa.
+}
+ob_start(); // Inicia un nuevo búfer para capturar el HTML generado por la impresión real en el pie global.
+CF7_OptionLimiter_CF7_Panel::render_hidden_forms(); // Ejecuta la impresión diferida de los formularios ocultos en el pie de administrador.
+$hiddenFormsMarkup = ob_get_clean(); // Recupera el marcado generado por render_hidden_forms.
+if ( '' === trim( $hiddenFormsMarkup ) ) { // Comprueba que se haya impreso contenido al invocar el nuevo método.
+    throw new RuntimeException( 'render_hidden_forms debería imprimir los formularios ocultos cuando la bandera needs_hidden_forms está activa.' ); // Informa si no se imprimió nada.
+}
+if ( true === $needsProperty->getValue( null ) ) { // Comprueba que la bandera se restablezca tras imprimir los formularios.
+    throw new RuntimeException( 'render_hidden_forms debería restablecer la bandera needs_hidden_forms a false después de imprimir los formularios.' ); // Informa si la bandera permanece activa indebidamente.
+}
 $requiredHiddenTokens = array( // Define los fragmentos que deben aparecer en el formulario oculto definitivo.
     'id="cf7-ol-hidden-form-id"', // Identificador del campo oculto que replica form_id.
     'id="cf7-ol-hidden-field-name"', // Identificador del campo oculto que replica field_name.
@@ -697,6 +1820,10 @@ $requiredHiddenTokens = array( // Define los fragmentos que deben aparecer en el
     'id="cf7-ol-hidden-original-field-name"', // Identificador del campo oculto que replica original_field_name.
     'id="cf7-ol-hidden-original-option-value"', // Identificador del campo oculto que replica original_option_value.
     'id="cf7-ol-hidden-redirect"', // Identificador del campo oculto que replica redirect_to.
+    'id="cf7-option-limiter-embedded-release"', // Identificador del formulario oculto dedicado a la liberación manual.
+    'id="cf7-ol-release-rule-id"', // Identificador del campo oculto que replica la regla a liberar.
+    'id="cf7-ol-release-redirect"', // Identificador del campo oculto que replica la URL de retorno para liberaciones.
+    'cf7_option_limiter_release_nonce', // Nombre del nonce específico utilizado durante la liberación.
 ); // Finaliza la lista de marcadores esperados.
 foreach ( $requiredHiddenTokens as $token ) { // Recorre cada marcador requerido para asegurar que existe en el HTML generado.
     if ( strpos( $hiddenFormsMarkup, $token ) === false ) { // Comprueba si el marcador actual está ausente.
@@ -711,6 +1838,37 @@ if ( strpos( $hiddenFormsMarkup, 'id="cf7-ol-hidden-hide-exhausted"' ) === false
 require_once __DIR__ . '/../includes/class-db-manager.php'; // Carga la capa de acceso a datos para verificar operaciones de base de datos y migraciones.
 require_once __DIR__ . '/../admin/class-admin-page.php'; // Carga la clase de administración a probar.
 require_once __DIR__ . '/../includes/class-limiter-handler.php'; // Carga el manejador de límites para probar la validación dinámica.
+
+$shouldResetMethod = new ReflectionMethod( CF7_OptionLimiter_DB::class, 'should_reset' ); // Prepara la reflexión para acceder al método protegido que decide el reinicio automático.
+$shouldResetMethod->setAccessible( true ); // Habilita el acceso al método protegido para invocarlo durante las pruebas unitarias.
+
+$GLOBALS['cf7_option_limiter_fake_options']['gmt_offset'] = 3; // Configura un desfase horario positivo de +3 horas para reproducir entornos europeos.
+$positiveTimezone = wp_timezone(); // Recupera la zona horaria calculada a partir del desfase configurado.
+$positiveLastReset = new DateTimeImmutable( '2024-03-15 23:30:00', $positiveTimezone ); // Crea la marca de último reinicio en horario local cercano al cambio de día.
+$positiveCurrent = new DateTimeImmutable( '2024-03-16 00:10:00', $positiveTimezone ); // Define la hora actual en el día siguiente dentro del mismo huso horario.
+$positiveRule = array( // Construye la regla simulada asociada al reinicio diario.
+    'limit_period' => 'day', // Establece el periodo diario para evaluar el cambio de fecha.
+    'limit_reset'  => $positiveLastReset->format( 'Y-m-d H:i:s' ), // Almacena la fecha de último reinicio como la guardaría la base de datos.
+); // Finaliza la configuración de la regla diaria.
+$shouldResetPositive = $shouldResetMethod->invoke( null, $positiveRule, $positiveCurrent->getTimestamp() ); // Invoca el método protegido con los datos preparados para validar el cambio de día.
+if ( true !== $shouldResetPositive ) { // Comprueba que el reinicio diario se active correctamente con desfases positivos.
+    throw new RuntimeException( 'should_reset debería detectar el cambio de día utilizando la zona horaria positiva configurada.' ); // Informa del fallo cuando no se detecta el cambio de fecha local.
+}
+
+$GLOBALS['cf7_option_limiter_fake_options']['gmt_offset'] = -4; // Configura un desfase horario negativo de -4 horas para simular entornos americanos.
+$negativeTimezone = wp_timezone(); // Recupera la zona horaria correspondiente al desfase negativo.
+$negativeLastReset = new DateTimeImmutable( '2024-03-10 23:30:00', $negativeTimezone ); // Define el último reinicio al final de la semana ISO local.
+$negativeCurrent = new DateTimeImmutable( '2024-03-11 00:15:00', $negativeTimezone ); // Establece la fecha actual en la semana siguiente dentro del mismo huso horario.
+$negativeRule = array( // Construye la regla simulada para el reinicio semanal.
+    'limit_period' => 'week', // Indica que la comparación debe realizarse por semana ISO.
+    'limit_reset'  => $negativeLastReset->format( 'Y-m-d H:i:s' ), // Conserva el formato exacto almacenado en base de datos para la fecha previa.
+); // Finaliza la configuración de la regla semanal.
+$shouldResetNegative = $shouldResetMethod->invoke( null, $negativeRule, $negativeCurrent->getTimestamp() ); // Ejecuta la evaluación del cambio de semana utilizando la zona horaria negativa.
+if ( true !== $shouldResetNegative ) { // Comprueba que el reinicio semanal se active cuando la semana ISO local cambia.
+    throw new RuntimeException( 'should_reset debería detectar el cambio de semana utilizando la zona horaria negativa configurada.' ); // Informa del fallo si la comparación semanal no se actualiza con el nuevo huso horario.
+}
+
+$GLOBALS['cf7_option_limiter_fake_options']['gmt_offset'] = 0; // Restablece el desfase horario a cero para el resto de las pruebas del archivo.
 
 $refNormalize = new ReflectionMethod( CF7_OptionLimiter_Admin::class, 'normalize_tag' ); // Prepara la reflexión para acceder al método protegido normalize_tag.
 $refNormalize->setAccessible( true ); // Habilita el acceso al método protegido para poder invocarlo en las pruebas.
@@ -1248,8 +2406,24 @@ $localization = CF7_OptionLimiter_Admin::get_localization_data(); // Recupera la
 if ( empty( $localization['ajaxUrl'] ) || strpos( $localization['ajaxUrl'], 'admin-ajax.php' ) === false ) { // Comprueba que la URL devuelta apunte al endpoint AJAX.
     throw new RuntimeException( 'get_localization_data debería exponer la URL de admin-ajax.php.' ); // Lanza excepción si la URL no es la esperada.
 }
+if ( empty( $localization['adminPostUrl'] ) || strpos( $localization['adminPostUrl'], 'admin-post.php' ) === false ) { // Comprueba que la configuración localizada incluya la URL del endpoint tradicional.
+    throw new RuntimeException( 'get_localization_data debería exponer la URL de admin-post.php para que los formularios ocultos puedan recrearse dinámicamente.' ); // Informa si falta la URL necesaria para el flujo clásico.
+}
+if ( empty( $localization['embeddedNonces']['save'] ) || empty( $localization['embeddedNonces']['delete'] ) || empty( $localization['embeddedNonces']['release'] ) ) { // Verifica que se localicen los nonces utilizados por los formularios ocultos.
+    throw new RuntimeException( 'get_localization_data debería incluir los nonces de guardado, borrado y liberación dentro de embeddedNonces.' ); // Informa si falta alguno de los nonces requeridos para recrear los formularios.
+}
 if ( empty( $localization['i18n']['updateLabel'] ) || $localization['i18n']['updateLabel'] !== 'Actualizar límite' ) { // Verifica que los textos traducibles incluyan la etiqueta de actualización.
     throw new RuntimeException( 'get_localization_data debería incluir el texto de actualización para el modo edición.' ); // Informa del fallo cuando falta la etiqueta.
+}
+$redirect_reflection = new ReflectionMethod( CF7_OptionLimiter_Admin::class, 'build_redirect_with_context' ); // Prepara la reflexión para probar el método auxiliar que conserva la URL de retorno.
+$redirect_reflection->setAccessible( true ); // Marca el método como accesible para poder invocarlo en el contexto de pruebas.
+$redirect_with_context = $redirect_reflection->invoke( null, array( 'form_filter' => ' 7 ', 'ol_page' => '3', 'irrelevant' => 'valor' ) ); // Invoca el método simulando una petición con filtro y paginación.
+if ( strpos( $redirect_with_context, 'form_filter=7' ) === false || strpos( $redirect_with_context, 'ol_page=3' ) === false ) { // Comprueba que la URL resultante preserve ambos parámetros relevantes.
+    throw new RuntimeException( 'build_redirect_with_context debería conservar form_filter y ol_page cuando se proporcionan valores válidos.' ); // Informa del fallo si la URL no contiene los parámetros esperados.
+}
+$redirect_default = $redirect_reflection->invoke( null, array( 'form_filter' => '0', 'ol_page' => '1' ) ); // Invoca el método con valores que representan el estado por defecto.
+if ( strpos( $redirect_default, 'form_filter=' ) !== false || strpos( $redirect_default, 'ol_page=' ) !== false ) { // Comprueba que la URL limpia no conserve parámetros innecesarios.
+    throw new RuntimeException( 'build_redirect_with_context no debería añadir parámetros cuando se utilizan los valores por defecto.' ); // Informa si la URL contiene parámetros redundantes.
 }
 
 $_POST = array( // Prepara la petición que simula la liberación manual desde la tabla administrativa.
@@ -1310,6 +2484,31 @@ if ( strpos( (string) $wpdb->last_query, 'GREATEST' ) !== false ) { // Comprueba
     throw new RuntimeException( 'handle_release no debería llamar a decrement_counter_by_id cuando el contador ya está en cero.' ); // Informa si se detecta la consulta de actualización pese a la ausencia de usos disponibles.
 }
 unset( $_POST ); // Limpia la superglobal para no interferir con el resto de pruebas.
+
+$admin_reflection = new ReflectionClass( 'CF7_OptionLimiter_Admin' ); // Crea una instancia de reflexión para acceder a los métodos protegidos de la clase administrativa.
+$release_form_method = $admin_reflection->getMethod( 'render_release_form' ); // Localiza el método que genera el formulario de liberación.
+$release_form_method->setAccessible( true ); // Permite invocar el método protegido dentro del entorno de pruebas.
+$release_markup = $release_form_method->invoke( null, array( 'id' => 21, 'current_count' => 3 ), 'https://example.com/reglas' ); // Genera el marcado del formulario cuando existen usos disponibles para liberar.
+if ( strpos( $release_markup, 'dashicons-unlock' ) === false ) { // Comprueba que el botón incluya el icono esperado para liberar usos.
+    throw new RuntimeException( 'render_release_form debería imprimir el icono dashicons-unlock en el botón principal.' ); // Lanza excepción si falta el icono requerido.
+}
+$expected_label_fragment = 'aria-label="' . esc_attr__( 'Liberar un uso reservado manualmente', 'cf7-option-limiter' ) . '"'; // Construye el fragmento que representa la etiqueta accesible esperada.
+if ( strpos( $release_markup, $expected_label_fragment ) === false ) { // Valida que la etiqueta accesible esté presente en el marcado.
+    throw new RuntimeException( 'render_release_form debería incluir el atributo aria-label descriptivo en el botón principal.' ); // Indica si falta la ayuda accesible.
+}
+if ( strpos( $release_markup, 'cf7-option-limiter-action-button--disabled' ) !== false ) { // Verifica que no se aplique la clase de estado inactivo cuando existen usos disponibles.
+    throw new RuntimeException( 'render_release_form no debería marcar el botón como deshabilitado cuando aún quedan usos que liberar.' ); // Informa si la clase inactiva aparece indebidamente.
+}
+if ( strpos( $release_markup, 'disabled="disabled"' ) !== false ) { // Comprueba que el atributo disabled no se imprima en el escenario habilitado.
+    throw new RuntimeException( 'render_release_form no debería deshabilitar el botón cuando aún quedan usos que liberar.' ); // Mantiene la validación previa adaptada al nuevo marcado.
+}
+$release_disabled_markup = $release_form_method->invoke( null, array( 'id' => 22, 'current_count' => 0 ), 'https://example.com/reglas' ); // Genera el marcado cuando el contador ya está agotado.
+if ( strpos( $release_disabled_markup, 'disabled="disabled"' ) === false ) { // Comprueba que en este caso el botón aparezca deshabilitado.
+    throw new RuntimeException( 'render_release_form debería marcar el botón como deshabilitado cuando el contador está en cero.' ); // Indica si falta el atributo esperado en el escenario agotado.
+}
+if ( strpos( $release_disabled_markup, 'cf7-option-limiter-action-button--disabled' ) === false ) { // Asegura que la clase que matiza el estado visual se imprima cuando no hay usos disponibles.
+    throw new RuntimeException( 'render_release_form debería añadir la clase cf7-option-limiter-action-button--disabled cuando el contador está en cero.' ); // Notifica si la clase adicional no se encuentra en el HTML generado.
+}
 
 update_option( CF7_OptionLimiter_DB::CLEANUP_OPTION, 'keep' ); // Restablece la preferencia para comprobar que no cambie sin permisos.
 $GLOBALS['cf7_option_limiter_capability_result'] = false; // Fuerza un escenario donde el usuario carece de la capacidad para activar plugins.
@@ -1408,6 +2607,10 @@ CF7_OptionLimiter_Limiter::enqueue_front_assets(); // Encola los recursos fronta
 if ( empty( $GLOBALS['cf7_option_limiter_registered_styles']['cf7-option-limiter-frontend'] ) ) { // Comprueba que la hoja de estilos pública se registró correctamente.
     throw new RuntimeException( 'enqueue_front_assets debería registrar la hoja de estilos frontend.' ); // Lanza excepción cuando la hoja de estilos no se registró.
 }
+$frontendStyleMeta = $GLOBALS['cf7_option_limiter_registered_styles']['cf7-option-limiter-frontend']; // Recupera los metadatos del estilo público registrado.
+if ( $frontendStyleMeta['ver'] !== CF7_OPTION_LIMITER_VERSION ) { // Comprueba que la versión del estilo coincida con la versión del plugin.
+    throw new RuntimeException( 'La hoja de estilos frontend debería registrarse utilizando CF7_OPTION_LIMITER_VERSION para sincronizar la caché.' ); // Informa si el estilo no utiliza la versión global.
+}
 if ( ! in_array( 'cf7-option-limiter-frontend', $GLOBALS['cf7_option_limiter_enqueued_styles'], true ) ) { // Verifica que el estilo se haya encolado para su impresión en la página.
     throw new RuntimeException( 'enqueue_front_assets debería encolar la hoja de estilos frontend.' ); // Informa si el estilo no se encoló.
 }
@@ -1415,19 +2618,38 @@ if ( empty( $GLOBALS['cf7_option_limiter_registered_scripts']['cf7-option-limite
     throw new RuntimeException( 'enqueue_front_assets debería registrar el script frontend.' ); // Indica el fallo cuando el script no está registrado.
 }
 $frontendScriptMeta = $GLOBALS['cf7_option_limiter_registered_scripts']['cf7-option-limiter-frontend']; // Recupera los metadatos registrados del script público.
-if ( $frontendScriptMeta['ver'] !== '1.1.0' ) { // Comprueba que la versión del script coincida con la esperada tras la actualización.
-    throw new RuntimeException( 'El script frontend debería registrarse con la versión 1.1.0 tras añadir la validación previa.' ); // Lanza excepción si la versión difiere.
+if ( $frontendScriptMeta['ver'] !== CF7_OPTION_LIMITER_VERSION ) { // Comprueba que la versión del script coincida con la constante global del plugin.
+    throw new RuntimeException( 'El script frontend debería registrarse utilizando CF7_OPTION_LIMITER_VERSION para permanecer sincronizado con los despliegues.' ); // Lanza excepción si la versión difiere.
 }
 $frontendScriptSource = file_get_contents( __DIR__ . '/../assets/frontend-check.js' ); // Lee el contenido del script para comprobar la presencia de la nueva lógica.
+/**
+if ( strpos( $frontendScriptSource, '* Comprueba que el script incluya la validación previa, la recolección de campos y la caché.
+if ( strpos( $frontendScriptSource, '*
+if ( strpos( $frontendScriptSource, '* Explicación:
+if ( strpos( $frontendScriptSource, '* - Resume la tarea principal: Comprueba que el script incluya la validación previa, la recolección de campos y la caché.
+if ( strpos( $frontendScriptSource, '* - Describe brevemente los pasos clave ejecutados internamente.
+if ( strpos( $frontendScriptSource, '* - Clarifica el uso de parámetros y valores de retorno para mantener el contexto.
+if ( strpos( $frontendScriptSource, '*
+if ( strpos( $frontendScriptSource, '* @param mixed $frontendScriptSource Valor utilizado por la función onFormSubmit.
+if ( strpos( $frontendScriptSource, '* @param mixed $'collectLimitableFields' Valor utilizado por la función onFormSubmit.
+if ( strpos( $frontendScriptSource, '*
+if ( strpos( $frontendScriptSource, '* @return mixed Resultado devuelto por la función onFormSubmit.
+if ( strpos( $frontendScriptSource, '*/
 if ( strpos( $frontendScriptSource, 'function onFormSubmit' ) === false || strpos( $frontendScriptSource, 'collectLimitableFields' ) === false || strpos( $frontendScriptSource, 'availabilityCache' ) === false ) { // Comprueba que el script incluya la validación previa, la recolección de campos y la caché.
     throw new RuntimeException( 'frontend-check.js debería incluir la validación previa al envío con cacheado de opciones.' ); // Informa si falta la lógica añadida.
 }
 if ( strpos( $frontendScriptSource, "formElement.addEventListener( 'submit', handler, true )" ) === false ) { // Comprueba que el script enganche el envío en fase de captura para adelantarse a Contact Form 7.
     throw new RuntimeException( 'frontend-check.js debería utilizar addEventListener en captura para bloquear los envíos antes de CF7.' ); // Lanza excepción si no se encuentra el nuevo listener nativo.
 }
+if ( strpos( $frontendScriptSource, 'cf7-option-limiter-message-container' ) === false ) { // Asegura que el script gestione la nueva clase persistente para los contenedores dinámicos.
+    throw new RuntimeException( 'frontend-check.js debería utilizar la clase cf7-option-limiter-message-container para ocultar los avisos vacíos.' ); // Previene regresiones donde se pierda la lógica de ocultación dinámica.
+}
 $frontendStyleSource = file_get_contents( __DIR__ . '/../assets/frontend.css' ); // Lee el contenido de la nueva hoja de estilos pública.
 if ( strpos( $frontendStyleSource, '.cf7-option-limiter-message' ) === false || strpos( $frontendStyleSource, 'background-color' ) === false ) { // Comprueba que la hoja de estilos defina la pastilla con fondo destacado.
     throw new RuntimeException( 'frontend.css debería definir el estilo de la pastilla para los mensajes agotados.' ); // Lanza excepción si falta el estilo solicitado.
+}
+if ( strpos( $frontendStyleSource, '.cf7-option-limiter-message-container[hidden]' ) === false ) { // Comprueba que la hoja de estilos incluya la regla que oculta por completo los contenedores sin contenido.
+    throw new RuntimeException( 'frontend.css debería ocultar los contenedores dinámicos vacíos mediante el selector [hidden].' ); // Evita regresiones que vuelvan a mostrar bloques vacíos en rojo.
 }
 
 fwrite( STDOUT, "Pruebas ejecutadas correctamente.\n" ); // Informa en la salida estándar que todas las pruebas pasaron.
