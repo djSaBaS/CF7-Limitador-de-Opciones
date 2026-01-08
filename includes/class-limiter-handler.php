@@ -424,6 +424,24 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     * @return void
     */
     public static function ajax_check_availability() { // Método que responde a las peticiones AJAX del frontend.
+
+        $ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+        $transient_key = 'cf7ol_ratelimit_' . $ip;
+        $request_count = get_transient( $transient_key );
+
+        if ( false === $request_count ) {
+            set_transient( $transient_key, 1, 60 );
+        } else {
+            $request_count++;
+            if ( $request_count > 60 ) {
+                wp_send_json_error(
+                    array( 'message' => __( 'Demasiadas solicitudes. Inténtalo de nuevo más tarde.', 'cf7-option-limiter' ) ),
+                    429
+                );
+            }
+            set_transient( $transient_key, $request_count, 60 );
+        }
+
         check_ajax_referer( self::$public_nonce_action, 'nonce' ); // Valida el nonce recibido para proteger la petición.
         $form_id = isset( $_POST['form_id'] ) ? (int) $_POST['form_id'] : 0; // Recupera el identificador del formulario desde la petición.
         $field_name = isset( $_POST['field_name'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['field_name'] ) ) : ''; // Obtiene el nombre del campo a validar.
