@@ -513,7 +513,6 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
                 'field_name'      => isset( $data['field_name'] ) ? (string) $data['field_name'] : '', // Nombre del campo recibido.
                 'option_value'    => isset( $data['option_value'] ) ? (string) $data['option_value'] : '', // Valor concreto de la opción sujeto al límite.
                 'raw_signature'   => $raw_signature, // Firma hash del payload original.
-                'payload_recibido'=> $raw_payload, // Copia íntegra de los datos tal y como llegaron antes de ser sanitizados.
             ),
             true // Fuerza el registro incluso cuando el modo depuración detallado no está activo.
         );
