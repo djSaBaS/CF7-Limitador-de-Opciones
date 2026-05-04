@@ -501,8 +501,8 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
         global $wpdb; // Objeto global de base de datos.
         self::init(); // Asegura que el nombre de la tabla esté disponible.
         $trace_id = uniqid( 'cf7ol_save_', true ); // Genera un identificador único para enlazar todas las etapas del proceso de guardado.
-        $raw_payload = $data; // Conserva una copia exacta de los datos recibidos antes de la sanitización para documentar el punto de partida.
-        $raw_signature = md5( (string) wp_json_encode( $raw_payload ) ); // Calcula una firma hash del payload original para detectar alteraciones durante el flujo.
+        $raw_payload = $data; // Conserva una copia temporal para comparar cambios tras sanitizar sin volcar valores a logs.
+        $raw_signature = md5( (string) wp_json_encode( $raw_payload ) ); // Calcula una firma hash del payload original para detectar alteraciones sin registrar datos sensibles.
         CF7_OptionLimiter_Logger::log( // Registra el inicio del proceso antes de modificar los datos recibidos.
             'limit_save_start', // Evento que indica la recepción de la petición de guardado.
             array( // Contexto adicional asociado a la etapa inicial.
@@ -511,21 +511,18 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
                 'message'         => __( 'Se ha recibido una petición para guardar un límite y comienza la preparación.', 'cf7-option-limiter' ), // Mensaje descriptivo que aparecerá en el log.
                 'form_id'         => isset( $data['form_id'] ) ? (int) $data['form_id'] : 0, // Identificador del formulario incluido en la petición original.
                 'field_name'      => isset( $data['field_name'] ) ? (string) $data['field_name'] : '', // Nombre del campo recibido.
-                'option_value'    => isset( $data['option_value'] ) ? (string) $data['option_value'] : '', // Valor concreto de la opción sujeto al límite.
+                'option_value_len' => isset( $data['option_value'] ) ? strlen( (string) $data['option_value'] ) : 0, // Longitud del valor recibido para evitar exponer su contenido.
                 'raw_signature'   => $raw_signature, // Firma hash del payload original.
             ),
             true // Fuerza el registro incluso cuando el modo depuración detallado no está activo.
         );
         $data = self::sanitize_data( $data ); // Sanitiza profundamente los valores recibidos para normalizarlos antes de persistirlos.
         $sanitized_signature = md5( (string) wp_json_encode( $data ) ); // Calcula la firma hash de los datos listos para su almacenamiento.
-        $differences = array(); // Inicializa el arreglo que documentará los cambios detectados tras la sanitización.
+        $changed_keys = array(); // Inicializa el arreglo que documentará únicamente las claves modificadas tras la sanitización.
         foreach ( $data as $key => $value ) { // Recorre cada clave de los datos sanitizados para compararlos con la versión original.
-            $original = array_key_exists( $key, $raw_payload ) ? $raw_payload[ $key ] : null; // Recupera el valor original asociado a la clave actual.
+            $original = array_key_exists( $key, $raw_payload ) ? $raw_payload[ $key ] : null; // Recupera el valor original únicamente para comparar internamente.
             if ( $original !== $value ) { // Comprueba si la sanitización modificó el valor original.
-                $differences[ $key ] = array( // Registra los dos valores para análisis detallado en el log.
-                    'antes' => $original, // Valor previo a la sanitización.
-                    'despues' => $value, // Valor resultante tras aplicar la sanitización.
-                );
+                $changed_keys[] = (string) $key; // Registra sólo el nombre de la clave afectada.
             }
         }
         CF7_OptionLimiter_Logger::log( // Registra el resultado de la sanitización antes de interactuar con la base de datos.
@@ -536,11 +533,10 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
                 'message'              => __( 'Los datos han sido sanitizados y normalizados para su almacenamiento.', 'cf7-option-limiter' ), // Mensaje informativo.
                 'form_id'              => $data['form_id'], // Identificador del formulario tras la sanitización.
                 'field_name'           => $data['field_name'], // Nombre del campo tras la sanitización.
-                'option_value'         => $data['option_value'], // Valor de la opción ya normalizado.
+                'option_value_len'     => strlen( (string) $data['option_value'] ), // Longitud del valor de la opción ya normalizado.
                 'raw_signature'        => $raw_signature, // Firma del payload original para facilitar la comparación.
                 'sanitized_signature'  => $sanitized_signature, // Firma de los datos sanitizados.
-                'cambios_detectados'   => $differences, // Conjunto de diferencias detectadas durante la sanitización.
-                'payload_sanitizado'   => $data, // Copia íntegra del payload listo para persistirse.
+                'keys_modificadas'     => $changed_keys, // Claves que cambiaron durante la sanitización sin incluir sus valores.
             ),
             true // Fuerza el registro del evento para disponer de la traza incluso con el log mínimo.
         );
