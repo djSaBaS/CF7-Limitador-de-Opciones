@@ -425,8 +425,9 @@ class CF7_OptionLimiter_Limiter { // Declara la clase que contiene la lógica de
     */
     public static function ajax_check_availability() { // Método que responde a las peticiones AJAX del frontend.
 
-        $ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
-        $transient_key = 'cf7ol_ratelimit_' . $ip;
+        $remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? wp_unslash( (string) $_SERVER['REMOTE_ADDR'] ) : ''; // Recupera la IP remota en crudo para validarla.
+        $ip = filter_var( $remote_addr, FILTER_VALIDATE_IP ) ? $remote_addr : 'unknown'; // Acepta sólo IPs válidas para evitar claves manipuladas.
+        $transient_key = 'cf7ol_ratelimit_' . md5( $ip ); // Deriva una clave compacta y estable sin exponer la IP en claro.
         $request_count = get_transient( $transient_key );
 
         if ( false === $request_count ) {
