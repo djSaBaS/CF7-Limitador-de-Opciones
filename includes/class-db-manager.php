@@ -550,11 +550,11 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
                 'message'             => __( 'Se ha completado la consulta previa para determinar si la fila ya existe.', 'cf7-option-limiter' ), // Mensaje legible para el log.
                 'form_id'             => $data['form_id'], // Identificador del formulario consultado.
                 'field_name'          => $data['field_name'], // Nombre del campo consultado.
-                'option_value'        => $data['option_value'], // Valor de la opción consultada.
+                'option_value_len'    => strlen( (string) $data['option_value'] ), // Longitud del valor consultado para evitar exponer su contenido.
                 'found'               => ! empty( $existing ), // Resume si se encontró una fila previa.
                 'existing_id'         => ! empty( $existing['id'] ) ? (int) $existing['id'] : 0, // Identificador de la fila encontrada o cero cuando no existe.
                 'existing_signature'  => $existing_signature, // Firma hash de la fila existente para poder compararla en el futuro.
-                'fila_encontrada'     => $existing, // Copia íntegra de la fila localizada, útil cuando la depuración detallada está activa.
+                'existing_row_signature' => ! empty( $existing ) ? md5( (string) wp_json_encode( $existing ) ) : '', // Firma de la fila localizada sin registrar su contenido íntegro.
             ),
             true // Fuerza el registro independientemente del modo de depuración activo.
         );
@@ -567,11 +567,11 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
                 'message'             => __( 'Se va a ejecutar la operación sobre la base de datos con los datos preparados.', 'cf7-option-limiter' ), // Mensaje informativo que aparecerá en el log.
                 'form_id'             => $data['form_id'], // Identificador del formulario afectado.
                 'field_name'          => $data['field_name'], // Nombre del campo que se modificará.
-                'option_value'        => $data['option_value'], // Valor de la opción objetivo.
+                'option_value_len'    => strlen( (string) $data['option_value'] ), // Longitud del valor objetivo evitando exponer su contenido.
                 'operation'           => $operation, // Tipo de operación que se solicitará (insert o update).
                 'table'               => self::$table_name, // Nombre de la tabla sobre la que se operará.
                 'sanitized_signature' => $sanitized_signature, // Firma de los datos que se enviarán a la base de datos.
-                'payload_final'       => $data, // Copia íntegra de los datos que se enviarán a la consulta SQL.
+                'payload_signature'   => $sanitized_signature, // Firma del payload final para trazabilidad sin volcar valores en claro.
             ),
             true // Fuerza la escritura del evento en el log.
         );
@@ -611,7 +611,7 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
             'message'             => $success ? __( 'La operación de guardado se completó correctamente.', 'cf7-option-limiter' ) : __( 'La operación de guardado ha fallado, revisa los detalles adjuntos.', 'cf7-option-limiter' ), // Mensaje humanamente legible del resultado.
             'form_id'             => $data['form_id'], // Identificador del formulario involucrado en la operación final.
             'field_name'          => $data['field_name'], // Nombre del campo afectado.
-            'option_value'        => $data['option_value'], // Valor de la opción afectada.
+            'option_value_len'    => strlen( (string) $data['option_value'] ), // Longitud del valor afectado sin exponer su contenido.
             'operation'           => $operation, // Tipo de operación realizada.
             'table'               => self::$table_name, // Tabla utilizada para la escritura.
             'rows_affected'       => $rows_affected, // Número de filas impactadas según el resultado devuelto por $wpdb.
@@ -635,7 +635,7 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
         $log_context = array( // Construye el contexto que se enviará al log.
             'form_id'        => $data['form_id'], // Identificador del formulario afectado.
             'field_name'     => $data['field_name'], // Nombre del campo asociado al límite.
-            'option_value'   => $data['option_value'], // Valor concreto de la opción limitada.
+            'option_value_len' => strlen( (string) $data['option_value'] ), // Longitud del valor limitado evitando registrar su contenido.
             'hide_exhausted' => $data['hide_exhausted'], // Indicador de si la opción se ocultará al agotarse.
             'max_count'      => $data['max_count'], // Número máximo permitido configurado.
             'operation'      => $operation, // Tipo de operación ejecutada (insert o update).
@@ -648,7 +648,7 @@ class CF7_OptionLimiter_DB { // Declara la clase principal de acceso a datos.
             'sanitized_signature' => $sanitized_signature, // Firma hash del payload persistido que completa la traza.
         );
         if ( CF7_OptionLimiter_Logger::is_debug_enabled() ) { // Añade información extendida únicamente cuando el modo depuración está activo.
-            $log_context['data']   = $data; // Adjunta los datos completos que se intentaron persistir.
+            $log_context['payload_signature'] = $sanitized_signature; // Adjunta únicamente la firma del payload en depuración para evitar exposición de datos sensibles.
             $log_context['result'] = $result; // Registra el valor devuelto por la operación de base de datos.
             $log_context['query']  = isset( $wpdb->last_query ) ? $wpdb->last_query : ''; // Incluye la última consulta ejecutada cuando está disponible.
             $log_context['db_error'] = isset( $wpdb->last_error ) ? $wpdb->last_error : ''; // Adjunta el posible error devuelto por la base de datos.
